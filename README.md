@@ -1,22 +1,8 @@
-::: titlepage
-::: center
-![image](logo/logo.png){height="0.15\\textheight"}
 
-[Faculdade de Engenharia\
-Universidade do Porto]{.smallcaps}
-:::
+![image](logo/logo.png)
 
-::: mdframed
-::: center
-:::
-:::
+#Capstone Project, Project Plan
 
-::: center
-::: center
-Capstone Project, Project Plan
-:::
-:::
-:::
 
 # Summary
 
