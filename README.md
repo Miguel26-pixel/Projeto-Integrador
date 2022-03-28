@@ -1,7 +1,7 @@
 
-![image](logo/logo.png)
+![image](images/logo.png)
 
-#Capstone Project, Project Plan
+# Greenstone Project, Project Plan
 
 
 # Summary
