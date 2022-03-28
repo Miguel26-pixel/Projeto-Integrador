@@ -44,7 +44,7 @@
 
 \title{Ubiquitous Sensing - Sensing, Storing and Processing Plant Sensor Data}
 \subtitle{Capstone Project, Project Plan}
-\author{MÃ¡rio \textsc{Travassos} up201905871@edu.fe.up.pt \\ Miguel \textsc{Amorim} up201907756@edu.fe.up.pt \\ Nuno \textsc{Alves} up201908250@edu.fe.up.pt \\ Ricardo \textsc{Ferreira} up201907835@edu.fe.up.pt}
+\author{Mário \textsc{Travassos} up201905871@edu.fe.up.pt \\ Miguel \textsc{Amorim} up201907756@edu.fe.up.pt \\ Nuno \textsc{Alves} up201908250@edu.fe.up.pt \\ Ricardo \textsc{Ferreira} up201907835@edu.fe.up.pt}
 
 \date{\formatdate{27}{03}{2022}}
 
@@ -104,25 +104,25 @@ This project will include a collaboration with the Biophysics and Bioelectronics
      \hline\hline
      &1. {Research Sensors and Compatibility} & \cellcolor{blue!25} &  &  &  &  &  &  &  &  &   \\ 
      \cline{2-12}
-     &2. {Connect Raspberry PI to ADC}  &  & \cellcolor{blue!25} & \cellcolor{blue!25} &  &  &  &  &  &  &   \\ 
+     &2. {Connect Raspberry PI to ADC}  &   & \cellcolor{orange!25} & \cellcolor{orange!25} &  &  &  &  &  &  &   \\ 
      \cline{2-12}
-     &3. {Connect Raspberry PI to Sensors}  &  & \cellcolor{blue!25} & \cellcolor{blue!25} &  &  &  &  &  &  & \\
+     &3. {Connect Raspberry PI to Sensors}  &  &  \cellcolor{red!25}  & \cellcolor{red!25} &  &  &  &  &  &  & \\
      \cline{2-12}
-     \multirow{-4}{*}{\rotatebox[origin=c]{90}{RPI}}&4. {Connect Raspberry PI to WiFi}  &  & \cellcolor{blue!25} & \cellcolor{blue!25} &  &  &  &  &  &  &  \\
+     \multirow{-4}{*}{\rotatebox[origin=c]{90}{RPI}}&4. {Connect Raspberry PI to WiFi}  &  &\cellcolor{yellow!25}  &\cellcolor{yellow!25}  & &  &  &  &  &  &  \\
      \hline
-     &5. {Configure Server and Database}  &  & \cellcolor{blue!25} & \cellcolor{blue!25} & \cellcolor{blue!25} & \cellcolor{blue!25} &  &  &  &  &  \\
+     &5. {Configure Server and Database}  &  & & \cellcolor{gray!25} & \cellcolor{gray!25}& &  &  &  &  &  \\
      \cline{2-12}
-     &6. {Create Database}  &  & \cellcolor{blue!25} & \cellcolor{blue!25} & \cellcolor{blue!25} & \cellcolor{blue!25} &  &  &  &  &  \\
+     &6. {Create Database}  &  & & \cellcolor[HTML]{47e0ea} & \cellcolor[HTML]{47e0ea} & \cellcolor[HTML]{47e0ea} & \cellcolor[HTML]{47e0ea}  &  &  &  &  \\
      \cline{2-12}
-     \multirow{-3}{*}{\rotatebox[origin=c]{90}{DB}}&7. {Send Sensor Data to Database}  &  & \cellcolor{blue!25} & \cellcolor{blue!25} & \cellcolor{blue!25} & \cellcolor{blue!25} &  &  &  &  &  \\
+     \multirow{-3}{*}{\rotatebox[origin=c]{90}{DB}}&7. {Send Sensor Data to Database}  &  &  &  & & \cellcolor[HTML]{7d0aaa} & \cellcolor[HTML]{7d0aaa} &  &  &  &  \\
      \hline
-     &8. {UI Mockups}  &  & \cellcolor{blue!25} & \cellcolor{blue!25} &  &  &  &  &  &  &  \\
+     &8. {UI Mockups}  &  & \cellcolor{green!25} & \cellcolor{green!25} &  &  &  &  &  &  &  \\
     \cline{2-12}
-     &9. {Front-end UI}  &  & \cellcolor{blue!25} & \cellcolor{blue!25} &  &  &  &  &  &  &  \\
+     &9. {Front-end UI}  &  & & &  \cellcolor[HTML]{367e33} & \cellcolor[HTML]{367e33}  & \cellcolor[HTML]{367e33} & \cellcolor[HTML]{367e33} &  &  &  \\
      \cline{2-12}
-     & 10. {Real-Time Graphs}   &  & \cellcolor{blue!25} & \cellcolor{blue!25} & \cellcolor{blue!25} & \cellcolor{blue!25} &  &  &  &  &  \\
+     & 10. {Real-Time Graphs}   &  &  & & &  & \cellcolor[HTML]{704c65} & \cellcolor[HTML]{704c65} & \cellcolor[HTML]{704c65} &  &  \\
     \cline{2-12}
-     \multirow{-4}{*}{\rotatebox[origin=c]{90}{DASH}} & 11. {Multiple Plant Configuration}  &  &  &  &  &  & \cellcolor{blue!25} &  &  &  &  \\
+     \multirow{-4}{*}{\rotatebox[origin=c]{90}{DASH}} & 11. {Multiple Plant Configuration}  &  &  &  &  &  &  &  & \cellcolor[HTML]{8058ce} & \cellcolor[HTML]{8058ce} &  \\
      \hline
     \end{tabular}
 \end{table}
@@ -134,19 +134,19 @@ This first milestone's objective is to understand how the Raspberry PI works and
 
 \subsection{Research Sensors and Compatibility}
 
-This task has the objective of research for the sensors of light, humidity, ultrasound and temperature that can be use with the version of Raspberry PI.
+This task has the objective of research for the sensors of light, humidity, ultrasound and temperature that can be use with the version of Raspberry PI. This includes research about sensor interfaces like I2C or SPI, and checking if there are no address collisions for I2C interfaces.
 
 \subsection{Connect Raspberry PI to ADC}
 
-This task has the objective of understanding how the Raspberry PI connects to ADC (Analog Data Converter), since it's with that connection that the Raspberry PI will receive the packages with data collected from the plants.
+This task has the objective of understanding how the Raspberry PI connects to ADC (Analog Data Converter), since it's with that connection that the Raspberry PI will receive the packages with data collected from the plants' electrical signals.
 
 \subsection{Connect Raspberry PI to Sensors}
 
-This task has the objective of understanding how the Raspberry PI connects to the sensors we got from the research, since the data collected with those sensors is the base to develop and test the project.
+This task has the objective of understanding how the Raspberry PI connects to the sensors we got from the research, since the data collected with those sensors is the base to develop and test the project. This includes making sure the Raspberry PI has pull-up resistors correctly working, connecting the I2C pins to the sensors and creating a program that reads from the sensors and stores the data in a file.
 
 \subsection{Connect Raspberry PI to WiFi}
 
-This task has the objective of understanding how the Raspberry PI can be connected to WiFi using a dongle WiFi, so the project will be accessible anywhere through the Internet.
+This task has the objective of understanding how the Raspberry PI can be connected to WiFi using a dongle WiFi adapter, so the project will be accessible anywhere through the Internet.
 
 \section{Milestone - Database [DB] }
 
@@ -154,11 +154,11 @@ This second milestone's objective is to configure the server and the database th
 
 \subsection{Configure Server and Database}
 
-This task has the objective of configuring the server and the database that will be saving the data in real-time from the sensors or ADC.
+This task has the objective of configuring the server and the database that will be saving the data in real-time from the sensors or ADC. This includes installing all needed software, setting up SSH keys and creating an HTTP server.
 
 \subsection{Create Database}
 
-This task has the objective of creating the database that will be saving the data in real-time from the sensors or ADC.
+This task has the objective of creating the database that will be saving the data in real-time from the sensors or ADC. This includes creating a TimescaleDB database that can handle time-series data.
 
 \subsection{Send Sensor Data to Database}
 
@@ -174,7 +174,7 @@ This task has the objective of making Mockups that show how the user will intera
 
 \subsection{Front-end UI}
 
-This task has the objective of making Mockups that show how the application will look like, the design of the graphs as well.
+This task has the objective of creating the front-end UI of the dashboard using React.
 
 \subsection{Real-Time Graphs}
 
@@ -182,7 +182,7 @@ This task has the objective of making the real-time graphs that show the data th
 
 \subsection{Multiple Plant Configuration}
 
-This task has the objective of configuring the application in a way that could be data coming from more than on plant at the same time.
+This task has the objective of configuring the application in a way to collect data coming from more than one plant at the same time.
 
 \section{Stretch Goals}
 
@@ -192,9 +192,9 @@ The Stretch Goals are objectives the team would like to achieve after all basic 
 
 This extra goal has the objective of doing an interactive plant 3D render where the user could see the dashboards with the real-time data collected.
 
-\subsection{Infer Meaning of Eletrical Signals using Machine Learning}
+\subsection{Infer Meaning of Electrical Signals using Machine Learning}
 
-This extra goal has the objective of using Machine Learning to Infer Meaning of electrical signals, that way the user could interact with the plant and the application would predict some results.
+This extra goal has the objective of using Machine Learning to infer meaning of electrical signals, like knowing if a plant is being touched, if it needs watering or if it needs more light.
 
 
 \end{document}
