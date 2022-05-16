@@ -1,6 +1,8 @@
-from server_connect.utils import get_url, check_in_config
+from server_connect.utils import get_url
+from utils import check_in_config
 import requests
 import time
+import logging
 
 
 def general_request(request_func):
@@ -31,7 +33,7 @@ def general_request(request_func):
         try:
             return request_func()
         except:
-            print("Couldn't connect. Trying again in {} seconds.".format(timeout))
+            logging.warning("Couldn't connect. Trying again in {} seconds.".format(timeout))
             time.sleep(timeout)
             timeout = timeout + timeout_inc
             remaining_tries = remaining_tries - 1
@@ -45,15 +47,15 @@ def get(url, path):
 
 def connect():
     url = get_url()
-    print("Connecting to {}...".format(url))
+    logging.info("Connecting to {}...".format(url))
     try:
         response = get(url, "")
     except:
-        print("Couldn't connect.")
+        logging.critical("Couldn't connect.")
         exit(1)
     else:
         if response.status_code == 200:
-            print("Connection successful.")
+            logging.info("Connection successful.")
         else:
-            print("Couldn't connect.")
+            logging.critical("Couldn't connect.")
             exit(1)

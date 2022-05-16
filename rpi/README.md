@@ -1,5 +1,11 @@
 ## INSTRUCTIONS
 
+### SETTING UP DEPENDENCIES
+
+Run the following command:
+
+	pip3 install -r requirements.txt
+
 ### SETTING UP WI-FI
 
 Run the following command:
@@ -27,3 +33,16 @@ Edit the .env file with the following information:
 	CONNECTION_TRIES=<number of attempts to retry connection> // -1 for infinite attempts, default: -1
 	CONNECTION_TIMEOUT=<number of seconds waited to retry failed connection> // default: 5
 	CONNECTION_TIMEOUT_INC=<number of seconds added for each consecutive failed connection> // default: 2
+	LOG_FILE=<path_to_log_file> // default: log.txt
+	
+### SETTING UP RUN ON STARTUP
+
+Run the following command:
+
+	crontab -e
+	
+Choose your preferred editor and at the end of the file append this line:
+
+	@reboot cd <path_to_project_folder> ; python3 . &
+	
+Where <path_to_project_folder> is the folder where the __main__.py file is stored.
