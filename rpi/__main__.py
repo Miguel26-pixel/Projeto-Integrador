@@ -1,4 +1,4 @@
-import wifi_connect.core as wifi_connect
+import server_connect.core as server_connect
 
 
-wifi_connect.test()
+server_connect.connect()
