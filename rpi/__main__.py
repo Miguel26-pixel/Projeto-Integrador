@@ -6,7 +6,7 @@ from datetime import datetime
 
 log_file_name = check_in_config("LOG_FILE")
 if log_file_name is None:
-	log_file_name = "logs/log.txt"
+	log_file_name = "logs/log.log"
 	
 cur_date = datetime.now().strftime("_%Y-%m-%d_%H:%M:%S.")
 
