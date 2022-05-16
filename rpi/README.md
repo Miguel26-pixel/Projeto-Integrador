@@ -24,3 +24,6 @@ Edit the .env file with the following information:
 	SERVER_IP=<ip address of server> // use only if SERVER_HOSTNAME not set, specify port
 	SERVER_HOSTNAME=<url of server> // use only if SERVER_IP not set, specify port
 	HTTP_PROTOCOL=<http protocol of server> // http OR https
+	CONNECTION_TRIES=<number of attempts to retry connection> // -1 for infinite attempts, default: -1
+	CONNECTION_TIMEOUT=<number of seconds waited to retry failed connection> // default: 5
+	CONNECTION_TIMEOUT_INC=<number of seconds added for each consecutive failed connection> // default: 2
