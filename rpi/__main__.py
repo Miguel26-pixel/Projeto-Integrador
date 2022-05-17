@@ -23,3 +23,8 @@ def exception_handler(type, value, tb):
 sys.excepthook = exception_handler
 
 server_connect.send_data({'hostname':'pi', 'temp': '22'})
+server_connect.send_data({'hostname':'pi', 'temp': '23'})
+server_connect.send_data({'hostname':'pi', 'temp': '24'})
+server_connect.send_data({'hostname':'pi', 'temp': '25'})
+server_connect.send_data({'hostname':'pi', 'temp': '26'})
+

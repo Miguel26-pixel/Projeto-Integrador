@@ -1,3 +1,4 @@
+from collections import deque
 import json
 import os
 from server_connect.utils import get_url
@@ -33,14 +34,17 @@ def general_request(request_func):
     else:
         def condition(): return remaining_tries > 0
 
-    while condition():
+    while True:
         try:
             return request_func()
         except:
+            remaining_tries = remaining_tries - 1
+            if not condition():
+                break
+
             logging.warning("Couldn't connect. Trying again in {} seconds.".format(cur_timeout))
             time.sleep(cur_timeout)
             cur_timeout = cur_timeout + timeout_inc
-            remaining_tries = remaining_tries - 1
 
     raise ConnectionError()
 
@@ -49,29 +53,45 @@ def post(url, path, body):
     return general_request(lambda: requests.post("{}/api/{}".format(url, path), data=body))
 
 
-def store_unsaved(body):
-    logging.warning("Couldn't connect.")
+def get_unsaved():
+    try:
+        with open("storage/unsaved.json", "r") as storage:
+            try:
+                stored_unsaved = json.load(storage)
+                unsaved = deque(stored_unsaved['unsaved'])
+            except:
+                unsaved = deque()
 
-    with open("storage/unsaved.json", "a+") as storage:
-        storage.seek(0)
+        return unsaved
+    except:
+        return deque()
 
-        try:
-            unsaved = json.load(storage)
-            unsaved['unsaved'].append(body)
-        except:
-            unsaved = {'unsaved':[body]}
 
-        storage.seek(0)
-        storage.truncate()
-        storage.write(json.dumps(unsaved))
+def store_unsaved(unsaved):
+    with open("storage/unsaved.json", "w") as storage:
+        storage.write(json.dumps({'unsaved':list(unsaved)}))
 
 def send_data(body):
     url = get_url()
-    try:
-        response = post(url, "sendData", body)
-    except:
-        store_unsaved(body)
-    else:
-        if response.status_code != 200:
-            store_unsaved(body)
+    unsaved = get_unsaved()
+    unsaved.append(body)
+
+    while len(unsaved) > 0:
+        data = unsaved[0]
+
+        try:
+            response = post(url, "sendData", data)
+        except:
+            logging.warning("Couldn't connect.")
+            store_unsaved(unsaved)
+            break
+        else:
+            if response.status_code != 200:
+                logging.warning("Couldn't connect.")
+                store_unsaved(unsaved)
+                break
+
+            unsaved.popleft()
+    
+    store_unsaved(unsaved)
 
