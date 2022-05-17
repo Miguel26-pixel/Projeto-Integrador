@@ -1,28 +1,32 @@
+import json
+import os
 from server_connect.utils import get_url
 from utils import check_in_config
 import requests
 import time
 import logging
 
+tries = check_in_config("CONNECTION_TRIES")
+try:
+    tries = int(tries)
+except:
+    tries = 1
+
+timeout_inc = check_in_config("CONNECTION_TIMEOUT_INC")
+try:
+    timeout_inc = int(timeout_inc)
+except:
+    timeout_inc = 0
+
+timeout = check_in_config("CONNECTION_TIMEOUT")
+try:
+    timeout = int(timeout)
+except:
+    timeout = 1
 
 def general_request(request_func):
-    remaining_tries = check_in_config("CONNECTION_TRIES")
-    try:
-        remaining_tries = int(remaining_tries)
-    except:
-        remaining_tries = -1
-
-    timeout_inc = check_in_config("CONNECTION_TIMEOUT_INC")
-    try:
-        timeout_inc = int(timeout_inc)
-    except:
-        timeout_inc = 2
-
-    timeout = check_in_config("CONNECTION_TIMEOUT")
-    try:
-        timeout = int(timeout)
-    except:
-        timeout = 5
+    remaining_tries = tries
+    cur_timeout = timeout
 
     if remaining_tries == -1:
         def condition(): return True
@@ -33,29 +37,41 @@ def general_request(request_func):
         try:
             return request_func()
         except:
-            logging.warning("Couldn't connect. Trying again in {} seconds.".format(timeout))
-            time.sleep(timeout)
-            timeout = timeout + timeout_inc
+            logging.warning("Couldn't connect. Trying again in {} seconds.".format(cur_timeout))
+            time.sleep(cur_timeout)
+            cur_timeout = cur_timeout + timeout_inc
             remaining_tries = remaining_tries - 1
 
-    raise Error()
+    raise ConnectionError()
 
 
-def get(url, path):
-    return general_request(lambda: requests.get("{}/api/{}".format(url, path)))
+def post(url, path, body):
+    return general_request(lambda: requests.post("{}/api/{}".format(url, path), data=body))
 
 
-def connect():
+def store_unsaved(body):
+    logging.warning("Couldn't connect.")
+
+    with open("storage/unsaved.json", "a+") as storage:
+        storage.seek(0)
+
+        try:
+            unsaved = json.load(storage)
+            unsaved['unsaved'].append(body)
+        except:
+            unsaved = {'unsaved':[body]}
+
+        storage.seek(0)
+        storage.truncate()
+        storage.write(json.dumps(unsaved))
+
+def send_data(body):
     url = get_url()
-    logging.info("Connecting to {}...".format(url))
     try:
-        response = get(url, "")
+        response = post(url, "sendData", body)
     except:
-        logging.critical("Couldn't connect.")
-        exit(1)
+        store_unsaved(body)
     else:
-        if response.status_code == 200:
-            logging.info("Connection successful.")
-        else:
-            logging.critical("Couldn't connect.")
-            exit(1)
+        if response.status_code != 200:
+            store_unsaved(body)
+
