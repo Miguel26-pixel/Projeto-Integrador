@@ -1,6 +1,5 @@
 from collections import deque
 import json
-import os
 from server_connect.utils import get_url
 from utils import check_in_config
 import requests
@@ -25,6 +24,11 @@ try:
 except:
     timeout = 1
 
+store = check_in_config("STORAGE")
+if store is None:
+    store = "storage/store.csv"
+
+
 def general_request(request_func):
     remaining_tries = tries
     cur_timeout = timeout
@@ -42,7 +46,8 @@ def general_request(request_func):
             if not condition():
                 break
 
-            logging.warning("Couldn't connect. Trying again in {} seconds.".format(cur_timeout))
+            logging.warning(
+                "Couldn't connect. Trying again in {} seconds.".format(cur_timeout))
             time.sleep(cur_timeout)
             cur_timeout = cur_timeout + timeout_inc
 
@@ -69,9 +74,18 @@ def get_unsaved():
 
 def store_unsaved(unsaved):
     with open("storage/unsaved.json", "w") as storage:
-        storage.write(json.dumps({'unsaved':list(unsaved)}))
+        storage.write(json.dumps({'unsaved': list(unsaved)}))
+
+
+def store_data(body):
+    with open("storage/store.csv", "a") as store:
+        for _, value in body.items():
+            store.write(value + ",")
+        store.write("\n")
+
 
 def send_data(body):
+    store_data(body)
     url = get_url()
     unsaved = get_unsaved()
     unsaved.append(body)
@@ -92,6 +106,5 @@ def send_data(body):
                 break
 
             unsaved.popleft()
-    
-    store_unsaved(unsaved)
 
+    store_unsaved(unsaved)
