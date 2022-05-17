@@ -1,6 +1,6 @@
 from utils import check_in_config
 
-def get_url():
+class UtilConfigs:
     hostname = check_in_config("SERVER_HOSTNAME")
     if hostname is None:
         hostname = check_in_config("SERVER_IP")
@@ -13,4 +13,5 @@ def get_url():
         print("No HTTP protocol given, stopping...")
         exit(1)
 
-    return "{}://{}".format(protocol, hostname)
+def get_url():
+    return "{}://{}".format(UtilConfigs.protocol, UtilConfigs.hostname)
