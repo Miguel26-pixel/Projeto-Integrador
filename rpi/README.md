@@ -46,4 +46,4 @@ Choose your preferred editor and at the end of the file append this line:
 
 	@reboot cd <path_to_project_folder> ; python3 . &
 	
-Where <path_to_project_folder> is the folder where the __main__.py file is stored.
+Where <path_to_project_folder> is the folder where the \_\_main\_\_.py file is stored.
