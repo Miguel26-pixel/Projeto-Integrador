@@ -8,9 +8,9 @@ const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 function Database () {
     
     const data = [
-        {id: 1, light: 10, humidity: 4, ultrasound: 20 },
-        {id: 2, light: 11, humidity: 5, ultrasound: 22 },
-        {id: 3, light: 12, humidity: 4, ultrasound: 22 }
+        {id: 1, light: 10, humidity: 4, ultrasound: 20, temperature: 26 },
+        {id: 2, light: 11, humidity: 5, ultrasound: 22, temperature: 24 },
+        {id: 3, light: 12, humidity: 4, ultrasound: 22, temperature: 28 }
     ];
 
     const camelCase = (str) =>  {
@@ -22,7 +22,7 @@ function Database () {
         const columns = Object.keys(data[0]);
 
         // Remove by key (firstname)
-        const filterColsByKey = columns.filter(c => c !== 'firstname');
+        const filterColsByKey = columns.filter(c => c !== 'id');
 
         // OR use the below line instead of the above if you want to filter by index
         // columns.shift()
@@ -53,9 +53,11 @@ function Database () {
                 {data.map(item => {
                     return (
                         <tr>
-                            <td>{item.firstname}</td>
-                            <td>{item.lastname}</td>
-                            <td>{item.age}</td>
+                            <td>{item.id}</td>
+                            <td>{item.light}</td>
+                            <td>{item.humidity}</td>
+                            <td>{item.ultrasound}</td>
+                            <td>{item.temperature}</td>
                         </tr>
                     );
                 })}
