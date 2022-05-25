@@ -34,13 +34,22 @@ And setup Boot Options and select to boot up with Desktop with automated passwor
 
 ### SETTING UP DEPENDENCIES
 
-Run the following command:
+First run the following commands:
 
-	sudo pip3 install -r requirements.txt
+	sudo pip3 install --upgrade setuptools
+	sudo pip3 install --upgrade adafruit-python-shell
 
 Then, run the `raspi-blinka.py` script using:
 
 	sudo python3 raspi-blinka.py
+
+Afterwards, run the following command:
+
+	sudo apt install libgpiod2
+
+Finally, run the following command:
+
+	sudo pip3 install -r requirements.txt
 
 ### SETTING UP WI-FI
 
