@@ -1,5 +1,5 @@
 from server_connect.utils import get_url
-from utils import check_in_config
+from utils import Config
 from collections import deque
 import json
 import time
@@ -9,33 +9,15 @@ import requests
 
 class DataController:
     def __init__(self):
-        self.tries = check_in_config("CONNECTION_TRIES")
-        try:
-            self.tries = int(self.tries)
-        except:
-            self.tries = 1
+        self.__tries = Config.tries
+        self.__timeout_inc = Config.timeout_inc
+        self.__timeout = Config.timeout
+        self.__store_path = Config.store
+        self.__unsaved = self.__get_unsaved()
 
-        self.timeout_inc = check_in_config("CONNECTION_TIMEOUT_INC")
-        try:
-            self.timeout_inc = int(self.timeout_inc)
-        except:
-            self.timeout_inc = 0
-
-        self.timeout = check_in_config("CONNECTION_TIMEOUT")
-        try:
-            self.timeout = self.int(self.timeout)
-        except:
-            self.timeout = 1
-
-        self.store = check_in_config("STORAGE")
-        if self.store is None:
-            self.store = "storage/store.csv"
-
-        self.unsaved = self.get_unsaved()
-
-    def general_request(self, request_func):
-        remaining_tries = self.tries
-        cur_timeout = self.timeout
+    def __general_request(self, request_func):
+        remaining_tries = self.__tries
+        cur_timeout = self.__timeout
 
         if remaining_tries == -1:
             def condition(): return True
@@ -53,14 +35,14 @@ class DataController:
                 logging.warning(
                     "Couldn't connect. Trying again in {} seconds.".format(cur_timeout))
                 time.sleep(cur_timeout)
-                cur_timeout = cur_timeout + self.timeout_inc
+                cur_timeout = cur_timeout + self.__timeout_inc
 
         raise ConnectionError()
 
-    def post(self, url, path, body):
-        return self.general_request(lambda: requests.post("{}/api/{}".format(url, path), json=body))
+    def __post(self, url, path, body):
+        return self.__general_request(lambda: requests.post("{}/api/{}".format(url, path), json=body))
 
-    def get_unsaved(self):
+    def __get_unsaved(self):
         try:
             with open("storage/unsaved.json", "r") as storage:
                 try:
@@ -73,29 +55,29 @@ class DataController:
         except:
             return deque()
 
-    def store_unsaved(self, unsaved):
+    def __store_unsaved(self):
         with open("storage/unsaved.json", "w") as storage:
-            storage.write(json.dumps({'unsaved': list(unsaved)}))
+            storage.write(json.dumps({'unsaved': list(self.__unsaved)}))
 
-    def store_data(self, body):
-        with open("storage/store.csv", "a") as store:
+    def __store_data(self, body):
+        with open(self.__store_path, "a") as store:
             for _, value in body.items():
                 store.write(str(value) + ",")
             store.write("\n")
 
     def send_data(self, hostname, data):
-        self.store_data(data)
+        self.__store_data(data)
         url = get_url()
-        self.unsaved.append(data)
+        self.__unsaved.append(data)
 
-        while len(self.unsaved) > 0:
+        while len(self.__unsaved) > 0:
             to_send = {
                 'hostname': hostname,
-                'data': [self.unsaved[0]]
+                'data': [self.__unsaved[0]]
             }
 
             try:
-                response = self.post(url, "sendData", to_send)
+                response = self.__post(url, "sendData", to_send)
             except:
                 logging.warning("Couldn't connect to {}.".format(url))
                 break
@@ -104,6 +86,6 @@ class DataController:
                     logging.warning("Couldn't connect to {}.".format(url))
                     break
 
-                self.unsaved.popleft()
+                self.__unsaved.popleft()
 
-        self.store_unsaved(self.unsaved)
+        self.__store_unsaved()

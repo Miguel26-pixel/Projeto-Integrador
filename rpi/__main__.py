@@ -2,19 +2,14 @@ import server_connect.core as server_connect
 import board
 import time
 import socket
-from utils import config_logger, check_in_config
+from utils import config_logger, Config
 from sensors.dht import DHT11, DHTResults
 
 
 def main():
     config_logger()
     
-    poll_rate = check_in_config("POLL_RATE")
-    try:
-        poll_rate = float(poll_rate)
-    except:
-        poll_rate = 2.0
-        
+    poll_rate: float = Config.poll_rate
     data_controller = server_connect.DataController()
     dht11: DHT11 = DHT11(data_pin = board.D4)
     

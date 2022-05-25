@@ -5,7 +5,6 @@ from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 
-
 def check_in_config(key):
     if key in config.keys():
         result = config[key]
@@ -16,11 +15,43 @@ def check_in_config(key):
 
     return None
 
+class Config:
+    poll_rate = check_in_config("POLL_RATE")
+    try:
+        poll_rate: float = float(self.poll_rate)
+    except:
+        poll_rate:float = 2.0
+        
+    tries = check_in_config("CONNECTION_TRIES")
+    try:
+        tries = int(tries)
+    except:
+        tries = 1
 
-def config_logger():
+    timeout_inc = check_in_config("CONNECTION_TIMEOUT_INC")
+    try:
+        timeout_inc = int(self.timeout_inc)
+    except:
+        timeout_inc = 0
+
+    timeout = check_in_config("CONNECTION_TIMEOUT")
+    try:
+        timeout = self.int(self.timeout)
+    except:
+        timeout = 1
+        
     log_file_name = check_in_config("LOG_FILE")
     if log_file_name is None:
         log_file_name = "logs/log.log"
+
+    store = check_in_config("STORAGE")
+    if store is None:
+        store = "storage/store.csv"
+
+
+
+def config_logger():
+    log_file_name = Config.log_file_name
 
     cur_date = datetime.now().strftime("_%Y-%m-%d_%H:%M:%S.")
 
