@@ -14,6 +14,7 @@ Afterwards, edit the /etc/apt/sources.list file, changing your OS version ("stre
 
 	deb http://..... <replace_with_buster> main contrib non-free rpi
 
+And edit the /etc/apt/sources.list.d/raspi.list file the same way.
 Finally, run the following commands, which should take a long time to complete:
 
 	sudo apt update
@@ -21,11 +22,25 @@ Finally, run the following commands, which should take a long time to complete:
 	sudo apt autoremove
 	sudo apt autoclean
 
+If the Raspberry Pi boots up to a terminal, you may need to do the following:
+
+	sudo apt install xserver-xorg-video-fbturbo
+
+OR
+
+	sudo raspi_config
+
+And setup Boot Options and select to boot up with Desktop with automated password and change the resolution in advanced settings.
+
 ### SETTING UP DEPENDENCIES
 
 Run the following command:
 
-	pip3 install -r requirements.txt
+	sudo pip3 install -r requirements.txt
+
+Then, run the `raspi-blinka.py` script using:
+
+	sudo python3 raspi-blinka.py
 
 ### SETTING UP WI-FI
 
