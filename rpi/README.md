@@ -1,5 +1,26 @@
 ## INSTRUCTIONS
 
+### SETTING UP OS
+
+First, update current packages
+
+	sudo apt update
+	sudo apt dist-upgrade
+	sudo apt autoremove
+	sudo apt autoclean
+
+Then reboot the system.
+Afterwards, edit the /etc/apt/sources.list file, changing your OS version ("stretch" for example) to "buster" in the line:
+
+	deb http://..... <replace_with_buster> main contrib non-free rpi
+
+Finally, run the following commands, which should take a long time to complete:
+
+	sudo apt update
+	sudo apt dist-upgrade
+	sudo apt autoremove
+	sudo apt autoclean
+
 ### SETTING UP DEPENDENCIES
 
 Run the following command:
