@@ -26,6 +26,7 @@ def main():
                         }
             )
         
+        print(poll_rate)
         time.sleep(poll_rate)
 
 

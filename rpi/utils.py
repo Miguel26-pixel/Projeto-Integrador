@@ -18,7 +18,7 @@ def check_in_config(key):
 class Config:
     poll_rate = check_in_config("POLL_RATE")
     try:
-        poll_rate: float = float(self.poll_rate)
+        poll_rate: float = float(poll_rate)
     except:
         poll_rate:float = 2.0
         
@@ -30,15 +30,21 @@ class Config:
 
     timeout_inc = check_in_config("CONNECTION_TIMEOUT_INC")
     try:
-        timeout_inc = int(self.timeout_inc)
+        timeout_inc = int(timeout_inc)
     except:
         timeout_inc = 0
 
     timeout = check_in_config("CONNECTION_TIMEOUT")
     try:
-        timeout = self.int(self.timeout)
+        timeout = int(timeout)
     except:
         timeout = 1
+        
+    chunk_size = check_in_config("CHUNK_SIZE")
+    try:
+        chunk_size = int(chunk_size)
+    except:
+        chunk_size = 10
         
     log_file_name = check_in_config("LOG_FILE")
     if log_file_name is None:

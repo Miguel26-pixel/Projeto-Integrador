@@ -1,6 +1,8 @@
 from server_connect.utils import get_url
 from utils import Config
 from collections import deque
+from itertools import islice
+
 import json
 import time
 import logging
@@ -13,6 +15,7 @@ class DataController:
         self.__timeout_inc = Config.timeout_inc
         self.__timeout = Config.timeout
         self.__store_path = Config.store
+        self.__chunk_size = Config.chunk_size
         self.__unsaved = self.__get_unsaved()
 
     def __general_request(self, request_func):
@@ -70,10 +73,12 @@ class DataController:
         url = get_url()
         self.__unsaved.append(data)
 
-        while len(self.__unsaved) > 0:
+        while len(self.__unsaved) > self.__chunk_size:
             to_send = {
                 'hostname': hostname,
-                'data': [self.__unsaved[0]]
+                'data': list(
+                    islice(self.__unsaved, 0, self.__chunk_size)
+                )
             }
 
             try:
@@ -86,6 +91,7 @@ class DataController:
                     logging.warning("Couldn't connect to {}.".format(url))
                     break
 
-                self.__unsaved.popleft()
+                for _ in range(self.__chunk_size):
+                    self.__unsaved.popleft()
 
         self.__store_unsaved()
