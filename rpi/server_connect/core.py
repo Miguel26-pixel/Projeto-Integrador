@@ -58,7 +58,7 @@ class DataController:
         raise ConnectionError()
 
     def post(self, url, path, body):
-        return self.general_request(lambda: requests.post("{}/api/{}".format(url, path), data=body))
+        return self.general_request(lambda: requests.post("{}/api/{}".format(url, path), json=body))
 
     def get_unsaved(self):
         try:
@@ -80,19 +80,22 @@ class DataController:
     def store_data(self, body):
         with open("storage/store.csv", "a") as store:
             for _, value in body.items():
-                store.write(value + ",")
+                store.write(str(value) + ",")
             store.write("\n")
 
-    def send_data(self, body):
-        self.store_data(body)
+    def send_data(self, hostname, data):
+        self.store_data(data)
         url = get_url()
-        self.unsaved.append(body)
+        self.unsaved.append(data)
 
         while len(self.unsaved) > 0:
-            data = self.unsaved[0]
+            to_send = {
+                'hostname': hostname,
+                'data': [self.unsaved[0]]
+            }
 
             try:
-                response = self.post(url, "sendData", data)
+                response = self.post(url, "sendData", to_send)
             except:
                 logging.warning("Couldn't connect to {}.".format(url))
                 break
