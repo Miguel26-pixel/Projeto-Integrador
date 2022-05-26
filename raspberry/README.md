@@ -22,7 +22,7 @@ Finally, run the following commands, which should take a long time to complete:
 	sudo apt autoremove
 	sudo apt autoclean
 
-If the Raspberry Pi boots up to a terminal, you may need to do the following:
+If the Raspberry Pi boots up to a terminal, you may need to do the following (usually, login is "pi" and password is "raspberry"):
 
 	sudo apt install xserver-xorg-video-fbturbo
 
