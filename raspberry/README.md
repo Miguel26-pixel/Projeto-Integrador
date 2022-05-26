@@ -82,6 +82,8 @@ Create a .env file inside the rpi/ directory with the following information:
 	CHUNK_SIZE=<number of sensor samples to send per server connection> // default: 10
 	LOG_FILE=<path_to_log_file> // default: log.log
     STORAGE=<path_to_store_file> // default: storage/store.csv
+
+A file .env.template in the directory where this README file is stored is an example on how to correctly set the .env file
 	
 ### SETTING UP RUN ON STARTUP
 

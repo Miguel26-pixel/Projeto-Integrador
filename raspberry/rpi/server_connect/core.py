@@ -1,5 +1,9 @@
 from collections import deque
 from itertools import islice
+from queue import Queue
+from threading import Thread
+from typing import Dict
+from socket import gethostname
 import time
 import logging
 import json
@@ -10,7 +14,7 @@ from rpi.server_connect.utils import get_url
 from rpi.utils import Config
 
 
-class DataController:
+class DataController(Thread):
     def __init__(self):
         self.__tries: int = Config.tries
         self.__timeout_inc: int = Config.timeout_inc
@@ -18,6 +22,10 @@ class DataController:
         self.__store_path: str = Config.store
         self.__chunk_size: int = Config.chunk_size
         self.__unsaved = self.__get_unsaved()
+        self.__hostname = gethostname()
+        self.queue: Queue[Dict] = Queue()
+
+        super().__init__()
 
     def __general_request(self, request_func):
         remaining_tries = self.__tries
@@ -107,7 +115,25 @@ class DataController:
                     logging.warning("Couldn't connect to %s.", url)
                     break
 
+                logging.info("Successfully sent data to %s.", url)
                 for _ in range(self.__chunk_size):
                     self.__unsaved.popleft()
 
         self.__store_unsaved()
+
+    def stop(self):
+        self.queue.put(None)
+
+    def run(self):
+        logging.info("Starting data controller on %s, connected to %s",
+                     self.__hostname, get_url())
+
+        while True:
+            data = self.queue.get()
+
+            if data is None:
+                self.queue.task_done()
+                break
+
+            self.send_data(self.__hostname, data)
+            self.queue.task_done()
