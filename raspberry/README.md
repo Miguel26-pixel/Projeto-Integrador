@@ -70,7 +70,7 @@ Run the following command:
 
 ### SETTING UP ENV VARIABLES
 
-Edit the .env file with the following information:
+Create a .env file inside the rpi/ directory with the following information:
 
 	SERVER_IP=<ip address of server> // use only if SERVER_HOSTNAME not set, specify port
 	SERVER_HOSTNAME=<url of server> // use only if SERVER_IP not set, specify port
@@ -91,6 +91,6 @@ Run the following command:
 	
 Choose your preferred editor and at the end of the file append this line:
 
-	@reboot cd <path_to_project_folder> ; python3 . &
+	@reboot cd <path_to_project_folder> ; python3 -m rpi &
 	
-Where <path_to_project_folder> is the folder where the \_\_main\_\_.py file is stored.
+Where <path_to_project_folder> is the folder where the rpi/ directory is stored in.
