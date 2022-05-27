@@ -4,4 +4,4 @@ import rpi.main as rpi
 
 
 if __name__ == "__main__":
-    rpi.main(DHT11(board.D4))
+    rpi.main(DHT11(data_pin=board.D4))

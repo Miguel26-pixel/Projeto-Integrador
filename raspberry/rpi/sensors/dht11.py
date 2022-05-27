@@ -25,7 +25,7 @@ class DHT11(DHT):
             temperature = self.__dht_device.temperature
             humidity = self.__dht_device.humidity
 
-            result = DHTResults(temperature=temperature, humidty=humidity)
+            result = DHTResults(temperature=temperature, humidity=humidity)
             self.__previous = result
 
             return result
