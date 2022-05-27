@@ -69,12 +69,3 @@ def config_logger():
     log_file_name = cur_date.join(log_file_name)
     logging.basicConfig(filename=log_file_name, filemode="w",
                         format="%(asctime)s %(levelname)s %(message)s", level=logging.INFO)
-
-    def exception_handler(ex_type, value, traceback):
-        if issubclass(ex_type, KeyboardInterrupt):
-            sys.__excepthook__(ex_type, value, traceback)
-
-        logging.exception("Uncaught exception",
-                          exc_info=(ex_type, value, traceback))
-
-    sys.excepthook = exception_handler

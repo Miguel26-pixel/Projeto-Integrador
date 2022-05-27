@@ -18,6 +18,26 @@ def main(dht_sensor: DHT) -> None:
     data_controller.start()
     stopping = False
 
+    def close_thread():
+        nonlocal data_controller
+        logging.info("Stopping main thread on %s", socket.gethostname())
+        logging.info("Waiting for data controller to finish")
+        data_controller.stop()
+        data_controller.join()
+        logging.info("Exiting...")
+        sys.exit(1)
+
+    def exception_handler(ex_type, value, traceback):
+        if issubclass(ex_type, KeyboardInterrupt):
+            sys.__excepthook__(ex_type, value, traceback)
+
+        logging.exception("Uncaught exception",
+                          exc_info=(ex_type, value, traceback))
+
+        close_thread()
+
+    sys.excepthook = exception_handler
+
     def signal_handler(_s, _f):
         nonlocal stopping
         stopping = True
@@ -38,9 +58,5 @@ def main(dht_sensor: DHT) -> None:
 
         time.sleep(poll_rate)
 
-    logging.info("Stopping main thread on %s", socket.gethostname())
-    logging.info("Waiting for data controller to finish")
-    data_controller.stop()
-    data_controller.join()
-    logging.info("Exiting...")
+    close_thread()
     sys.exit(0)
