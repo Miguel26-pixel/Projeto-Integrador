@@ -1,4 +1,4 @@
 import rpi.main as m
-from test_rpi.mock import DHTMock
+from test_rpi.mock import ArduinoMock
 
-m.main(DHTMock())
+m.main(ArduinoMock())

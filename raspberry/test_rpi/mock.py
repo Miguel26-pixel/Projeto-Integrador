@@ -1,6 +1,7 @@
 from random import randint
-from rpi.sensors.dht import DHT, DHTResults
+from rpi.sensors.arduino import ArduinoData, ArduinoI
 
-class DHTMock(DHT):
-    def get_data(self, cur_time: float) -> DHTResults:
-        return DHTResults(temperature=randint(20, 30), humidity=randint(20, 80))
+
+class ArduinoMock(ArduinoI):
+    def get_data(self) -> ArduinoData:
+        return ArduinoData(temperature=randint(20, 30), humidity=randint(20, 80))
