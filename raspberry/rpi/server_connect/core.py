@@ -2,7 +2,7 @@ from collections import deque
 from itertools import islice
 from queue import Queue
 from threading import Thread
-from typing import Dict
+from typing import Dict, List
 from socket import gethostname
 import time
 import logging
@@ -15,7 +15,7 @@ from rpi.utils import Config
 
 
 class DataController(Thread):
-    def __init__(self):
+    def __init__(self, ordering: List[str]):
         self.__tries: int = Config.tries
         self.__timeout_inc: int = Config.timeout_inc
         self.__timeout: int = Config.timeout
@@ -23,6 +23,7 @@ class DataController(Thread):
         self.__chunk_size: int = Config.chunk_size
         self.__unsaved = self.__get_unsaved()
         self.__hostname = gethostname()
+        self.__ordering = ordering
         self.queue: Queue[Dict] = Queue()
 
         super().__init__()
@@ -80,10 +81,18 @@ class DataController(Thread):
         with open("storage/unsaved.json", "w", encoding="UTF-8") as storage:
             storage.write(json.dumps({'unsaved': list(self.__unsaved)}))
 
-    def __store_data(self, body):
+    def __store_data(self, body, ordering: List[str]):
         with open(self.__store_path, "a", encoding="UTF-8") as store:
-            for _, value in body.items():
-                store.write(str(value) + ",")
+            for key in ordering:
+                try:
+                    value = body[key]
+                except KeyError:
+                    value = ""
+
+                store.write(f"{value if value is not None else ''}, ")
+
+            # for _, value in body.items():
+            #     store.write(str(value) + ",")
             store.write("\n")
 
     def send_data(self, hostname, data):
@@ -93,7 +102,7 @@ class DataController(Thread):
         All data is stored in a file.
         '''
 
-        self.__store_data(data)
+        self.__store_data(data, self.__ordering)
         url = get_url()
         self.__unsaved.append(data)
 

@@ -96,29 +96,24 @@ void loop()
     delay(WAIT_TIME);
 
     float curTime = millis();
+
     DHTResult results = readDHT(curTime);
 
+    if (results.valid)
+    {
+        Serial.print("dht, ");
+        Serial.print(results.temperature);
+        Serial.print(", ");
+        Serial.println(results.humidity);
+    }
+
     curTime = millis();
+
     HCSRO4Result results2 = readHCSRO4(curTime);
 
-    if(!results.valid && !results2.valid) {
-        return;
-    }
-
-    if (results.valid) {
-        Serial.print("temperature: ");
-        Serial.print(results.temperature);
-        Serial.print(", humidity: ");
-        Serial.print(results.humidity);
-    }
-
-    if (results2.valid) {
-        if(results.valid) {
-            Serial.print(", ");
-        }
-        Serial.print("distance: ");
+    if (results2.valid)
+    {
+        Serial.print("hcsro4, ");
         Serial.println(results2.distance);
-    } else {
-        Serial.println();
     }
 }

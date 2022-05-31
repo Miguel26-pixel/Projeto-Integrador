@@ -25,7 +25,7 @@ class Config:
     try:
         poll_rate: float = float(poll_rate)
     except (ValueError, TypeError):
-        poll_rate: float = 2.0
+        poll_rate: float = 0.01
 
     tries = check_in_config("CONNECTION_TRIES")
     try:
