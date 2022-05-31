@@ -46,7 +46,4 @@ class Arduino(ArduinoI):
 
                 return ArduinoData(temperature=dht_result.temperature, humidity=dht_result.humidity)
 
-        return ArduinoData(
-            temperature=self.__previous_dht.temperature,
-            humidity=self.__previous_dht.humidity
-        )
+        return None

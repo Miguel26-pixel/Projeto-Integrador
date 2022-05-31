@@ -78,7 +78,7 @@ Create a .env file inside the rpi/ directory with the following information:
 	CONNECTION_TRIES=<number of attempts to retry connection> // -1 for infinite attempts, default: 1
 	CONNECTION_TIMEOUT=<number of seconds waited to retry failed connection> // default: 1
 	CONNECTION_TIMEOUT_INC=<number of seconds added for each consecutive failed connection> // default: 0
-	POLL_RATE=<number of seconds between each sensor read> // default: 2.0
+	POLL_RATE=<number of seconds between each sensor read> // default: 0.01
 	CHUNK_SIZE=<number of sensor samples to send per server connection> // default: 10
 	LOG_FILE=<path_to_log_file> // default: log.log
     STORAGE=<path_to_store_file> // default: storage/store.csv

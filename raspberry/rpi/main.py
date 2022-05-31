@@ -50,7 +50,7 @@ def main(arduino: ArduinoI) -> None:
 
         arduino_result: ArduinoData = arduino.get_data()
 
-        if any(map(lambda x: x is not None, arduino_result)):
+        if arduino_result is not None:
             data_controller.queue.put({
                  'time': cur_time,
                  'temperature': arduino_result.temperature,
