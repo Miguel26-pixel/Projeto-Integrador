@@ -1,0 +1,9 @@
+{
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "C_Cpp.default.includePath": [
+        "~/Arduino/libraries/**",
+        "{$workspaceFolder}/libraries/**",
+        "{$workspaceFolder}/**"
+    ],
+}

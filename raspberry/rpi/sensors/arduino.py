@@ -1,5 +1,6 @@
 from collections import namedtuple
 from abc import abstractmethod
+from typing import Union
 
 import serial
 import serial.tools.list_ports
@@ -30,7 +31,7 @@ class Arduino(ArduinoI):
             if 'Arduino' in port.manufacturer:
                 return port.device
 
-    def get_data(self) -> ArduinoData | None:
+    def get_data(self) -> Union[ArduinoData, None]:
         '''Get sensor data from the Arduino.'''
 
         if self.__arduino.in_waiting > 0:
