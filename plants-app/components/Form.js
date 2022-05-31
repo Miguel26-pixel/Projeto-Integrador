@@ -4,9 +4,12 @@ export default class Form extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      name: '',
-      review: '',
-      rating: ''
+      id: '',
+      lightness: '',
+      humidity: '',
+      pression: '',
+      airquality: '',
+      temperature: ''
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)

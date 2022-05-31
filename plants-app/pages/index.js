@@ -1,8 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState } from 'react';
 import Pusher from 'pusher-js';
-import ReactTable from 'react-table-6'
-import Form from '../components/Form.js'
-import Head from 'next/head';
+
 import axios from 'axios';
 
 const columns = [
@@ -31,7 +29,7 @@ const columns = [
     accessor: 'temperature'
   }
 ]
-const data = [
+const data1 = [
   {
     id: '0',
     lightness: '12.5',
@@ -42,33 +40,44 @@ const data = [
   }
 ]
 
-const pusher = new Pusher('app-key', {
-  cluster: 'cluster-location',
-  encrypted: true
-})
+const data2 = [
+  {
+    id: '1',
+    lightness: '10.5',
+    humidity: '11.5',
+    airquality: '14.0',
+    temperature: '10.0'
+  }
+]
 
-const channel = pusher.subscribe('rotten-pepper')
+// const pusher = new Pusher('app-key', {
+//   cluster: 'cluster-location',
+//   encrypted: true
+// })
+
+// const channel = pusher.subscribe('plant-data')
 
 
 export default class Index extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: data
+      data: data1
     }
+    this.stop = false;
   }
 
   componentDidMount () {
     this.receiveUpdateFromPusher()
   }
 
-  receiveUpdateFromPusher () {
-    channel.bind('new-movie-review', data => {
-      this.setState({
-        data: [...this.state.data, data]
-      })
-    })
-  }
+  // receiveUpdateFromPusher () {
+  //   channel.bind('plant-data', data => {
+  //     this.setState({
+  //       data: [...this.state.data, data]
+  //     })
+  //   })
+  // }
 
   handleFormSubmit (data) {
     axios.post('http://localhost:8080/add-review', data)
@@ -80,23 +89,33 @@ export default class Index extends React.Component {
     })
   }
 
-  render () {
-    return (
-      <>
-      <Head>
-          <title>Movie listing</title>
-        </Head>
-      <div>
-        <h1>Rotten <strike>tomatoes</strike> pepper</h1>
-        <strong>Movie: Infinity wars </strong>
-        <Form handleFormSubmit={this.handleFormSubmit.bind(this)} />
-        <ReactTable
-          data={this.state.data}
-          columns={columns}
-          defaultPageSize={10}
-    />
-      </div>
-      </>
-    )
+  handleKeyDown(event) {
+    if(event.keyCode === 13 && this.stop == false) { 
+        this.stop = true
+  }
+  else if (event.keyCode === 13 && this.stop == true){
+    this.stop = false
   }
 }
+
+  submitNewData() {
+    if (this.stop == true && this.state.data == data1) {
+      this.setState({
+        data: data2
+      })
+    }
+    else if (this.stop == true && this.state.data == data2) {
+      this.setState({
+        data: data1
+      })
+    }
+  };
+
+  render () {
+    return (
+      <div className='plants-background'>
+        <div className='grey-navbar'></div>
+      </div>
+    )
+  }
+} 
