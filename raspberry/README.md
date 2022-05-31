@@ -76,6 +76,27 @@ Create a .env file inside the rpi/ directory with the following information:
 
 A file .env.template in the directory where this README file is stored is an example on how to correctly set the .env file
 	
+### WIRING
+
+Make sure the Arduino is connected by USB cable to the Raspberry PI.
+Use the Arduino CLI to upload the code in arduino/arduino_sketch/arduino_sketch.ino, if needed.
+
+Disconnect Arduino before setting up wiring.
+
+#### DHT11
+
+- `+` on `3.3v`
+- `-` on `GND`
+- `Signal` on Digital Pin 2. 
+
+#### HC-SRO4
+
+- `Vcc` on `5v`
+- `Trig` on Digital Pin 5
+- `Echo` on Digital Pin 4
+- `Gnd` on `GND`
+
+
 ### SETTING UP RUN ON STARTUP
 
 Run the following command:
