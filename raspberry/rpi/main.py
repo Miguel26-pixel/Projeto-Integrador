@@ -6,10 +6,11 @@ import logging
 
 from rpi.utils import config_logger, Config
 import rpi.server_connect.core as server_connect
-from rpi.sensors.dht import DHT, DHTResults
+from rpi.sensors.dht import DHTResults
+from rpi.sensors.arduino import Arduino
 
 
-def main(dht_sensor: DHT) -> None:
+def main() -> None:
     config_logger()
     logging.info("Starting main thread on %s", socket.gethostname())
 
@@ -17,6 +18,8 @@ def main(dht_sensor: DHT) -> None:
     data_controller = server_connect.DataController()
     data_controller.start()
     stopping = False
+    arduino = Arduino()
+    print(arduino.port)
 
     def close_thread():
         nonlocal data_controller
@@ -48,13 +51,13 @@ def main(dht_sensor: DHT) -> None:
     while not stopping:
         cur_time: float = time.time()
 
-        dht_result: DHTResults = dht_sensor.get_data(cur_time)
-        if dht_result is not None:
-            data_controller.queue.put({
-                'time': cur_time,
-                'temperature': dht_result.temperature,
-                'humidity':  dht_result.humidity,
-            })
+        #dht_result: DHTResults = dht_sensor.get_data(cur_time)
+        #if dht_result is not None:
+            # data_controller.queue.put({
+            #     'time': cur_time,
+            #     'temperature': dht_result.temperature,
+            #     'humidity':  dht_result.humidity,
+            # })
 
         time.sleep(poll_rate)
 
