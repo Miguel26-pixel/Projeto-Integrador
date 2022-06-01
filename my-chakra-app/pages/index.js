@@ -1,9 +1,10 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import react from 'react';
-import Card from './card.js'
+import { useRouter } from 'next/router'; 
+import ExpList from './experimentList.js';    
 
 export default function Home() {
+  const router = useRouter();
   return (
     <div className={styles.container}>
       <Head>
@@ -12,26 +13,15 @@ export default function Home() {
         <link rel="icon" href="/plant.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <div className={styles.main}>
         <h1 className={styles.title}>
-          GREENSTONE
+          <a type='button' onClick={() => router.push('/')}>GREENSTONE</a>
         </h1>
+      </div>
+      <div>
+        <ExpList />
+      </div>
 
-        <Card />
-      </main>
-
-      {/* <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer> */}
     </div>
   )
 }

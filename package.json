@@ -5,6 +5,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "pusher": "^5.1.0-beta",
+    "react-router-dom": "^6.3.0",
     "react-table-6": "^6.11.0"
   }
 }

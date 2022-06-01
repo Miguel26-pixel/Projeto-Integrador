@@ -1,9 +1,9 @@
 .container {
   padding: 0 0;
+  height: 100%;
 }
 
 .main {
-  min-height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: right;
@@ -12,7 +12,6 @@
 .footer {
   display: flex;
   flex: 1;
-  padding: 2rem 0;
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
@@ -26,7 +25,7 @@
 }
 
 .title a {
-  color: #0070f3;
+  color: green;
   text-decoration: none;
 }
 
@@ -46,7 +45,7 @@
   background-color: #c0c0c0;
   font-family: "Lucida Console", Courier, monospace;
   border-bottom: 20px;
-  margin-bottom: 5%;
+  margin-bottom: 2%;
 }
 
 .description {
@@ -68,7 +67,7 @@
 .grid {
   display: grid;
   max-width: 700px;
-  background-color: darkgreen;
+  background-color: #39602C;
   border-radius: 20px;
   margin-left: auto;
   margin-right: 10%;
@@ -84,7 +83,7 @@
   border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
+  max-width: 400px;
 }
 
 .card:hover,
@@ -115,4 +114,45 @@
     width: 100%;
     flex-direction: column;
   }
+}
+
+.plantsorg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5%;
+}
+
+.plantbtn {
+  background-color: grey;
+  padding: 1%;
+  height: 2rem;
+  width: 40rem;
+  border-radius: 10%;
+  margin-left: 40%;
+  margin-right: auto;
+  margin-bottom: 2%;
+}
+
+.plant-line {
+  min-height: 40px;
+  height: 70px;
+}
+
+.expsorg {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.expbtn {
+  background-color: grey;
+  padding: 1%;
+  height: 5rem;
+  width: 25rem;
+  border-radius: 10%;
+  margin-bottom: 2%;
+
 }
