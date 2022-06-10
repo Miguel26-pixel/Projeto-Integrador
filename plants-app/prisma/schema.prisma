@@ -10,18 +10,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model rasperry_pi {
+model RasperryPI {
   id      Int      @id @default(autoincrement())
   piName  String
   ip      String
-  // plants  Plant[]
+  plants  Plant[]
 }
 
 model Plant {
-  id       Int          @id @default(autoincrement())
-  time     DateTime     @default(now())
+  id            Int          @id @default(autoincrement())
+  time          DateTime     @default(now())
   temperature   Float
   light         Float
   humidity      Float
-  gas_conc      Float
+  gasConc       Float
+  pi            RasperryPI  @relation(fields: [piID], references: [id])
+  piID          Int
+
+  @@unique([id])
 }
