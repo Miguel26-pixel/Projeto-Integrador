@@ -1,10 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from '@prisma/client'
 
-export default function getAllPlants(req, res){
+const prisma = new PrismaClient()
+
+export default async function getAllPlants (req, res){
     if(req.method !== 'GET'){
-        res.status(500).json({message: 'Not a GET request'});
+        res.status(405).json({message: 'Not a GET request'});
     }
     else{
-        res.json({hello:'world', method: req.method});
+        try{
+            let allPlants = await prisma.plant.findMany();
+            res.status(200).json(allPlants);
+        }
+        catch (error) {
+            res.status(400).json({ message: 'an oopsie occured' })
+        }
     }
 }
