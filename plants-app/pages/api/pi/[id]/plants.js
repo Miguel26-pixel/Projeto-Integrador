@@ -13,7 +13,7 @@ export default async function getPiPlants (req, res) {
     else{
         try{
             // let pi = getPi();
-            let plants = await prisma.plant.findMany({
+            let plants = await prisma.PLANT.findMany({
                 where: {
                    piId : req.query.id
                 }

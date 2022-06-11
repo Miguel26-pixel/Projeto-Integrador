@@ -10,7 +10,7 @@ export default async function getPlant (req, res) {
     }
     else{
         try{
-            let plant= await prisma.plant.findUnique({
+            let plant= await prisma.PLANT.findUnique({
                 where: {
                     id: req.query.id
                 }

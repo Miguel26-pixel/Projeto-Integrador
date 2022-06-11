@@ -9,11 +9,12 @@ export default async function getAllPis (req, res) {
     }
     else{
         try{
-            let allPis = await prisma.rasperryPI.findMany();
+            let allPis = await prisma.RASPBERRYPI.findMany();
             res.status(200).json(allPis);
         }
         catch (error) {
-            res.status(400).json({ message: 'an oopsie occured' })
+            let errorString = "an oopsie occured" + error;
+            res.status(400).json({ message: errorString });
         }
     }
 }

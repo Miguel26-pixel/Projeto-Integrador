@@ -9,7 +9,7 @@ export default async function getAllPlants (req, res){
     }
     else{
         try{
-            let allPlants = await prisma.plant.findMany();
+            let allPlants = await prisma.PLANT.findMany();
             res.status(200).json(allPlants);
         }
         catch (error) {

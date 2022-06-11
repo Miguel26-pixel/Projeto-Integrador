@@ -10,7 +10,7 @@ export default async function getPi (req, res) {
     }
     else{
         try{
-            let pi = await prisma.rasperryPI.findUnique({
+            let pi = await prisma.RASPBERRYPI.findUnique({
                 where: {
                     id: req.query.id
                 }
