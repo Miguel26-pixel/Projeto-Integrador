@@ -9,7 +9,7 @@ export default async (req, res) => {
     }
 
     try{
-        const { newPlant } = req.body;
+        const { newData } = req.body;
         const newPlant = await prisma.plant.create({
             data : pi
         })
