@@ -13,7 +13,7 @@ export default async function getAllPis (req, res) {
             res.status(200).json(allPis);
         }
         catch (error) {
-            let errorString = "an oopsie occured" + error;
+            let errorString = "An error occured" + error;
             res.status(400).json({ message: errorString });
         }
     }

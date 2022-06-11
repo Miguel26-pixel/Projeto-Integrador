@@ -12,13 +12,14 @@ export default async function getPlant (req, res) {
         try{
             let plant= await prisma.PLANT.findUnique({
                 where: {
-                    id: req.query.id
+                    id: parseInt(req.query.id)
                 }
             })
             res.status(200).json(plant);
         }
         catch (error) {
-            res.status(400).json({ message: 'an oopsie occured' })
+            let errorString = "An error occured" + error;
+            res.status(400).json({ message: errorString });
         }
     }
 }

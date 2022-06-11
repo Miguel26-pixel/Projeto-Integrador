@@ -10,6 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model EXPERIMENT {
+  id     Int     @id @default(autoincrement())
+  name   String
+  image  String
+  info   String
+  plants PLANT[]
+}
+
 model RASPBERRYPI {
   id     Int     @id @default(autoincrement())
   piName String
@@ -20,18 +28,19 @@ model RASPBERRYPI {
 model PLANT {
   id        Int         @id @default(autoincrement())
   plantdata PLANTDATA[]
-  pi        RASPBERRYPI  @relation(fields: [piID], references: [id])
+  pi        RASPBERRYPI? @relation(fields: [piID], references: [id])
   piID      Int
 
   @@unique([id])
+  experiment   EXPERIMENT? @relation(fields: [experimentID], references: [id])
+  experimentID Int
 }
 
 model PLANTDATA {
   time        DateTime @id @default(now())
   temperature Float
-  light       Float
   humidity    Float
-  gasConc     Float
-  Plant       PLANT   @relation(fields: [plantId], references: [id])
-  plantId     Int
+  distance    Float
+  Plant       PLANT?    @relation(fields: [plantID], references: [id])
+  plantID     Int
 }

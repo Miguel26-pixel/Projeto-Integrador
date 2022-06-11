@@ -12,13 +12,14 @@ export default async function getPi (req, res) {
         try{
             let pi = await prisma.RASPBERRYPI.findUnique({
                 where: {
-                    id: req.query.id
+                    id: parseInt(req.query.id)
                 }
             })
             res.status(200).json(pi);
         }
         catch (error) {
-            res.status(400).json({ message: 'an oopsie occured' })
+            let errorString = "An error occured" + error;
+            res.status(400).json({ message: errorString });
         }
     }
 }
