@@ -127,29 +127,14 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 
-const options = {
-    scales: {
-        y: {
-            type: 'linear'
-        },
-        x: {
-            type: 'linear'
-        }
-    }
-}
-
-
 export default function PlantCard() {
     const router = useRouter();
     const [open, setOpen] = React.useState(false);
     const [temperature, setTemperature] = React.useState([
-        { x: 1, y: 10 },
-        { x: 2, y: 2 },
-        { x: 3, y: 5 },
-        { x: 5, y: 22 },
-        { x: 10, y: 17 },
-        { x: 15, y: 11 },
-        { x: 17, y: 3 }
+    ])
+    const [humidity, setHumidity] = React.useState([
+    ])
+    const [distance, setDistance] = React.useState([
     ])
 
     useEffect(() => {
@@ -161,8 +146,32 @@ export default function PlantCard() {
         const channel = pusher.subscribe('plant-channel');
 
         channel.bind("new-data", function (data) {
-            setTemperature([...temperature, { x: 2, y: 2 }])
-            console.log(data)
+            let temperatureCopy = []
+            let humidityCopy = []
+            let distanceCopy = []
+
+            for(let i = 0; i < data.data.length; i++) {
+                let record = data.data[i]
+                console.log(record)
+                
+                if(record.hasOwnProperty("temperature")) {
+                    temperatureCopy.push({x: record.time, y: record.temperature})
+                }
+                
+                if(record.hasOwnProperty("humidity")) {
+                    humidityCopy.push({x: record.time, y: record.humidity})
+                }
+                
+                if(record.hasOwnProperty("distance")) {
+                    distanceCopy.push({x: record.time, y: record.distance})
+                }
+            }
+
+            console.log(humidityCopy)
+            setTemperature(temp => [...temp, ...temperatureCopy])
+            setHumidity(hum => [...hum, ...humidityCopy])
+            setDistance(dist => [...dist, ...distanceCopy])
+
         });
 
         return () => {
@@ -284,8 +293,32 @@ export default function PlantCard() {
                                                         data: temperature,
                                                         fill: false,
                                                     },
+                                                    {
+                                                        label: "Humidity",
+                                                        backgroundColor: 'rgb(132, 99, 255)',
+                                                        borderColor: 'rgb(132, 99, 255)',
+                                                        lineTension: 0.1,
+                                                        data: humidity,
+                                                        fill: false,
+                                                    },
+                                                    {
+                                                        label: "Distance",
+                                                        backgroundColor: 'rgb(132, 99, 132)',
+                                                        borderColor: 'rgb(132, 99, 132)',
+                                                        lineTension: 0.1,
+                                                        data: distance,
+                                                        fill: false,
+                                                    },
                                                 ]
-                                            }} options={options} />
+                                            }} options={{scales: {
+                                                y: {
+                                                    type: 'linear'
+                                                },
+                                                x: {
+                                                    type: 'linear',
+                                                    beginAtZero: false
+                                                }
+                                            }}} />
                                         </CardContent>
                                     </Card>
                                 </Grid>
