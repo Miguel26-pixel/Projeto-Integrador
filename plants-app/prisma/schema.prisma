@@ -7,25 +7,31 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:postgres@localhost:5432/mydb?schema=public"
 }
 
 model RasperryPI {
-  id      Int      @id @default(autoincrement())
-  piName  String
-  ip      String
-  plants  Plant[]
+  id     Int     @id @default(autoincrement())
+  piName String
+  ip     String
+  plants Plant[]
 }
 
 model Plant {
-  id            Int          @id @default(autoincrement())
-  time          DateTime     @default(now())
-  temperature   Float
-  light         Float
-  humidity      Float
-  gasConc       Float
-  pi            RasperryPI  @relation(fields: [piID], references: [id])
-  piID          Int
+  id        Int         @id @default(autoincrement())
+  plantdata PlantData[]
+  pi        RasperryPI  @relation(fields: [piID], references: [id])
+  piID      Int
 
   @@unique([id])
+}
+
+model PlantData {
+  time        DateTime @id @default(now())
+  temperature Float
+  light       Float
+  humidity    Float
+  gasConc     Float
+  Plant       Plant   @relation(fields: [plantId], references: [id])
+  plantId     Int
 }
