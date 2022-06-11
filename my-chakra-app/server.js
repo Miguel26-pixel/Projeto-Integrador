@@ -16,10 +16,10 @@
     // Ensure that your pusher credentials are properly set in the .env file
     // Using the specified variables
     const pusher = new Pusher({
-      appId: process.env.PUSHER_APP_ID,
-      key: process.env.PUSHER_APP_KEY,
-      secret: process.env.PUSHER_APP_SECRET,
-      cluster: process.env.PUSHER_APP_CLUSTER,
+      appId: process.env.NEXT_PUBLIC_PUSHER_APP_ID,
+      key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
+      secret: process.env.NEXT_PUBLIC_PUSHER_APP_SECRET,
+      cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
       encrypted: true
     });
     
