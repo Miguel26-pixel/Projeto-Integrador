@@ -210,18 +210,41 @@ export default function ExperimentList() {
               spacing={2}
             >
               <Button margin-right="0" variant="outlined" onClick={handleClickOpen}>New plant</Button> 
-                  <Dialog openf={openf} onClose={handleClose}>
-                  <DialogTitle>Subscribe</DialogTitle>
+                  <Dialog open={openf} onClose={handleClose}>
+                  <DialogTitle>Create new plant</DialogTitle>
                   <DialogContent>
-                    <DialogContentText>
-                      To subscribe to this website, please enter your email address here. We
-                      will send updates occasionally.
+                    <DialogContentText sx={{color: "green"}}>
+                      Name
                     </DialogContentText>
                     <TextField
                       autoFocus
                       margin="dense"
                       id="name"
-                      label="Email Address"
+                      label="Name"
+                      type="email"
+                      fullWidth
+                      variant="standard"
+                    />
+                    <DialogContentText sx={{color: "green"}}>
+                      Image
+                    </DialogContentText>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Name"
+                      type="image"
+                      fullWidth
+                      variant="standard"
+                    />
+                    <DialogContentText sx={{color: "green"}}>
+                      More info
+                    </DialogContentText>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="moreinfo"
+                      label="Addictional information"
                       type="email"
                       fullWidth
                       variant="standard"
@@ -229,7 +252,7 @@ export default function ExperimentList() {
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
+                    <Button onClick={handleClose}>Save</Button>
                   </DialogActions>
                 </Dialog>
             </Stack>

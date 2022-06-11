@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Head from 'next/head';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import {useState, useEffect} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -18,6 +19,12 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
@@ -82,6 +89,16 @@ const mdTheme = createTheme({
 
 function MainPageContent() {
   const router = useRouter();
+  const [openf, setOpenf] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpenf(true);
+  };
+
+  const handleClose = () => {
+    setOpenf(false);
+  };
+
 
   return (
     <><Head>
@@ -121,13 +138,57 @@ function MainPageContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 
-            <Stack
+          <Stack
               direction="row"
               justifyContent="flex-end"
               alignItems="center"
               spacing={2}
             >
-              <Button margin-right="0">New Experiment</Button>
+              <Button margin-right="0" variant="outlined" onClick={handleClickOpen}>New experiment</Button> 
+                  <Dialog open={openf} onClose={handleClose}>
+                  <DialogTitle>Create new experiment</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText sx={{color: "green"}}>
+                      Name
+                    </DialogContentText>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Name"
+                      type="email"
+                      fullWidth
+                      variant="standard"
+                    />
+                    <DialogContentText sx={{color: "green"}}>
+                      Image
+                    </DialogContentText>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="image"
+                      type="file"
+                      fullWidth
+                      variant="standard"
+                    />
+                    <DialogContentText sx={{color: "green"}}>
+                      More info
+                    </DialogContentText>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="moreinfo"
+                      label="Addictional information"
+                      type="email"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleClose}>Save</Button>
+                  </DialogActions>
+                </Dialog>
             </Stack>
 
             <Grid container spacing={2}>
