@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model RASPBERRYPI {
+  id     Int     @id @default(autoincrement())
+  piName String
+  ip     String
+  plants PLANT[]
+}
+
+model PLANT {
+  id        Int         @id @default(autoincrement())
+  plantdata PLANTDATA[]
+  pi        RASPBERRYPI  @relation(fields: [piID], references: [id])
+  piID      Int
+
+  @@unique([id])
+}
+
+model PLANTDATA {
+  time        DateTime @id @default(now())
+  temperature Float
+  light       Float
+  humidity    Float
+  gasConc     Float
+  Plant       PLANT   @relation(fields: [plantId], references: [id])
+  plantId     Int
+}
