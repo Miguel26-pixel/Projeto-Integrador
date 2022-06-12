@@ -18,6 +18,7 @@ import MuiDrawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from '@mui/material/Link';
 import { mainListItems, secondaryListItems } from '../components/listItems';
+import { useRouter } from 'next/router';
 
 
 
@@ -83,6 +84,7 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function Layout({ children }) {
+    const router = useRouter()
     const [open, setOpen] = useState(false);
 
     const toggleDrawer = () => {
@@ -120,11 +122,10 @@ export default function Layout({ children }) {
                                 variant="h6"
                                 color="inherit"
                                 noWrap
-                                sx={{ flexGrow: 1 }}
+                                sx={{ flexGrow: 1, ":hover":{cursor: "pointer"} }}
+                                onClick={function() {router.push("/")}}
                             >
-                                <Link href="/" color="inherit" style={{ textDecoration: 'none' }}>
-                                    GREENSTONE
-                                </Link>
+                                GREENSTONE
                             </Typography>
                             <IconButton color="inherit">
                                 <Badge badgeContent={4} color="secondary">
