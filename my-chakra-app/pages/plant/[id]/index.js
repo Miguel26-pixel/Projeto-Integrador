@@ -66,9 +66,9 @@ export default function PlantCard() {
                 }
             })
 
-            setTemperature(temp => [...temp, ...temperatureCopy])
-            setHumidity(hum => [...hum, ...humidityCopy])
-            setDistance(dist => [...dist, ...distanceCopy])
+            setTemperature(temp => [...temp, ...temperatureCopy].slice(-20))
+            setHumidity(hum => [...hum, ...humidityCopy].slice(-20))
+            setDistance(dist => [...dist, ...distanceCopy].slice(-20))
         }
 
         fetchData();
@@ -118,6 +118,15 @@ export default function PlantCard() {
     }, [id]);
 
     let maxVal = (Math.max(...temperature.map((val) => val.x)))
+    let minVal = (Math.min(...temperature.map((val) => val.x)))
+
+    if(isFinite(maxVal)) {
+        if(maxVal - minVal > 30000) {
+            minVal = maxVal - 30000;
+        }
+    } else {
+        minVal = 0
+    }
 
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -184,7 +193,7 @@ export default function PlantCard() {
                                     x: {
                                         type: 'linear',
                                         beginAtZero: false,
-                                        min: isFinite(maxVal) ? maxVal - 30000 : 0,
+                                        min: minVal,
                                         ticks: {
                                             stepSize: 2000,
                                             callback: function (value, index, ticks) {
