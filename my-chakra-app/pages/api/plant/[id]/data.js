@@ -10,12 +10,12 @@ export default async function getPiPlants (req, res) {
     }
     else{
         try{
-            let plants = await prisma.PLANT.findMany({
+            let plantData = await prisma.PLANTDATA.findMany({
                 where: {
-                   piID : parseInt(req.query.id)
+                    plantID: parseInt(req.query.id)
                 }
-            });
-            res.status(200).json(plants);
+            })
+            res.status(200).json(plantData);
         }
         catch (error) {
             let errorString = "An error occured" + error;
