@@ -10,11 +10,11 @@ export default async (req, res) => {
 
     try{
         const newPlant = await prisma.PLANT.create(
-            {
+            { 
                 data: {
                     plantName: req.body.plantName,
-                    piID: req.body.piID,
-                    experimentID: req.body.experimentID,
+                    piID: parseInt(req.body.piID),
+                    experimentID: parseInt(req.body.experimentID),
                 },
             }
         );
