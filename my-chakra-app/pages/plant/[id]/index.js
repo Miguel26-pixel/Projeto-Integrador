@@ -1,6 +1,5 @@
-import * as React from 'react';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -32,11 +31,11 @@ ChartJS.register(
 
 export default function PlantCard() {
     const router = useRouter();
-    const [temperature, setTemperature] = React.useState([
+    const [temperature, setTemperature] = useState([
     ])
-    const [humidity, setHumidity] = React.useState([
+    const [humidity, setHumidity] = useState([
     ])
-    const [distance, setDistance] = React.useState([
+    const [distance, setDistance] = useState([
     ])
     const { id } = router.query
     let setupData = false;
