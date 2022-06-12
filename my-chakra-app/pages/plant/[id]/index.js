@@ -117,6 +117,8 @@ export default function PlantCard() {
         }
     }, [id]);
 
+    let maxVal = (Math.max(...temperature.map((val) => val.x)))
+
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Stack
@@ -154,7 +156,7 @@ export default function PlantCard() {
                                         backgroundColor: 'rgb(255, 99, 132)',
                                         borderColor: 'rgb(255, 99, 132)',
                                         lineTension: 0.2,
-                                        data: temperature.slice(-15),
+                                        data: temperature,
                                         fill: false,
                                     },
                                     {
@@ -162,7 +164,7 @@ export default function PlantCard() {
                                         backgroundColor: 'rgb(132, 99, 255)',
                                         borderColor: 'rgb(132, 99, 255)',
                                         lineTension: 0.2,
-                                        data: humidity.slice(-15),
+                                        data: humidity,
                                         fill: false,
                                     },
                                     {
@@ -170,7 +172,7 @@ export default function PlantCard() {
                                         backgroundColor: 'rgb(132, 99, 132)',
                                         borderColor: 'rgb(132, 99, 132)',
                                         lineTension: 0.2,
-                                        data: distance.slice(-15),
+                                        data: distance,
                                         fill: false,
                                     },
                                 ]
@@ -182,9 +184,9 @@ export default function PlantCard() {
                                     x: {
                                         type: 'linear',
                                         beginAtZero: false,
+                                        min: isFinite(maxVal) ? maxVal - 30000 : 0,
                                         ticks: {
-                                            autoSkip: true,
-                                            maxTicksLimit: 10,
+                                            stepSize: 2000,
                                             callback: function (value, index, ticks) {
                                                 return new Intl.DateTimeFormat("en-GB", { timeStyle: 'medium' }).format(new Date(value));
                                             }
