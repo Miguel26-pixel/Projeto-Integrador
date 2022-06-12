@@ -166,7 +166,7 @@ export default function ExperimentList() {
 
             setPlants(plantData.map((value) =>
                 <Button sx={{
-                    width: "70%", mx: "3%", borderRadius: 3, bkcolor: "gray", my: "2%", boxShadow: 2, bgcolor: "white", fontWeight: 'light', p: 0, color: "black",
+                    width: "90%", mx: "3%", borderRadius: 3, bkcolor: "gray", my: "2%", boxShadow: 2, bgcolor: "white", fontWeight: 'light', p: 0, color: "black",
                     '&:hover': {
                         color: 'green',
                         backgroundColor: 'white',
@@ -174,7 +174,7 @@ export default function ExperimentList() {
                 }} onClick={() => router.push('/plant/' + value.id)}>
                         <CardContent>
                             <Typography >
-                                PLANT
+                                {value.plantName}
                             </Typography>
                         </CardContent>
                 </Button>

@@ -18,7 +18,7 @@ import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems, secondaryListItems } from '../../listItems';
 import { purple } from '@mui/material/colors';
 import MuiDrawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -39,6 +39,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import { fetcher } from '../../api/fetcher';
 
 ChartJS.register(
     CategoryScale,
@@ -136,6 +137,39 @@ export default function PlantCard() {
     ])
     const [distance, setDistance] = React.useState([
     ])
+    const { id } = router.query
+
+    useEffect(() => {
+        async function fetchData() {
+            if(id === undefined) return;
+
+            let plantData = await fetcher(window.location.origin + "/api/plant/" + id + "/data");
+            let temperatureCopy = []
+            let humidityCopy = []
+            let distanceCopy = []
+    
+            plantData.forEach((record) => {
+                let time = Date.parse(record.time)
+                if(record.hasOwnProperty("temperature")) {
+                    temperatureCopy.push({x: time, y: record.temperature})
+                }
+                
+                if(record.hasOwnProperty("humidity")) {
+                    humidityCopy.push({x: time, y: record.humidity})
+                }
+                
+                if(record.hasOwnProperty("distance")) {
+                    distanceCopy.push({x: time, y: record.distance})
+                }
+            })
+
+            setTemperature(temp => [...temp, ...temperatureCopy])
+            setHumidity(hum => [...hum, ...humidityCopy])
+            setDistance(dist => [...dist, ...distanceCopy])
+        }
+        
+        fetchData();
+    }, [id])
 
     useEffect(() => {
         const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
@@ -167,11 +201,9 @@ export default function PlantCard() {
                 }
             }
 
-            console.log(humidityCopy)
             setTemperature(temp => [...temp, ...temperatureCopy])
             setHumidity(hum => [...hum, ...humidityCopy])
             setDistance(dist => [...dist, ...distanceCopy])
-
         });
 
         return () => {
