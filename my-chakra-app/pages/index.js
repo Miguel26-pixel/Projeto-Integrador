@@ -180,49 +180,42 @@ function MainPageContent() {
                             >
                                 <Button margin-right="0" variant="outlined" onClick={handleClickOpen}>New experiment</Button>
                                 <Dialog open={openf} onClose={handleClose}>
-                                    <DialogTitle>Create new experiment</DialogTitle>
-                                    <DialogContent>
-                                        <DialogContentText sx={{ color: "green" }}>
-                                            Name
-                                        </DialogContentText>
-                                        <TextField
-                                            autoFocus
-                                            margin="dense"
-                                            id="name"
-                                            label="Name"
-                                            type="email"
-                                            fullWidth
-                                            variant="standard"
+                                    <form action={"/api/create/experiment/"} method="POST" className="flex flex-col">
+                                        <div>
+                                        <label htmlFor="name" className="mb-2 italic">Name</label>
+                                        <input
+                                        className="mb-4 border-b-2"
+                                        name="experimentName"
+                                        type="text"
+                                        required
                                         />
-                                        <DialogContentText sx={{ color: "green" }}>
-                                            Image
-                                        </DialogContentText>
-                                        <TextField
-                                            autoFocus
-                                            margin="dense"
-                                            id="image"
-                                            type="file"
-                                            fullWidth
-                                            variant="standard"
+                                        </div>
+                                        <div>
+                                        <label htmlFor="info" className="mb-2 italic">More info</label>
+                                        <input
+                                            className="mb-4 border-b-2"
+                                            name="experimentInfo"
+                                            type="text"
+                                            required
                                         />
-                                        <DialogContentText sx={{ color: "green" }}>
-                                            More info
-                                        </DialogContentText>
-                                        <TextField
-                                            autoFocus
-                                            margin="dense"
-                                            id="moreinfo"
-                                            label="Addictional information"
-                                            type="email"
-                                            fullWidth
-                                            variant="standard"
+                                        </div>
+                                        <div>
+                                        <label htmlFor="image" className="mb-2 italic">Image</label>
+                                        <input
+                                        className="mb-4 border-b-2"
+                                        name="experimentImage"
+                                        type="text"
+                                        required
                                         />
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button onClick={handleClose}>Cancel</Button>
-                                        <Button onClick={handleClose}>Save</Button>
-                                    </DialogActions>
-                                </Dialog>
+                                        </div>
+                                        <button
+                                        type="submit"
+                                        className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
+                                        >
+                                        Submit
+                                        </button>
+                                    </form>
+                                    </Dialog>
                             </Stack>
 
                             <Grid container spacing={2}>
