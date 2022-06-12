@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { PrismaClient } from '@prisma/client'
-// TODO: remove unneeded import maybe and clean up code
-//import getPi from './index.js'
 
 const prisma = new PrismaClient()
 

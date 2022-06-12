@@ -20,6 +20,7 @@ CREATE TABLE "RASPBERRYPI" (
 -- CreateTable
 CREATE TABLE "PLANT" (
     "id" SERIAL NOT NULL,
+    "plantName" TEXT NOT NULL,
     "piID" INTEGER NOT NULL,
     "experimentID" INTEGER NOT NULL,
 
@@ -49,7 +50,6 @@ ALTER TABLE "PLANT" ADD CONSTRAINT "PLANT_piID_fkey" FOREIGN KEY ("piID") REFERE
 -- AddForeignKey
 ALTER TABLE "PLANTDATA" ADD CONSTRAINT "PLANTDATA_plantID_fkey" FOREIGN KEY ("plantID") REFERENCES "PLANT"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
-
 CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 SELECT create_hypertable('"PLANTDATA"', 'time');
 
@@ -73,19 +73,19 @@ INSERT INTO "RASPBERRYPI"("id", "piName", "ip")
 
 --Plants
 -- Experiment 1 Plants
-INSERT INTO "PLANT"("id", "piID", "experimentID") VALUES(1, 1, 1);
-INSERT INTO "PLANT"("id", "piID", "experimentID") VALUES(4, 1, 1);
-INSERT INTO "PLANT"("id", "piID", "experimentID") VALUES(5, 1, 1);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(1, 'Plant1', 1, 1);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(4, 'Plant4', 1, 1);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(5, 'Plant5', 1, 1);
 --Experiment 2 Plants
-INSERT INTO "PLANT"("id", "piID", "experimentID") VALUES(2, 1, 2);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(2, 'Plant2', 1, 2);
 --Experiment 3 Plants
-INSERT INTO "PLANT"("id", "piID", "experimentID") VALUES(3, 1, 3);
-INSERT INTO "PLANT"("id", "piID", "experimentID") VALUES(6, 1, 3);
-INSERT INTO "PLANT"("id", "piID", "experimentID") VALUES(7, 1, 3);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(3, 'Plant3', 1, 3);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(6, 'Plant6', 1, 3);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(7, 'Plant7', 1, 3);
 --Experiment 4 Plants
-INSERT INTO "PLANT"("id", "piID", "experimentID") VALUES(8, 2, 4);
-INSERT INTO "PLANT"("id", "piID", "experimentID") VALUES(9, 2, 4);
-INSERT INTO "PLANT"("id", "piID", "experimentID") VALUES(10, 2, 4);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(8, 'Plant8', 2, 4);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9, 'Plant9', 2, 4);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(10, 'Plant10', 2, 4);
 
 --Plant Data
 -- plant1
