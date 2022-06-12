@@ -1,46 +1,46 @@
 import * as React from 'react';
 import Head from 'next/head';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import MuiAppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems, secondaryListItems } from '../../listItems';
 import { green, purple } from '@mui/material/colors';
-import { useRouter } from 'next/router';
-import { fetcher } from './api/fetcher';
-// import Chart from './Chart';
-// import Deposits from './Deposits';
-// import Orders from './Orders';
+import MuiDrawer from '@mui/material/Drawer';
+import MenuIcon from '@mui/icons-material/Menu';
+import Paper from '@mui/material/Paper';
+import Link from '@mui/material/Link';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Spritesheet from 'react-responsive-spritesheet';
+import SaveIcon from '@mui/icons-material';
+import { fetcher } from '../../api/fetcher';
+import { useParams } from 'react-router';
+
 
 function Copyright(props) {
-
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
@@ -52,6 +52,48 @@ function Copyright(props) {
         </Typography>
     );
 }
+
+
+const mdTheme = createTheme({
+    status: {
+        danger: '#e53e3e',
+    },
+    palette: {
+        primary: {
+            main: '#2e7d32',
+            darker: '#1b5e20',
+        },
+        neutral: {
+            main: purple[500],
+        },
+    },
+});
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
+        '& .MuiDrawer-paper': {
+            position: 'relative',
+            whiteSpace: 'nowrap',
+            width: drawerWidth,
+            transition: theme.transitions.create('width', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            boxSizing: 'border-box',
+            ...(!open && {
+                overflowX: 'hidden',
+                transition: theme.transitions.create('width', {
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.leavingScreen,
+                }),
+                width: theme.spacing(7),
+                [theme.breakpoints.up('sm')]: {
+                    width: theme.spacing(9),
+                },
+            }),
+        },
+    }),
+);
 
 const drawerWidth = 240;
 
@@ -73,25 +115,18 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-const mdTheme = createTheme({
-    status: {
-        danger: '#e53e3e',
-    },
-    palette: {
-        primary: {
-            main: '#2e7d32',
-            darker: '#1b5e20',
-        },
-        neutral: {
-            main: purple[500],
-        },
-    },
-});
-
-function MainPageContent() {
+export default function ExperimentList() {
     const router = useRouter();
+    const [open, setOpen] = useState(false);
     const [openf, setOpenf] = useState(false);
-    const [experiments, setExperiments] = useState(<></>)
+    const [plants, setPlants] = useState(<></>);
+    const [experiment, setExperiment] = useState(<></>);
+    const { id } = router.query;
+    console.log(id);
+
+    const toggleDrawer = () => {
+        setOpen(!open);
+    };
 
     const handleClickOpen = () => {
         setOpenf(true);
@@ -101,40 +136,59 @@ function MainPageContent() {
         setOpenf(false);
     };
 
+
     useEffect(() => {
         async function fetchData() {
-            let data = await fetcher(window.location.origin + "/api/experiments", null)
+            if(id === undefined) return;
+            let data = await fetcher(window.location.origin + "/api/experiment/" + id, null)
 
-            setExperiments(data.map((val) =>
-                <Grid item xs={12} md={4} lg={4} key={val.id}>
-                    <Card sx={{ maxWidth: 345 }}>
-                        <CardMedia
-                            component="img"
-                            alt="green iguana"
-                            height="140"
-                            image={val.image} />
+            // TODO: IMAGE
+            setExperiment(
+                <Card sx={{ maxWidth: "100%", my: "10%" }}>
+                    <CardMedia
+                        component="img"
+                        alt="plant-image"
+                        height="140"
+                        image="/placeholder.png"/>
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {data.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            {data.info}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            )
+
+            let plantData = await fetcher(window.location.origin + "/api/experiment/" + id + "/plants", null)
+            console.log(plantData)
+
+            setPlants(plantData.map((value) =>
+                <Button sx={{
+                    width: "70%", mx: "3%", borderRadius: 3, bkcolor: "gray", my: "2%", boxShadow: 2, bgcolor: "white", fontWeight: 'light', p: 0, color: "black",
+                    '&:hover': {
+                        color: 'green',
+                        backgroundColor: 'white',
+                    },
+                }} onClick={() => router.push('/plant/' + value.id)}>
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                {val.name}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {val.info}
+                            <Typography >
+                                PLANT
                             </Typography>
                         </CardContent>
-                        <CardActions>
-                            <Button size="small" onClick={() => router.push('/experiment/' + val.id)}>View Plants</Button>
-                        </CardActions>
-                    </Card>
-                </Grid>
+                </Button>
             ))
         }
 
         fetchData();
-    }, [])
+    }, [id])
+    console.log(plants)
 
 
 
     return (
+
         <><Head>
             <title>GREENSTONE</title>
             <link rel="icon" type="image/x-icon" href="/plant.ico"></link>
@@ -142,8 +196,24 @@ function MainPageContent() {
             <ThemeProvider theme={mdTheme}>
                 <Box sx={{ display: 'flex' }}>
                     <CssBaseline />
-                    <AppBar position="absolute">
-                        <Toolbar color="green">
+                    <AppBar position="absolute" open={open}>
+                        <Toolbar
+                            sx={{
+                                pr: '24px', // keep right padding when drawer closed
+                            }}
+                        >
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="open drawer"
+                                onClick={toggleDrawer}
+                                sx={{
+                                    marginRight: '36px',
+                                    ...(open && { display: 'none' }),
+                                }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
                             <Typography
                                 component="h1"
                                 variant="h6"
@@ -160,9 +230,27 @@ function MainPageContent() {
                             </IconButton>
                         </Toolbar>
                     </AppBar>
-
+                    <Drawer variant="permanent" open={open}>
+                        <Toolbar
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'flex-end',
+                                px: [1],
+                            }}
+                        >
+                            <IconButton onClick={toggleDrawer}>
+                                <ChevronLeftIcon />
+                            </IconButton>
+                        </Toolbar>
+                        <Divider />
+                        <List component="nav">
+                            {mainListItems}
+                            <Divider sx={{ my: 1 }} />
+                            {secondaryListItems}
+                        </List>
+                    </Drawer>
                     <Box
-                        component="main"
                         sx={{
                             flexGrow: 1,
                             height: '100vh',
@@ -171,16 +259,15 @@ function MainPageContent() {
                     >
                         <Toolbar />
                         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-
                             <Stack
                                 direction="row"
                                 justifyContent="flex-end"
                                 alignItems="center"
                                 spacing={2}
                             >
-                                <Button margin-right="0" variant="outlined" onClick={handleClickOpen}>New experiment</Button>
+                                <Button margin-right="0" variant="outlined" onClick={handleClickOpen}>New plant</Button>
                                 <Dialog open={openf} onClose={handleClose}>
-                                    <DialogTitle>Create new experiment</DialogTitle>
+                                    <DialogTitle>Create new plant</DialogTitle>
                                     <DialogContent>
                                         <DialogContentText sx={{ color: "green" }}>
                                             Name
@@ -200,8 +287,9 @@ function MainPageContent() {
                                         <TextField
                                             autoFocus
                                             margin="dense"
-                                            id="image"
-                                            type="file"
+                                            id="name"
+                                            label="Name"
+                                            type="image"
                                             fullWidth
                                             variant="standard"
                                         />
@@ -224,18 +312,21 @@ function MainPageContent() {
                                     </DialogActions>
                                 </Dialog>
                             </Stack>
-
-                            <Grid container spacing={2}>
-                                {experiments}
+                            <Grid container spacing={3}>
+                                <Grid item xs={4}>
+                                    {experiment}
+                                </Grid>
+                                {/* Recent Orders */}
+                                <Grid item sx={{}} xs={8}>
+                                    {plants}
+                                </Grid>
                             </Grid>
                             <Copyright sx={{ pt: 4 }} />
                         </Container>
                     </Box>
                 </Box>
             </ThemeProvider></>
-    );
+    )
 }
 
-export default function MainPage() {
-    return <MainPageContent />;
-}
+

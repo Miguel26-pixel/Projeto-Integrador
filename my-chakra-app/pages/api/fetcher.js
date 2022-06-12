@@ -1,11 +1,16 @@
-export const fetcher = (url, data) =>
-fetch(window.location.origin + url, {
-    method : data ? "POST" : "GET",
-    credentials : "include",
-    headers: {
-        "Content-Type" : "application/json",
-    },
-    body: JSON.stringify(data),
-}).then((r) => {
-    return r.json;
-})
+export async function fetcher(url, data) {
+    let options = {
+        method : data ? "POST" : "GET",
+        credentials : "include",
+        headers: {
+            "Content-Type" : "application/json",
+        },
+    }
+
+    if(options.method === 'POST') {
+        options.body = JSON.stringify(data);
+    }
+    console.log(url)
+
+    return (await fetch(url, options)).json()
+}
