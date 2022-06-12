@@ -15,7 +15,8 @@ export default async (req, res) => {
                 ip: req.body.ip
             }
         })
-        res.status(200).json(newPi);
+        console.log(newPi);
+        res.redirect("/", 303).json(newPi);
     }
     catch (error) {
         res.status(400).json({ message: 'an oopsie occured' })

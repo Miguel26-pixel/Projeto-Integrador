@@ -19,7 +19,7 @@ export default async (req, res) => {
             }
         );
         console.log(newPlant);
-        res.status(200).json(req.body);
+        res.redirect("/experiment/" + req.body.experimentID, 303).json(newPlant);
     }
     catch (error) {
         const errorString = "An error occured: " + error;
