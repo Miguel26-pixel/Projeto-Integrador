@@ -163,7 +163,7 @@ export default function ExperimentList() {
             let plantData = await fetcher(window.location.origin + "/api/experiment/" + id + "/plants", null)
 
             setPlants(plantData.map((value) =>
-                <Button sx={{
+                <Button key={value.id} sx={{
                     width: "90%", mx: "3%", borderRadius: 3, bkcolor: "gray", my: "2%", boxShadow: 2, bgcolor: "white", fontWeight: 'light', p: 0, color: "black",
                     '&:hover': {
                         color: 'green',
