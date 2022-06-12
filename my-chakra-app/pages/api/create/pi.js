@@ -9,11 +9,14 @@ export default async (req, res) => {
     }
 
     try{
-        const { pi } = req.body;
         const newPi = await prisma.pi.create({
-            data : pi
+            data : {
+                piName : req.body.piName,
+                ip: req.body.ip
+            }
         })
-        res.status(200).json(newPi);
+        console.log(newPi);
+        res.redirect("/", 303).json(newPi);
     }
     catch (error) {
         res.status(400).json({ message: 'an oopsie occured' })

@@ -9,17 +9,17 @@ export default async (req, res) => {
     }
 
     try{
-        const newPlant = await prisma.PLANT.create(
-            { 
+        const newExperiment = await prisma.EXPERIMENT.create(
+            {
                 data: {
-                    plantName: req.body.plantName,
-                    piID: parseInt(req.body.piID),
-                    experimentID: parseInt(req.body.experimentID),
+                    name: req.body.experimentName,
+                    image: req.body.experimentImage,
+                    info: req.body.experimentInfo
                 },
             }
         );
-        console.log(newPlant);
-        res.redirect("/experiment/" + req.body.experimentID, 303).json(newPlant);
+        console.log(newExperiment);
+        res.redirect("/", 303).json(newPlant);
     }
     catch (error) {
         const errorString = "An error occured: " + error;

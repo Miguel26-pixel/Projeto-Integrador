@@ -40,19 +40,6 @@ import { fetcher } from '../../api/fetcher';
 import { useParams } from 'react-router';
 
 
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
 
 const mdTheme = createTheme({
     status: {
@@ -262,51 +249,43 @@ export default function ExperimentList() {
                                 alignItems="center"
                                 spacing={2}
                             >
-                                <Button margin-right="0" variant="outlined" onClick={handleClickOpen}>New plant</Button>
-                                <Dialog open={openf} onClose={handleClose}>
-                                    <DialogTitle>Create new plant</DialogTitle>
-                                    <DialogContent>
-                                        <DialogContentText sx={{ color: "green" }}>
-                                            Name
-                                        </DialogContentText>
-                                        <TextField
-                                            autoFocus
-                                            margin="dense"
-                                            id="name"
-                                            label="Name"
-                                            type="email"
-                                            fullWidth
-                                            variant="standard"
-                                        />
-                                        <DialogContentText sx={{ color: "green" }}>
-                                            Image
-                                        </DialogContentText>
-                                        <TextField
-                                            autoFocus
-                                            margin="dense"
-                                            id="name"
-                                            label="Name"
-                                            type="image"
-                                            fullWidth
-                                            variant="standard"
-                                        />
-                                        <DialogContentText sx={{ color: "green" }}>
-                                            More info
-                                        </DialogContentText>
-                                        <TextField
-                                            autoFocus
-                                            margin="dense"
-                                            id="moreinfo"
-                                            label="Addictional information"
-                                            type="email"
-                                            fullWidth
-                                            variant="standard"
-                                        />
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <Button onClick={handleClose}>Cancel</Button>
-                                        <Button onClick={handleClose}>Save</Button>
-                                    </DialogActions>
+                            <Button margin-right="0" variant="outlined" onClick={handleClickOpen}>New plant</Button>
+                            <Dialog open={openf} onClose={handleClose}>
+                                <form action={"/api/create/plant/"} method="POST" className="flex flex-col">
+                                    <div>
+                                    <label htmlFor="name" className="mb-2 italic">Name</label>
+                                    <input
+                                    className="mb-4 border-b-2"
+                                    name="plantName"
+                                    type="text"
+                                    required
+                                    />
+                                    </div>
+                                    <div>
+                                    <label htmlFor="RaspberrypiID" className="mb-2 italic">Raspberrypi ID</label>
+                                    <input
+                                        className="mb-4 border-b-2"
+                                        name="piID"
+                                        type="text"
+                                        required
+                                    />
+                                    </div>
+                                    <div>
+                                    <label htmlFor="ExperimentID" className="mb-2 italic">Experiment ID</label>
+                                    <input
+                                    className="mb-4 border-b-2"
+                                    name="experimentID"
+                                    type="text"
+                                    required
+                                    />
+                                    </div>
+                                    <button
+                                    type="submit"
+                                    className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
+                                    >
+                                    Submit
+                                    </button>
+                                </form>
                                 </Dialog>
                             </Stack>
                             <Grid container spacing={3}>
@@ -318,7 +297,6 @@ export default function ExperimentList() {
                                     {plants}
                                 </Grid>
                             </Grid>
-                            <Copyright sx={{ pt: 4 }} />
                         </Container>
                     </Box>
                 </Box>
