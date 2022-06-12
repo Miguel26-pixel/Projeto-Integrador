@@ -2,7 +2,18 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+### Server Environment Setup
+Before running the application, it is necessary to set up the container which our database will use. In order to aid in this process, we created some bash scripts, located inside the `scripts` folder:
+
+> **configure_server.sh** : this script will download the dockerimage we're currently using to host our database
+
+> **run_server.sh** : this script will run the container which will host our database
+
+> **populate_server.sh** : this script will configure, seed and populate the database hosted on the container. **This script must be run whenever the container is restarted**
+
+### Running the application
+
+After the server environment is correctly configured, we can now start the development server:
 
 ```bash
 npm run dev

@@ -40,19 +40,6 @@ import { fetcher } from '../../api/fetcher';
 import { useParams } from 'react-router';
 
 
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
 
 const mdTheme = createTheme({
     status: {
@@ -310,7 +297,6 @@ export default function ExperimentList() {
                                     {plants}
                                 </Grid>
                             </Grid>
-                            <Copyright sx={{ pt: 4 }} />
                         </Container>
                     </Box>
                 </Box>

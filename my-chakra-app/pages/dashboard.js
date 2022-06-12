@@ -32,20 +32,6 @@ import CardMedia from '@mui/material/CardMedia';
 import Spritesheet from 'react-responsive-spritesheet';
 import SaveIcon from '@mui/icons-material';
 
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
-
 const mdTheme = createTheme({
     status: {
         danger: '#e53e3e',
@@ -234,7 +220,6 @@ export default function Dashboard() {
                                     </Card>
                                 </Grid>
                             </Grid>
-                            <Copyright sx={{ pt: 4 }} />
                         </Container>
                     </Box>
                 </Box>
