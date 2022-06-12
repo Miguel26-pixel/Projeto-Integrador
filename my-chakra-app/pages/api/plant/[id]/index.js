@@ -2,14 +2,14 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
-
 export default async function getPlant (req, res) {
     if(req.method !== 'GET'){
         res.status(405).json({message: 'Not a GET request'});
     }
-    else{
+    else{        
         try{
+            const prisma = new PrismaClient()
+
             let plant= await prisma.PLANT.findUnique({
                 where: {
                     id: parseInt(req.query.id)

@@ -37,7 +37,6 @@ import CardMedia from '@mui/material/CardMedia';
 import Spritesheet from 'react-responsive-spritesheet';
 import SaveIcon from '@mui/icons-material';
 import { fetcher } from '../../api/fetcher';
-import { useParams } from 'react-router';
 
 
 

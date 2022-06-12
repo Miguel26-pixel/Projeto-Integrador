@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
 
 export default async function getAllExperiments (req, res) {
     if(req.method !== 'GET'){
@@ -9,6 +8,8 @@ export default async function getAllExperiments (req, res) {
     }
     else{
         try{
+            const prisma = new PrismaClient()
+
             let allExp = await prisma.EXPERIMENT.findMany();
             res.status(200).json(allExp);
         }

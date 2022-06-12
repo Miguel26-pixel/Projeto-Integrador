@@ -1,14 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
-
 export default async function getAllPis (req, res) {
     if(req.method !== 'GET'){
         res.status(405).json({message: 'Not a GET request'});
     }
     else{
         try{
+            const prisma = new PrismaClient()
+
             let allPis = await prisma.RASPBERRYPI.findMany();
             res.status(200).json(allPis);
         }
