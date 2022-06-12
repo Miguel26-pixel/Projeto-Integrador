@@ -1,15 +1,9 @@
 import * as React from 'react';
 import Head from 'next/head';
-import { useState, useEffect } from 'react'
-import styles from '../styles/Home.module.css';
-import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -19,18 +13,13 @@ import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
-import { green, purple } from '@mui/material/colors';
+import { purple } from '@mui/material/colors';
 import MuiDrawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
-import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Spritesheet from 'react-responsive-spritesheet';
-import SaveIcon from '@mui/icons-material';
+import { mainListItems, secondaryListItems } from '../components/listItems';
+
+
 
 const mdTheme = createTheme({
     status: {
@@ -93,15 +82,14 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-export default function Dashboard() {
-    const router = useRouter();
-    const [open, setOpen] = React.useState(false);
+export default function Layout({ children }) {
+    const [open, setOpen] = useState(false);
+
     const toggleDrawer = () => {
         setOpen(!open);
     };
 
     return (
-
         <><Head>
             <title>GREENSTONE</title>
             <link rel="icon" type="image/x-icon" href="/plant.ico"></link>
@@ -134,7 +122,9 @@ export default function Dashboard() {
                                 noWrap
                                 sx={{ flexGrow: 1 }}
                             >
-                                GREENSTONE
+                                <Link href="/" color="inherit" style={{ textDecoration: 'none' }}>
+                                    GREENSTONE
+                                </Link>
                             </Typography>
                             <IconButton color="inherit">
                                 <Badge badgeContent={4} color="secondary">
@@ -171,56 +161,7 @@ export default function Dashboard() {
                         }}
                     >
                         <Toolbar />
-                        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                            <Stack
-                                direction="row"
-                                justifyContent="flex-end"
-                                alignItems="center"
-                                spacing={2}
-                            >
-                            </Stack>
-                            <Grid container spacing={3}
-                                direction="row"
-                                justifyContent="center"
-                                alignItems="center">
-                                {/* Recent Orders */}
-                                {/* <Grid item >
-            <Spritesheet
-                className={`my-element__class--style`}
-                image={`https://raw.githubusercontent.com/danilosetra/react-responsive-spritesheet/master/assets/images/examples/sprite-image-horizontal.png`}
-                widthFrame={70}
-                heightFrame={500}
-                width={70}
-                steps={14}
-                fps={10}
-                autoplay={true}
-                loop={true}
-              />
-                </Grid> */}
-                                <Grid item>
-                                    <Card sx={{ maxWidth: "40%", mx: "auto" }}>
-                                        <CardMedia
-                                            component="img"
-                                            alt="green iguana"
-                                            height="140"
-                                            image="/static/images/cards/contemplative-reptile.jpg" />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="div">
-                                                Plant 1
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Lizards are a widespread group of squamate reptiles, with over 6,000
-                                                species, ranging across all continents except Antarctica
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions>
-                                            <Button size="small">See dashboard</Button>
-                                            <Button size="small" onClick={() => router.push('/experimentList')}>Edit information</Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            </Grid>
-                        </Container>
+                        {children}
                     </Box>
                 </Box>
             </ThemeProvider></>
