@@ -192,7 +192,6 @@ export default function PlantCard() {
 
             for(let i = 0; i < data.length; i++) {
                 let record = data[i]
-                console.log(record.time)
                 
                 if(record.hasOwnProperty("temperature")) {
                     temperatureCopy.push({x: record.time*1000, y: record.temperature})
@@ -221,8 +220,6 @@ export default function PlantCard() {
     const toggleDrawer = () => {
         setOpen(!open);
     };
-    console.log(temperature)
-
 
     return (
         <><Head>
@@ -257,7 +254,9 @@ export default function PlantCard() {
                                 noWrap
                                 sx={{ flexGrow: 1 }}
                             >
-                                GREENSTONE
+                                <Link href="/" color="inherit" style={{textDecoration:'none'}}>
+                                        GREENSTONE
+                                    </Link>
                             </Typography>
                             <IconButton color="inherit">
                                 <Badge badgeContent={4} color="secondary">

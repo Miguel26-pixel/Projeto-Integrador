@@ -11,7 +11,6 @@ export async function fetcher(url, data) {
     if(options.method === 'POST') {
         options.body = JSON.stringify(data);
     }
-    console.log(url)
 
     return (await fetch(url, options)).json()
 }

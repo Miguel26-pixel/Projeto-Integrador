@@ -122,7 +122,6 @@ export default function ExperimentList() {
     const [plants, setPlants] = useState(<></>);
     const [experiment, setExperiment] = useState(<></>);
     const { id } = router.query;
-    console.log(id);
 
     const toggleDrawer = () => {
         setOpen(!open);
@@ -162,10 +161,9 @@ export default function ExperimentList() {
             )
 
             let plantData = await fetcher(window.location.origin + "/api/experiment/" + id + "/plants", null)
-            console.log(plantData)
 
             setPlants(plantData.map((value) =>
-                <Button sx={{
+                <Button key={value.id} sx={{
                     width: "90%", mx: "3%", borderRadius: 3, bkcolor: "gray", my: "2%", boxShadow: 2, bgcolor: "white", fontWeight: 'light', p: 0, color: "black",
                     '&:hover': {
                         color: 'green',
@@ -183,9 +181,6 @@ export default function ExperimentList() {
 
         fetchData();
     }, [id])
-    console.log(plants)
-
-
 
     return (
 
@@ -221,7 +216,9 @@ export default function ExperimentList() {
                                 noWrap
                                 sx={{ flexGrow: 1 }}
                             >
-                                GREENSTONE
+                                <Link href="/" color="inherit" style={{textDecoration:'none'}}>
+                                        GREENSTONE
+                                    </Link>
                             </Typography>
                             <IconButton color="inherit">
                                 <Badge badgeContent={4} color="secondary">

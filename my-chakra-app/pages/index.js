@@ -144,15 +144,18 @@ function MainPageContent() {
                     <CssBaseline />
                     <AppBar position="absolute">
                         <Toolbar color="green">
-                            <Typography
-                                component="h1"
-                                variant="h6"
-                                color="inherit"
-                                noWrap
-                                sx={{ flexGrow: 1 }}
-                            >
-                                GREENSTONE
-                            </Typography>
+                            
+                                <Typography
+                                    component="h1"
+                                    variant="h6"
+                                    color="inherit"
+                                    noWrap
+                                    sx={{ flexGrow: 1 }}
+                                >
+                                    <Link href="/" color="inherit" style={{textDecoration:'none'}}>
+                                        GREENSTONE
+                                    </Link>
+                                </Typography>
                             <IconButton color="inherit">
                                 <Badge badgeContent={4} color="secondary">
                                     <NotificationsIcon />
