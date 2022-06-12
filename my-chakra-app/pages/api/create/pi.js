@@ -9,9 +9,11 @@ export default async (req, res) => {
     }
 
     try{
-        const { pi } = req.body;
         const newPi = await prisma.pi.create({
-            data : pi
+            data : {
+                piName : req.body.piName,
+                ip: req.body.ip
+            }
         })
         res.status(200).json(newPi);
     }
