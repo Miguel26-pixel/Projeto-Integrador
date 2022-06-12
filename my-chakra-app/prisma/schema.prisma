@@ -27,6 +27,7 @@ model RASPBERRYPI {
 
 model PLANT {
   id        Int         @id @default(autoincrement())
+  plantName String
   plantdata PLANTDATA[]
   pi        RASPBERRYPI? @relation(fields: [piID], references: [id])
   piID      Int
