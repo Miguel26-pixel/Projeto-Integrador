@@ -9,16 +9,16 @@ export default async (req, res) => {
     }
 
     try{
-        const newPlant = await prisma.PLANT.create(
+        const newExperiment = await prisma.EXPERIMENT.create(
             {
                 data: {
-                    plantName: req.body.plantName,
-                    piID: req.body.piID,
-                    experimentID: req.body.experimentID,
+                    name: req.body.experimentName,
+                    image: req.body.experimentImage,
+                    info: req.body.experimentInfo
                 },
             }
         );
-        console.log(newPlant);
+        console.log(newExperiment);
         res.status(200).json(req.body);
     }
     catch (error) {
