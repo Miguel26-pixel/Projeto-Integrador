@@ -53,82 +53,81 @@ ALTER TABLE "PLANTDATA" ADD CONSTRAINT "PLANTDATA_plantID_fkey" FOREIGN KEY ("pl
 CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 SELECT create_hypertable('"PLANTDATA"', 'time');
 
-
 -- Populate
 -- Experiments
 INSERT INTO "EXPERIMENT"("id", "name", "image", "info")
-    VALUES(1, 'Experiment1', './placeholder.png', 'This is a string containing more information about this experiment');
+    VALUES(9996, 'Experiment1', './placeholder.png', 'This is a string containing more information about this experiment');
 INSERT INTO "EXPERIMENT"("id", "name", "image", "info")
-    VALUES(2, 'Experiment2', './placeholder.png', 'This is a string containing more information about this experiment');
+    VALUES(9997, 'Experiment2', './placeholder.png', 'This is a string containing more information about this experiment');
 INSERT INTO "EXPERIMENT"("id", "name", "image", "info")
-    VALUES(3, 'Experiment3', './placeholder.png', 'This is a string containing more information about this experiment');
+    VALUES(9998, 'Experiment3', './placeholder.png', 'This is a string containing more information about this experiment');
 INSERT INTO "EXPERIMENT"("id", "name", "image", "info")
-    VALUES(4, 'Experiment4', './placeholder.png', 'This is a string containing more information about this experiment');
+    VALUES(9999, 'Experiment4', './placeholder.png', 'This is a string containing more information about this experiment');
 
 -- RaspberryPis
 INSERT INTO "RASPBERRYPI"("id", "piName", "ip")
-    VALUES(1, 'Raspberry-1', '192.168.1.1');
+    VALUES(9998, 'Raspberry-1', '192.168.1.1');
 INSERT INTO "RASPBERRYPI"("id", "piName", "ip")
-    VALUES(2, 'Raspberry-2', '192.168.1.2');
+    VALUES(9999, 'Raspberry-2', '192.168.1.2');
 
 --Plants
 -- Experiment 1 Plants
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(1, 'Plant1', 1, 1);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(4, 'Plant4', 1, 1);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(5, 'Plant5', 1, 1);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9989, 'Plant1', 9998, 9996);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9992, 'Plant4', 9998, 9996);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9993, 'Plant5', 9998, 9996);
 --Experiment 2 Plants
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(2, 'Plant2', 1, 2);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9990, 'Plant2', 9998, 9997);
 --Experiment 3 Plants
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(3, 'Plant3', 1, 3);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(6, 'Plant6', 1, 3);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(7, 'Plant7', 1, 3);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9991, 'Plant3', 9998, 9998);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9994, 'Plant6', 9998, 9998);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9995, 'Plant7', 9998, 9998);
 --Experiment 4 Plants
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(8, 'Plant8', 2, 4);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9, 'Plant9', 2, 4);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(10, 'Plant10', 2, 4);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9996, 'Plant8', 9999, 9999);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9997, 'Plant9', 9999, 9999);
+INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9998, 'Plant10', 9999, 9999);
 
 --Plant Data
 -- plant1
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:15 AM', 21, 43, 27, 1);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:16 AM', 21, 75, 97, 1);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:17 AM', 28, 29, 99, 1);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:18 AM', 30, 71, 46, 1);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:19 AM', 21, 56, 24, 1);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:20 AM', 22, 28, 18, 1);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:21 AM', 24, 69, 9, 1);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:22 AM', 23, 36, 4, 1);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:23 AM', 30, 56, 16, 1);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:24 AM', 20, 44, 10, 1);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:15 AM', 21, 43, 27, 9989);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:16 AM', 21, 75, 97, 9989);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:17 AM', 28, 29, 99, 9989);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:18 AM', 30, 71, 46, 9989);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:19 AM', 21, 56, 24, 9989);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:20 AM', 22, 28, 18, 9989);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:21 AM', 24, 69, 9, 9989);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:22 AM', 23, 36, 4, 9989);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:23 AM', 30, 56, 16, 9989);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220602 10:35:24 AM', 20, 44, 10, 9989);
 -- plant2
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:15 PM', 21, 43, 27, 2);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:16 PM', 21, 75, 97, 2);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:17 PM', 28, 29, 99, 2);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:18 PM', 30, 71, 46, 2);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:19 PM', 21, 56, 24, 2);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:20 PM', 22, 28, 18, 2);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:21 PM', 24, 69, 9, 2);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:22 PM', 23, 36, 4, 2);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:23 PM', 30, 56, 16, 2);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:24 PM', 20, 44, 10, 2);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:15 PM', 21, 43, 27, 9990);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:16 PM', 21, 75, 97, 9990);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:17 PM', 28, 29, 99, 9990);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:18 PM', 30, 71, 46, 9990);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:19 PM', 21, 56, 24, 9990);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:20 PM', 22, 28, 18, 9990);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:21 PM', 24, 69, 9, 9990);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:22 PM', 23, 36, 4, 9990);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:23 PM', 30, 56, 16, 9990);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220604 02:41:24 PM', 20, 44, 10, 9990);
 -- plant 3
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:25 PM', 21, 43, 27, 3);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:26 PM', 21, 75, 97, 3);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:27 PM', 28, 29, 99, 3);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:28 PM', 30, 71, 46, 3);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:29 PM', 21, 56, 24, 3);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:30 PM', 22, 28, 18, 3);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:31 PM', 24, 69, 9, 3);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:32 PM', 23, 36, 4, 3);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:33 PM', 30, 56, 16, 3);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:34 PM', 20, 44, 10, 3);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:25 PM', 21, 43, 27, 9991);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:26 PM', 21, 75, 97, 9991);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:27 PM', 28, 29, 99, 9991);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:28 PM', 30, 71, 46, 9991);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:29 PM', 21, 56, 24, 9991);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:30 PM', 22, 28, 18, 9991);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:31 PM', 24, 69, 9, 9991);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:32 PM', 23, 36, 4, 9991);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:33 PM', 30, 56, 16, 9991);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220607 08:03:34 PM', 20, 44, 10, 9991);
 -- plant 4
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:15 PM', 21, 43, 27, 4);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:16 PM', 21, 75, 97, 4);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:17 PM', 28, 29, 99, 4);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:18 PM', 30, 71, 46, 4);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:19 PM', 21, 56, 24, 4);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:20 PM', 22, 28, 18, 4);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:21 PM', 24, 69, 9, 4);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:22 PM', 23, 36, 4, 4);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:23 PM', 30, 56, 16, 4);
-INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:24 PM', 20, 44, 10, 4);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:15 PM', 21, 43, 27, 9992);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:16 PM', 21, 75, 97, 9992);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:17 PM', 28, 29, 99, 9992);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:18 PM', 30, 71, 46, 9992);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:19 PM', 21, 56, 24, 9992);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:20 PM', 22, 28, 18, 9992);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:21 PM', 24, 69, 9, 9992);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:22 PM', 23, 36, 4, 9992);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:23 PM', 30, 56, 16, 9992);
+INSERT INTO "PLANTDATA"("time", "temperature", "humidity", "distance", "plantID") VALUES('20220610 06:35:24 PM', 20, 44, 10, 9992);
