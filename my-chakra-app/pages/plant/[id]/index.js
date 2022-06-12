@@ -257,7 +257,9 @@ export default function PlantCard() {
                                 noWrap
                                 sx={{ flexGrow: 1 }}
                             >
-                                GREENSTONE
+                                <Link href="/" color="inherit" style={{textDecoration:'none'}}>
+                                        GREENSTONE
+                                    </Link>
                             </Typography>
                             <IconButton color="inherit">
                                 <Badge badgeContent={4} color="secondary">
