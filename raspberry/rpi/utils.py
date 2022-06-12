@@ -55,6 +55,10 @@ class Config:
     if log_file_name is None:
         log_file_name = "logs/log.log"
 
+    hostname = check_in_config("HOSTNAME")
+    if hostname is None:
+        hostname = "pi"
+
     store = check_in_config("STORAGE")
     if store is None:
         store = "storage/store.csv"

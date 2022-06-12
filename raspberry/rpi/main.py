@@ -14,7 +14,7 @@ def main(arduino: ArduinoI) -> None:
     logging.info("Starting main thread on %s", socket.gethostname())
 
     poll_rate: float = Config.poll_rate
-    data_controller = server_connect.DataController(["time", "temperature", "humidity", "distance"])
+    data_controller = server_connect.DataController(["time", "temperature", "humidity", "distance", "plant"])
     data_controller.start()
     stopping = False
 
@@ -52,6 +52,7 @@ def main(arduino: ArduinoI) -> None:
 
         if arduino_result is not None:
             arduino_result["time"] = cur_time
+            arduino_result["plant"] = 1
             data_controller.queue.put(arduino_result)
 
         time.sleep(poll_rate)

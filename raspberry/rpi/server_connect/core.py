@@ -3,7 +3,6 @@ from itertools import islice
 from queue import Queue
 from threading import Thread
 from typing import Dict, List
-from socket import gethostname
 import time
 import logging
 import json
@@ -22,7 +21,7 @@ class DataController(Thread):
         self.__store_path: str = Config.store
         self.__chunk_size: int = Config.chunk_size
         self.__unsaved = self.__get_unsaved()
-        self.__hostname = gethostname()
+        self.__hostname = Config.hostname
         self.__ordering = ordering
         self.queue: Queue[Dict] = Queue()
 
@@ -115,7 +114,7 @@ class DataController(Thread):
             }
 
             try:
-                response = self.__post(url, "sendData", to_send)
+                response = self.__post(url, "edit/plant", to_send)
             except Exception:
                 logging.warning("Couldn't connect to %s.", url)
                 break

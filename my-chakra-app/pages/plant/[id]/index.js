@@ -138,10 +138,13 @@ export default function PlantCard() {
     const [distance, setDistance] = React.useState([
     ])
     const { id } = router.query
+    let setupData = false;
+    let setupPusher = false;
 
     useEffect(() => {
         async function fetchData() {
-            if(id === undefined) return;
+            if(id === undefined || setupData) return;
+            setupData = true;
 
             let plantData = await fetcher(window.location.origin + "/api/plant/" + id + "/data");
             let temperatureCopy = []
@@ -172,32 +175,35 @@ export default function PlantCard() {
     }, [id])
 
     useEffect(() => {
+        if(id === undefined || setupPusher) return;
+        setupPusher = true;
+
         const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
             cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
             useTLS: false
         });
 
-        const channel = pusher.subscribe('plant-channel');
+        const channel = pusher.subscribe('plant-channel-' + id);
 
         channel.bind("new-data", function (data) {
             let temperatureCopy = []
             let humidityCopy = []
             let distanceCopy = []
 
-            for(let i = 0; i < data.data.length; i++) {
-                let record = data.data[i]
-                console.log(record)
+            for(let i = 0; i < data.length; i++) {
+                let record = data[i]
+                console.log(record.time)
                 
                 if(record.hasOwnProperty("temperature")) {
-                    temperatureCopy.push({x: record.time, y: record.temperature})
+                    temperatureCopy.push({x: record.time*1000, y: record.temperature})
                 }
                 
                 if(record.hasOwnProperty("humidity")) {
-                    humidityCopy.push({x: record.time, y: record.humidity})
+                    humidityCopy.push({x: record.time*1000, y: record.humidity})
                 }
                 
                 if(record.hasOwnProperty("distance")) {
-                    distanceCopy.push({x: record.time, y: record.distance})
+                    distanceCopy.push({x: record.time*1000, y: record.distance})
                 }
             }
 
@@ -210,11 +216,13 @@ export default function PlantCard() {
             channel.unbind('new-data');
             pusher.unsubscribe('plant-channel')
         }
-    }, []);
+    }, [id]);
 
     const toggleDrawer = () => {
         setOpen(!open);
     };
+    console.log(temperature)
+
 
     return (
         <><Head>
@@ -321,24 +329,24 @@ export default function PlantCard() {
                                                         label: "Temperature",
                                                         backgroundColor: 'rgb(255, 99, 132)',
                                                         borderColor: 'rgb(255, 99, 132)',
-                                                        lineTension: 0.1,
-                                                        data: temperature,
+                                                        lineTension: 0.2,
+                                                        data: temperature.slice(-15),
                                                         fill: false,
                                                     },
                                                     {
                                                         label: "Humidity",
                                                         backgroundColor: 'rgb(132, 99, 255)',
                                                         borderColor: 'rgb(132, 99, 255)',
-                                                        lineTension: 0.1,
-                                                        data: humidity,
+                                                        lineTension: 0.2,
+                                                        data: humidity.slice(-15),
                                                         fill: false,
                                                     },
                                                     {
                                                         label: "Distance",
                                                         backgroundColor: 'rgb(132, 99, 132)',
                                                         borderColor: 'rgb(132, 99, 132)',
-                                                        lineTension: 0.1,
-                                                        data: distance,
+                                                        lineTension: 0.2,
+                                                        data: distance.slice(-15),
                                                         fill: false,
                                                     },
                                                 ]
@@ -348,7 +356,14 @@ export default function PlantCard() {
                                                 },
                                                 x: {
                                                     type: 'linear',
-                                                    beginAtZero: false
+                                                    beginAtZero: false,
+                                                    ticks: {
+                                                        autoSkip: true,
+                                                        maxTicksLimit: 10,
+                                                        callback: function(value, index, ticks) {
+                                                            return new Intl.DateTimeFormat("en-GB", {timeStyle: 'medium'}).format(new Date(value));
+                                                        }
+                                                    }
                                                 }
                                             }}} />
                                         </CardContent>
