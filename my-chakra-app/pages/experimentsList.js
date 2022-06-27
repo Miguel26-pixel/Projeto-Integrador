@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -15,17 +14,12 @@ import Stack from '@mui/material/Stack';
 import { useRouter } from 'next/router';
 import { fetcher } from './api/fetcher';
 import Layout from '../components/Layout';
-import Header from '../components/navbar';
-import TextC from '../components/textC';
-import TreeC from '../components/treeC';
-import LeavesC from '../components/leavesC';
-import Eform from '../components/createExperimentForm';
 import {FormControl, InputLabel, Input, FormHelperText} from '@mui/material';
 // import Chart from './Chart';
 // import Deposits from './Deposits';
 // import Orders from './Orders';
 
-function MainPageContent() {
+function ExperimentListPage() {
     const router = useRouter();
     const [openf, setOpenf] = useState(false);
     const [experiments, setExperiments] = useState(<></>)
@@ -69,21 +63,47 @@ function MainPageContent() {
         fetchData();
     }, [])
 
-    return (
-        <><Head>
-            <title>GREENSTONE</title>
-            <link rel="icon" type="image/x-icon" href="/favicon.ico"></link>
-        </Head>
-        <div>
-            <main>
-                <TreeC />
-                <TextC />
-                <LeavesC />
-            </main>
-        </div></>
+    return (<><Layout>
+        <Toolbar />
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+
+            <Stack
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+                spacing={2}
+            >
+                <Button margin-bottom="5%" variant="outlined" onClick={handleClickOpen}>New experiment</Button>
+                <Dialog open={openf} onClose={handleClose}>
+                    <form action={"/api/create/experiment/"} method="POST" className="flex flex-col">
+                        <InputLabel htmlFor="name">Name</InputLabel>
+                        <Input id="exp-name" aria-describedby="my-helper-name" />
+
+                        <InputLabel htmlFor="info">More info</InputLabel>
+                        <Input id="my-exp-info" aria-describedby="my-helper-info" />
+                        
+                        <InputLabel htmlFor="image">Image</InputLabel>
+                        <Input type="file" id="my-input" aria-describedby="my-helper-text" />
+                        
+                        <button
+                            type="submit"
+                            className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </Dialog>
+            </Stack>
+
+            <Grid container spacing={2}>
+                {experiments}
+            </Grid>
+        </Container>
+        </Layout>
+    </>
     );
 }
 
-export default function MainPage() {
-    return <MainPageContent />;
+export default function ExperimentPage() {
+    return <ExperimentListPage />;
 }
