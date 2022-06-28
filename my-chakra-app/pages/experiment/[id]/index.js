@@ -59,13 +59,13 @@ export default function ExperimentList() {
 
             setPlants(plantData.map((value) =>
                 <Button key={value.id} sx={{
-                    width: "90%", mx: "3%", borderRadius: 3, bkcolor: "gray", my: "2%", boxShadow: 2, bgcolor: "white", fontWeight: 'light', p: 0, color: "black",
+                    width: "90%", mx: "3%", borderRadius: 3, bkcolor: "gray", my: "2%", boxShadow: 3, bgcolor: "white", fontWeight: 'light', p: 0, color: "black",
                     '&:hover': {
                         color: 'green',
                         backgroundColor: 'white',
                     },
                 }} onClick={() => router.push('/plant/' + value.id)}>
-                    <CardContent backgroundColor="white">
+                    <CardContent backgroundColor="green">
                         <Image src={gif} alt="gif" height={100} width={100}/>
                         <Typography >
                             {value.plantName}
