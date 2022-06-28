@@ -19,6 +19,9 @@ import {
     Legend,
 } from 'chart.js';
 import { fetcher } from '../../api/fetcher';
+import Header from '../../../components/navbar';
+
+
 
 ChartJS.register(
     CategoryScale,
@@ -119,7 +122,7 @@ export default function PlantCard() {
     }, [id]);
 
     return (
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <><Header></Header><Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Stack
                 direction="row"
                 justifyContent="flex-end"
@@ -133,18 +136,18 @@ export default function PlantCard() {
                 alignItems="center">
                 {/* Recent Orders */}
                 {/* <Grid item >
-            <Spritesheet
-                className={`my-element__class--style`}
-                image={`https://raw.githubusercontent.com/danilosetra/react-responsive-spritesheet/master/assets/images/examples/sprite-image-horizontal.png`}
-                widthFrame={70}
-                heightFrame={500}
-                width={70}
-                steps={14}
-                fps={10}
-                autoplay={true}
-                loop={true}
-              />
-                </Grid> */}
+<Spritesheet
+    className={`my-element__class--style`}
+    image={`https://raw.githubusercontent.com/danilosetra/react-responsive-spritesheet/master/assets/images/examples/sprite-image-horizontal.png`}
+    widthFrame={70}
+    heightFrame={500}
+    width={70}
+    steps={14}
+    fps={10}
+    autoplay={true}
+    loop={true}
+  />
+    </Grid> */}
                 <Grid item xs={12}>
                     <Card>
                         <CardContent>
@@ -197,7 +200,7 @@ export default function PlantCard() {
                     </Card>
                 </Grid>
             </Grid>
-        </Container>
+        </Container></>
     )
 }
 

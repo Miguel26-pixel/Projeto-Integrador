@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { useRouter } from 'next/router';
 import { fetcher } from './api/fetcher';
-import Layout from '../components/Layout';
+import Header from '../components/navbar';
 import {FormControl, InputLabel, Input, FormHelperText} from '@mui/material';
 // import Chart from './Chart';
 // import Deposits from './Deposits';
@@ -63,7 +63,7 @@ function ExperimentListPage() {
         fetchData();
     }, [])
 
-    return (<><Layout>
+    return (<><Header></Header>
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 
@@ -73,8 +73,8 @@ function ExperimentListPage() {
                 alignItems="center"
                 spacing={2}
             >
-                <Button variant="outlined" onClick={handleClickOpen}>New experiment</Button>
-                <Dialog open={openf} onClose={handleClose}>
+                    <Button variant="outlined" onClick={handleClickOpen}>New experiment</Button>                
+                    <Dialog open={openf} onClose={handleClose}>
                     <form action={"/api/create/experiment/"} method="POST" className="flex flex-col">
                         
                         <InputLabel htmlFor="name">Name</InputLabel>
@@ -96,11 +96,10 @@ function ExperimentListPage() {
                 </Dialog>
             </Stack>
 
-            <Grid container spacing={2}>
+            <Grid container spacing={2} marginTop>
                 {experiments}
             </Grid>
         </Container>
-        </Layout>
     </>
     );
 }

@@ -11,6 +11,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { fetcher } from '../../api/fetcher';
+import Header from '../../../components/navbar';
+import {FormControl, InputLabel, Input, FormHelperText} from '@mui/material';
 
 export default function ExperimentList() {
     const router = useRouter();
@@ -74,7 +76,7 @@ export default function ExperimentList() {
     }, [id])
 
     return (
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <><Header></Header><Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Stack
                 direction="row"
                 justifyContent="flex-end"
@@ -84,39 +86,21 @@ export default function ExperimentList() {
                 <Button margin-right="0" variant="outlined" onClick={handleClickOpen}>New plant</Button>
                 <Dialog open={openf} onClose={handleClose}>
                     <form action={"/api/create/plant/"} method="POST" className="flex flex-col">
-                        <div>
-                            <label htmlFor="name" className="mb-2 italic">Name</label>
-                            <input
-                                className="mb-4 border-b-2"
-                                name="plantName"
-                                type="text"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="RaspberrypiID" className="mb-2 italic">Raspberrypi ID</label>
-                            <input
-                                className="mb-4 border-b-2"
-                                name="piID"
-                                type="text"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="ExperimentID" className="mb-2 italic">Experiment ID</label>
-                            <input
-                                className="mb-4 border-b-2"
-                                name="experimentID"
-                                type="text"
-                                required
-                            />
-                        </div>
-                        <button
+                        <InputLabel htmlFor="name">Name</InputLabel>
+                        <Input id="exp-name" aria-describedby="my-helper-name" />
+
+                        <InputLabel htmlFor="RaspberrypiID">Raspberrypi ID</InputLabel>
+                        <Input id="my-exp-info" aria-describedby="my-helper-info" />
+
+                        <InputLabel htmlFor="ExperimentID">Experiment ID</InputLabel>
+                        <Input id="my-input" aria-describedby="my-helper-text" />
+
+                        <Button
                             type="submit"
                             className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
                         >
                             Submit
-                        </button>
+                        </Button>
                     </form>
                 </Dialog>
             </Stack>
@@ -129,7 +113,7 @@ export default function ExperimentList() {
                     {plants}
                 </Grid>
             </Grid>
-        </Container>
+        </Container></>
     )
 }
 
