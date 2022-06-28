@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
+import Image from 'next/image';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -12,6 +13,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { fetcher } from '../../api/fetcher';
 import Header from '../../../components/navbar';
+import gif from '../../../public/plant.gif';
 import {FormControl, InputLabel, Input, FormHelperText} from '@mui/material';
 
 export default function ExperimentList() {
@@ -57,13 +59,14 @@ export default function ExperimentList() {
 
             setPlants(plantData.map((value) =>
                 <Button key={value.id} sx={{
-                    width: "90%", mx: "3%", borderRadius: 3, bkcolor: "gray", my: "2%", boxShadow: 2, bgcolor: "white", fontWeight: 'light', p: 0, color: "black",
+                    width: "90%", mx: "3%", borderRadius: 3, bkcolor: "white", my: "2%", boxShadow: 2, bgcolor: "white", fontWeight: 'light', p: 0, color: "black",
                     '&:hover': {
                         color: 'green',
                         backgroundColor: 'white',
                     },
                 }} onClick={() => router.push('/plant/' + value.id)}>
-                    <CardContent>
+                    <CardContent backgroundColor="white">
+                        <Image src={gif} alt="gif" height={100} width={100}/>
                         <Typography >
                             {value.plantName}
                         </Typography>
