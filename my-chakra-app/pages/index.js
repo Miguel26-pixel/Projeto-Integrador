@@ -80,6 +80,8 @@ function MainPageContent() {
                 <TextC />
                 <LeavesC />
             </main>
+
+            
         </div></>
     );
 }

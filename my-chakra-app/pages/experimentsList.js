@@ -73,9 +73,10 @@ function ExperimentListPage() {
                 alignItems="center"
                 spacing={2}
             >
-                <Button margin-bottom="5%" variant="outlined" onClick={handleClickOpen}>New experiment</Button>
+                <Button variant="outlined" onClick={handleClickOpen}>New experiment</Button>
                 <Dialog open={openf} onClose={handleClose}>
                     <form action={"/api/create/experiment/"} method="POST" className="flex flex-col">
+                        
                         <InputLabel htmlFor="name">Name</InputLabel>
                         <Input id="exp-name" aria-describedby="my-helper-name" />
 
@@ -85,12 +86,12 @@ function ExperimentListPage() {
                         <InputLabel htmlFor="image">Image</InputLabel>
                         <Input type="file" id="my-input" aria-describedby="my-helper-text" />
                         
-                        <button
+                        <Button
                             type="submit"
                             className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
                         >
                             Submit
-                        </button>
+                        </Button>
                     </form>
                 </Dialog>
             </Stack>
