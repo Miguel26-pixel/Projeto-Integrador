@@ -9,14 +9,24 @@ export default async (req, res) => {
         const piData = req.body.piData;
         const piName = piData.hostname;
         const piIP = piData.ip;
-        for (var plant : piData.data){
+
+        const newPi = await prisma.pi.create({
+            data : {
+                piName : piName,
+                ip: piIP
+            }
+        });
+        
+        const plantsData = piData.data;
+        for (let i = 0; i < plantsData.length(); i++){
+            const plant = plantsData[i];
             const editPlantID = parseInt(plant.plant);
             const plantExists = await prisma.$exists.PLANT({
-                id : editPlantID;
-            })
+                id : editPlantID
+            });
             if (!plantExists){
-                // TODO: create new plant after Nuno changes the packet contents
-                res.status(400).json( message: "That plant does not exist" );
+                // TODO: we might want to create a new plant here
+                res.status(400).json( { message : "That plant does not exist" } );
             }
             
             const updatedPlant = await prisma.PLANT.update({
@@ -24,30 +34,30 @@ export default async (req, res) => {
                     id : editPlantID
                 },
                 data : {
-                    
                     plantdata : {
                         create : [
                             {
                                 time : plant.time,
                                 temperature : plant.temperature,
                                 humidity : plant.humidity,
-                                // distance : plant.distance
+                                // distance : plant.distance,
                                 plantID : editPlantID
                             }
                         ]
                     }
                 }
-            })
+            });
+
+            const updatedPi = await prisma.RASPBERRYPI.update({
+                where : {
+                    id : newPi.id
+                },
+                data : {
+                    plant
+                }
+            });
 
         }
-
-        const newPi = await prisma.pi.create({
-            data : {
-                piName : req.body.piName,
-                ip: req.body.ip
-            }
-        })
-        console.log(newPi);
         res.redirect("/", 303).json(newPi);
     }
     catch (error) {
