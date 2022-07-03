@@ -7,12 +7,12 @@ export default async (req, res) => {
 
     try{
         const piData = req.body.piData;
-        const piName = piData.hostname;
+        const hostname = piData.hostname;
         const piIP = piData.ip;
 
         const newPi = await prisma.pi.create({
             data : {
-                piName : piName,
+                hostname : hostname,
                 ip: piIP
             }
         });

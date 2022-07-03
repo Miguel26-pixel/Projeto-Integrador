@@ -20,7 +20,7 @@ model EXPERIMENT {
 
 model RASPBERRYPI {
   id     Int     @id @default(autoincrement())
-  piName String
+  hostname String  @unique
   port   Int
   plants PLANT[]
 }

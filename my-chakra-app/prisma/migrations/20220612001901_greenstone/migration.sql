@@ -11,7 +11,7 @@ CREATE TABLE "EXPERIMENT" (
 -- CreateTable
 CREATE TABLE "RASPBERRYPI" (
     "id" SERIAL NOT NULL,
-    "piName" TEXT NOT NULL,
+    "hostname" TEXT UNIQUE NOT NULL,
     "port" INTEGER NOT NULL,
 
     CONSTRAINT "RASPBERRYPI_pkey" PRIMARY KEY ("id")
@@ -65,9 +65,9 @@ INSERT INTO "EXPERIMENT"("id", "name", "image", "info")
     VALUES(9999, 'Experiment4', './placeholder.png', 'This is a string containing more information about this experiment');
 
 -- RaspberryPis
-INSERT INTO "RASPBERRYPI"("id", "piName", "port")
+INSERT INTO "RASPBERRYPI"("id", "hostname", "port")
     VALUES(9998, 'Raspberry-1', '1');
-INSERT INTO "RASPBERRYPI"("id", "piName", "port")
+INSERT INTO "RASPBERRYPI"("id", "hostname", "port")
     VALUES(9999, 'Raspberry-2', '2');
 
 --Plants
