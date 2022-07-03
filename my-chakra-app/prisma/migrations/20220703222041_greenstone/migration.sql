@@ -11,7 +11,7 @@ CREATE TABLE "EXPERIMENT" (
 -- CreateTable
 CREATE TABLE "RASPBERRYPI" (
     "id" SERIAL NOT NULL,
-    "hostname" TEXT UNIQUE NOT NULL,
+    "hostname" TEXT NOT NULL,
     "port" INTEGER NOT NULL,
 
     CONSTRAINT "RASPBERRYPI_pkey" PRIMARY KEY ("id")
@@ -21,7 +21,8 @@ CREATE TABLE "RASPBERRYPI" (
 CREATE TABLE "PLANT" (
     "id" SERIAL NOT NULL,
     "plantName" TEXT NOT NULL,
-    "piID" INTEGER NOT NULL,
+    "piHostname" TEXT NOT NULL,
+    "piPort" INTEGER NOT NULL,
     "experimentID" INTEGER NOT NULL,
 
     CONSTRAINT "PLANT_pkey" PRIMARY KEY ("id")
@@ -39,16 +40,20 @@ CREATE TABLE "PLANTDATA" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "RASPBERRYPI_hostname_port_key" ON "RASPBERRYPI"("hostname", "port");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "PLANT_id_key" ON "PLANT"("id");
 
 -- AddForeignKey
 ALTER TABLE "PLANT" ADD CONSTRAINT "PLANT_experimentID_fkey" FOREIGN KEY ("experimentID") REFERENCES "EXPERIMENT"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PLANT" ADD CONSTRAINT "PLANT_piID_fkey" FOREIGN KEY ("piID") REFERENCES "RASPBERRYPI"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PLANT" ADD CONSTRAINT "PLANT_piHostname_piPort_fkey" FOREIGN KEY ("piHostname", "piPort") REFERENCES "RASPBERRYPI"("hostname", "port") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PLANTDATA" ADD CONSTRAINT "PLANTDATA_plantID_fkey" FOREIGN KEY ("plantID") REFERENCES "PLANT"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
 
 CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 SELECT create_hypertable('"PLANTDATA"', 'time');
@@ -72,19 +77,19 @@ INSERT INTO "RASPBERRYPI"("id", "hostname", "port")
 
 --Plants
 -- Experiment 1 Plants
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9989, 'Plant1', 9998, 9996);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9992, 'Plant4', 9998, 9996);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9993, 'Plant5', 9998, 9996);
+INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID") VALUES(9989, 'Plant1', 'Raspberry-1', '1', 9996);
+INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID") VALUES(9992, 'Plant4', 'Raspberry-1', '1', 9996);
+INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID") VALUES(9993, 'Plant5', 'Raspberry-1', '1', 9996);
 --Experiment 2 Plants
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9990, 'Plant2', 9998, 9997);
+INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID") VALUES(9990, 'Plant2', 'Raspberry-1', '1', 9997);
 --Experiment 3 Plants
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9991, 'Plant3', 9998, 9998);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9994, 'Plant6', 9998, 9998);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9995, 'Plant7', 9998, 9998);
+INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID") VALUES(9991, 'Plant3', 'Raspberry-1', '1', 9998);
+INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID") VALUES(9994, 'Plant6', 'Raspberry-1', '1', 9998);
+INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID") VALUES(9995, 'Plant7', 'Raspberry-1', '1', 9998);
 --Experiment 4 Plants
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9996, 'Plant8', 9999, 9999);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9997, 'Plant9', 9999, 9999);
-INSERT INTO "PLANT"("id", "plantName", "piID", "experimentID") VALUES(9998, 'Plant10', 9999, 9999);
+INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID") VALUES(9996, 'Plant8', 'Raspberry-2', '2', 9999);
+INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID") VALUES(9997, 'Plant9', 'Raspberry-2', '2', 9999);
+INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID") VALUES(9998, 'Plant10', 'Raspberry-2', '2', 9999);
 
 --Plant Data
 -- plant1
