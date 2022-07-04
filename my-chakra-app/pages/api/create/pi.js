@@ -7,23 +7,24 @@ export default async (req, res) => {
 
     try{
         const piData = req.body.piData;
-        const hostname = piData.hostname;
-        const piIP = piData.ip;
+        const piHostname = piData.hostname;
 
         const newPi = await prisma.pi.create({
             data : {
-                hostname : hostname,
-                ip: piIP
+                hostname : piHostname
             }
         });
         
         const plantsData = piData.data;
         for (let i = 0; i < plantsData.length(); i++){
             const plant = plantsData[i];
-            const editPlantID = parseInt(plant.plant);
+            const piPort = parseInt(plant.plant);
+
             const plantExists = await prisma.$exists.PLANT({
-                id : editPlantID
+                piHostname : piHostname,
+                piPort : piPort
             });
+
             if (!plantExists){
                 // TODO: we might want to create a new plant here
                 res.status(400).json( { message : "That plant does not exist" } );
@@ -31,7 +32,8 @@ export default async (req, res) => {
             
             const updatedPlant = await prisma.PLANT.update({
                 where: {
-                    id : editPlantID
+                    piHostname : piHostname,
+                    piPort : piPort
                 },
                 data : {
                     plantdata : {
@@ -40,7 +42,7 @@ export default async (req, res) => {
                                 time : plant.time,
                                 temperature : plant.temperature,
                                 humidity : plant.humidity,
-                                // distance : plant.distance,
+                                distance : plant.distance,
                                 plantID : editPlantID
                             }
                         ]
