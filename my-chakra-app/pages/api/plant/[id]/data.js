@@ -6,7 +6,7 @@ export default async function getPiPlants (req, res) {
     }
     else{
         try{
-            let plantData = await prisma.PLANTDATA.findMany({
+            let plantData = await prisma.PLANTDATA.findUnique({
                 where: {
                     plantID: parseInt(req.query.id)
                 }
