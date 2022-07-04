@@ -20,21 +20,18 @@ model EXPERIMENT {
 
 model RASPBERRYPI {
   id     Int       @id @default(autoincrement())
-  hostname String  
-  port   Int
+  hostname String  @unique
   plants PLANT[]
-  @@unique([hostname, port], name : "raspberryID")
 }
 
 model PLANT {
-  id        Int         @id @default(autoincrement())
-  plantName String
-  plantdata PLANTDATA[]
-  pi        RASPBERRYPI? @relation(fields: [piHostname, piPort], references: [hostname, port])
-  piHostname String
-  piPort    Int
-
-  @@unique([id])
+  id           Int         @id @default(autoincrement())
+  plantName    String
+  plantdata    PLANTDATA[]
+  pi           RASPBERRYPI? @relation(fields: [piHostname], references: [hostname])
+  piHostname   String
+  piPort       Int
+  @@unique([piHostname, piPort])
   experiment   EXPERIMENT? @relation(fields: [experimentID], references: [id])
   experimentID Int
 }
