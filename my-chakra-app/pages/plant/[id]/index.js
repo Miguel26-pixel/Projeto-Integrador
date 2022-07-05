@@ -180,10 +180,13 @@ export default function PlantCard() {
                     <textarea id="my-exp-info" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.info}></textarea>
 
                     <InputLabel htmlFor="RaspberrypiPort">RaspberryPi port</InputLabel>
-                    <textarea id="my-exp-raspport" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.port}></textarea>
+                    <Input id="my-exp-raspport" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.reqPort}></Input>
+
+                    <InputLabel htmlFor="RaspberrypiName">RaspberryPi name</InputLabel>
+                    <textarea id="my-exp-raspname" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.reqName}></textarea>
 
                     <InputLabel htmlFor="ExperimentID">Experiment ID</InputLabel>
-                    <textarea id="my-exp-experid" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.experimentID}></textarea>
+                    <Input id="my-exp-experid" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.reqExperiment}></Input>
                 
                     
                     <div>
