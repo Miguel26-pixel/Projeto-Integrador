@@ -52,7 +52,7 @@ def main(arduino: ArduinoI) -> None:
 
         if arduino_result is not None:
             arduino_result["time"] = cur_time
-            arduino_result["plant"] = 1
+            arduino_result["plant"] = arduino.port
             data_controller.queue.put(arduino_result)
 
         time.sleep(poll_rate)

@@ -1,5 +1,4 @@
 export async function fetcher(url, data) {
-    console.log(data);
     let options = {
         method : data ? "POST" : "GET",
         credentials : "include",
@@ -12,5 +11,5 @@ export async function fetcher(url, data) {
         options.body = JSON.stringify(data);
     }
 
-    return (await fetch(url, options)).json()
+    return (await fetch(url, options)).json();
 }

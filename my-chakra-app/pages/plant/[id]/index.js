@@ -18,6 +18,14 @@ import {
     Legend,
 } from 'chart.js';
 import { fetcher } from '../../api/fetcher';
+import PHeader from '../../../components/plantsNavBar';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import CardMedia from '@mui/material/CardMedia';
+import {FormControl, InputLabel, Input, FormHelperText} from '@mui/material';
+
+
 
 ChartJS.register(
     CategoryScale,
@@ -37,9 +45,20 @@ export default function PlantCard() {
     ])
     const [distance, setDistance] = useState([
     ])
+    const [openEdit, setOpenEdit] = useState(false)
+
+    const [plant, setPlant] = useState(null)
+
+    const handleClickOpen = () => {
+        setOpenEdit(true);
+    };
+
+    const handleClose = () => {
+        setOpenEdit(false);
+    };
+
     const { id } = router.query
     let setupData = false;
-    let setupPusher = false;
 
     useEffect(() => {
         async function fetchData() {
@@ -47,9 +66,15 @@ export default function PlantCard() {
             setupData = true;
 
             let plantData = await fetcher(window.location.origin + "/api/plant/" + id + "/data");
+            let plt = await fetcher(window.location.origin + "/api/plant/" + id + "");
+            setPlant(plt);
             let temperatureCopy = []
             let humidityCopy = []
             let distanceCopy = []
+
+            console.log(plantData)
+            console.log(plt)
+
 
             plantData.forEach((record) => {
                 let time = Date.parse(record.time)
@@ -72,50 +97,53 @@ export default function PlantCard() {
         }
 
         fetchData();
-    }, [id])
+    }, [router.query])
 
     useEffect(() => {
-        if (id === undefined || setupPusher) return;
-        setupPusher = true;
+        if (id !== undefined) {
+            const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
+                cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
+                useTLS: false
+            });
 
-        const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
-            cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
-            useTLS: false
-        });
+            const channel = pusher.subscribe('plant-channel-' + id);
+            console.log(channel)
 
-        const channel = pusher.subscribe('plant-channel-' + id);
+            channel.bind("new-data", function (data) {
+                console.log("hello")
+                let temperatureCopy = []
+                let humidityCopy = []
+                let distanceCopy = []
 
-        channel.bind("new-data", function (data) {
-            let temperatureCopy = []
-            let humidityCopy = []
-            let distanceCopy = []
+                for (let i = 0; i < data.length; i++) {
+                    let record = data[i]
+                    let time = Date.parse(record.time)
 
-            for (let i = 0; i < data.length; i++) {
-                let record = data[i]
+                    if (record.hasOwnProperty("temperature")) {
+                        temperatureCopy.push({ x: time, y: record.temperature })
+                    }
 
-                if (record.hasOwnProperty("temperature")) {
-                    temperatureCopy.push({ x: record.time * 1000, y: record.temperature })
+                    if (record.hasOwnProperty("humidity")) {
+                        humidityCopy.push({ x: time, y: record.humidity })
+                    }
+
+                    if (record.hasOwnProperty("distance")) {
+                        distanceCopy.push({ x: time, y: record.distance })
+                    }
                 }
 
-                if (record.hasOwnProperty("humidity")) {
-                    humidityCopy.push({ x: record.time * 1000, y: record.humidity })
-                }
-
-                if (record.hasOwnProperty("distance")) {
-                    distanceCopy.push({ x: record.time * 1000, y: record.distance })
-                }
-            }
-
-            setTemperature(temp => [...temp, ...temperatureCopy])
-            setHumidity(hum => [...hum, ...humidityCopy])
-            setDistance(dist => [...dist, ...distanceCopy])
-        });
+                setTemperature(temp => [...temp, ...temperatureCopy])
+                setHumidity(hum => [...hum, ...humidityCopy])
+                setDistance(dist => [...dist, ...distanceCopy])
+            });
+        }
 
         return () => {
+            console.log("heyo")
             channel.unbind('new-data');
-            pusher.unsubscribe('plant-channel')
+            pusher.unsubscribe('plant-channel-'+id)
         }
-    }, [id]);
+    }, [router.query]);
 
     let maxVal = (Math.max(...temperature.map((val) => val.x)))
     let minVal = (Math.min(...temperature.map((val) => val.x)))
@@ -129,6 +157,45 @@ export default function PlantCard() {
     }
 
     return (
+        <>
+        <PHeader></PHeader>
+        <Stack
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+                spacing={2}
+            >
+            <Button variant="outlined" onClick={handleClickOpen} style={{marginRight: "80px", marginTop: "10px"}}>Take Notes</Button>
+            <Dialog
+                open={openEdit}
+                onClose={handleClose}
+                fullWidth
+                maxWidth = 'lg'
+                className='popup-form'
+                >
+                <form action={"/api/create/experiment/"} method="POST" className="flex flex-col">
+                    <fieldset>
+                        <legend>Take Notes</legend>
+                    
+                    <InputLabel htmlFor="name">Name</InputLabel>
+                    <Input id="exp-name" aria-describedby="my-helper-name" /*defaultValue={plant.name}*//>
+            
+                    <InputLabel htmlFor="info">More info</InputLabel>
+                    <textarea id="my-exp-info" aria-describedby="my-helper-info" /*defaultValue={plant.info}*/></textarea>
+                
+                    
+                    <div>
+                    <Input
+                        type="submit"
+                        className="px-4 py-4 font-bold text-white hover:bg-green-700"
+                    >
+                        Submit
+                    </Input>
+                    </div>
+                    </fieldset>
+                </form>
+                </Dialog>
+            </Stack>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Stack
                 direction="row"
@@ -143,18 +210,18 @@ export default function PlantCard() {
                 alignItems="center">
                 {/* Recent Orders */}
                 {/* <Grid item >
-            <Spritesheet
-                className={`my-element__class--style`}
-                image={`https://raw.githubusercontent.com/danilosetra/react-responsive-spritesheet/master/assets/images/examples/sprite-image-horizontal.png`}
-                widthFrame={70}
-                heightFrame={500}
-                width={70}
-                steps={14}
-                fps={10}
-                autoplay={true}
-                loop={true}
-              />
-                </Grid> */}
+<Spritesheet
+    className={`my-element__class--style`}
+    image={`https://raw.githubusercontent.com/danilosetra/react-responsive-spritesheet/master/assets/images/examples/sprite-image-horizontal.png`}
+    widthFrame={70}
+    heightFrame={500}
+    width={70}
+    steps={14}
+    fps={10}
+    autoplay={true}
+    loop={true}
+  />
+    </Grid> */}
                 <Grid item xs={12}>
                     <Card>
                         <CardContent>
@@ -207,7 +274,7 @@ export default function PlantCard() {
                     </Card>
                 </Grid>
             </Grid>
-        </Container>
+        </Container></>
     )
 }
 
