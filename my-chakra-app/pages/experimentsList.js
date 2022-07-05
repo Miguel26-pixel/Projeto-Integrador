@@ -110,10 +110,6 @@ function ExperimentListPage() {
     }, [])
 
     return (<>
-        <Head>
-            <title>GREENSTONE</title>
-            <link rel="icon" type="image/x-icon" href="/plant.ico"></link>
-        </Head>
         <Header></Header>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 

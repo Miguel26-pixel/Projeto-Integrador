@@ -1,7 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-
-import { PrismaClient } from '@prisma/client'
-
+import prisma from "../../../../db";
 
 export default async function getPi (req, res) {
     if(req.method !== 'GET'){
@@ -9,8 +6,6 @@ export default async function getPi (req, res) {
     }
     else{
         try{
-            const prisma = new PrismaClient()
-
             let experiment = await prisma.EXPERIMENT.findUnique({
                 where: {
                     id: parseInt(req.query.id)

@@ -1,5 +1,3 @@
-import * as React from 'react';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
@@ -81,10 +79,6 @@ export default function ExperimentList() {
 
     return (
         <>
-        <Head>
-            <title>GREENSTONE</title>
-            <link rel="icon" type="image/x-icon" href="/plant.ico"></link>
-        </Head>
         <Header></Header><Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Stack
                 direction="row"

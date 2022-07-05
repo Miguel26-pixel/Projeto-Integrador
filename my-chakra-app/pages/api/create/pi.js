@@ -1,6 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client'
-
+import prisma from "../../../db";
 
 export default async (req, res) => {
     if (req.method !== 'POST'){
@@ -8,8 +6,6 @@ export default async (req, res) => {
     }
 
     try{
-        const prisma = new PrismaClient()
-
         const newPi = await prisma.pi.create({
             data : {
                 piName : req.body.piName,

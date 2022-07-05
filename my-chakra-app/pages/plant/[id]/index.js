@@ -1,7 +1,5 @@
-import * as React from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -36,11 +34,11 @@ ChartJS.register(
 
 export default function PlantCard() {
     const router = useRouter();
-    const [temperature, setTemperature] = React.useState([
+    const [temperature, setTemperature] = useState([
     ])
-    const [humidity, setHumidity] = React.useState([
+    const [humidity, setHumidity] = useState([
     ])
-    const [distance, setDistance] = React.useState([
+    const [distance, setDistance] = useState([
     ])
     const { id } = router.query
     let setupData = false;
@@ -71,9 +69,9 @@ export default function PlantCard() {
                 }
             })
 
-            setTemperature(temp => [...temp, ...temperatureCopy])
-            setHumidity(hum => [...hum, ...humidityCopy])
-            setDistance(dist => [...dist, ...distanceCopy])
+            setTemperature(temp => [...temp, ...temperatureCopy].slice(-20))
+            setHumidity(hum => [...hum, ...humidityCopy].slice(-20))
+            setDistance(dist => [...dist, ...distanceCopy].slice(-20))
         }
 
         fetchData();
@@ -122,12 +120,19 @@ export default function PlantCard() {
         }
     }, [id]);
 
+    let maxVal = (Math.max(...temperature.map((val) => val.x)))
+    let minVal = (Math.min(...temperature.map((val) => val.x)))
+
+    if(isFinite(maxVal)) {
+        if(maxVal - minVal > 30000) {
+            minVal = maxVal - 30000;
+        }
+    } else {
+        minVal = 0
+    }
+
     return (
         <>
-        <Head>
-            <title>GREENSTONE</title>
-            <link rel="icon" type="image/x-icon" href="/plant.ico"></link>
-        </Head>
         <PHeader></PHeader><Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Stack
                 direction="row"
@@ -164,7 +169,7 @@ export default function PlantCard() {
                                         backgroundColor: 'rgb(255, 99, 132)',
                                         borderColor: 'rgb(255, 99, 132)',
                                         lineTension: 0.2,
-                                        data: temperature.slice(-15),
+                                        data: temperature,
                                         fill: false,
                                     },
                                     {
@@ -172,7 +177,7 @@ export default function PlantCard() {
                                         backgroundColor: 'rgb(132, 99, 255)',
                                         borderColor: 'rgb(132, 99, 255)',
                                         lineTension: 0.2,
-                                        data: humidity.slice(-15),
+                                        data: humidity,
                                         fill: false,
                                     },
                                     {
@@ -180,7 +185,7 @@ export default function PlantCard() {
                                         backgroundColor: 'rgb(132, 99, 132)',
                                         borderColor: 'rgb(132, 99, 132)',
                                         lineTension: 0.2,
-                                        data: distance.slice(-15),
+                                        data: distance,
                                         fill: false,
                                     },
                                 ]
@@ -192,9 +197,9 @@ export default function PlantCard() {
                                     x: {
                                         type: 'linear',
                                         beginAtZero: false,
+                                        min: minVal,
                                         ticks: {
-                                            autoSkip: true,
-                                            maxTicksLimit: 10,
+                                            stepSize: 2000,
                                             callback: function (value, index, ticks) {
                                                 return new Intl.DateTimeFormat("en-GB", { timeStyle: 'medium' }).format(new Date(value));
                                             }

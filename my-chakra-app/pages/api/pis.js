@@ -1,5 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client'
+import prisma from "../../db";
 
 export default async function getAllPis (req, res) {
     if(req.method !== 'GET'){
@@ -7,8 +6,6 @@ export default async function getAllPis (req, res) {
     }
     else{
         try{
-            const prisma = new PrismaClient()
-
             let allPis = await prisma.RASPBERRYPI.findMany();
             res.status(200).json(allPis);
         }
