@@ -21,6 +21,11 @@ import {
 } from 'chart.js';
 import { fetcher } from '../../api/fetcher';
 import PHeader from '../../../components/plantsNavBar';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import CardMedia from '@mui/material/CardMedia';
+import {FormControl, InputLabel, Input, FormHelperText} from '@mui/material';
 
 
 
@@ -42,6 +47,18 @@ export default function PlantCard() {
     ])
     const [distance, setDistance] = React.useState([
     ])
+    const [openEdit, setOpenEdit] = React.useState(false)
+
+    const [plant, setPlant] = React.useState(null)
+
+    const handleClickOpen = () => {
+        setOpenEdit(true);
+    };
+
+    const handleClose = () => {
+        setOpenEdit(false);
+    };
+
     const { id } = router.query
     let setupData = false;
     let setupPusher = false;
@@ -52,9 +69,12 @@ export default function PlantCard() {
             setupData = true;
 
             let plantData = await fetcher(window.location.origin + "/api/plant/" + id + "/data");
+            let plt = await fetcher(window.location.origin + "/api/plant/" + id + "/index");
+            setPlant(plt);
             let temperatureCopy = []
             let humidityCopy = []
             let distanceCopy = []
+
 
             plantData.forEach((record) => {
                 let time = Date.parse(record.time)
@@ -128,7 +148,45 @@ export default function PlantCard() {
             <title>GREENSTONE</title>
             <link rel="icon" type="image/x-icon" href="/plant.ico"></link>
         </Head>
-        <PHeader></PHeader><Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <PHeader></PHeader>
+        <Stack
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+                spacing={2}
+            >
+            <Button variant="outlined" onClick={handleClickOpen}>Take Notes</Button>
+            <Dialog
+                open={openEdit}
+                onClose={handleClose}
+                fullWidth
+                maxWidth = 'lg'
+                className='popup-form'
+                >
+                <form action={"/api/create/experiment/"} method="POST" className="flex flex-col">
+                    <fieldset>
+                        <legend>Take Notes</legend>
+                    
+                    <InputLabel htmlFor="name">Name</InputLabel>
+                    <Input id="exp-name" aria-describedby="my-helper-name" /*defaultValue={plant.name}*//>
+            
+                    <InputLabel htmlFor="info">More info</InputLabel>
+                    <textarea id="my-exp-info" aria-describedby="my-helper-info" /*defaultValue={plant.info}*/></textarea>
+                
+                    
+                    <div>
+                    <Input
+                        type="submit"
+                        className="px-4 py-4 font-bold text-white hover:bg-green-700"
+                    >
+                        Submit
+                    </Input>
+                    </div>
+                    </fieldset>
+                </form>
+                </Dialog>
+            </Stack>
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Stack
                 direction="row"
                 justifyContent="flex-end"
