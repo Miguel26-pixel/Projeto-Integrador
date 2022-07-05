@@ -23,25 +23,14 @@ import {FormControl, InputLabel, Input, FormHelperText} from '@mui/material';
 function ExperimentListPage() {
     const router = useRouter();
     const [openf, setOpenf] = useState(false);
-    const [openEdit, setOpenEdit] = useState(false);
-    const [experiments, setExperiments] = useState(<></>)
-    const [edit, setEdit] = useState(null);
+    const [experiments, setExperiments] = useState(<></>);
 
-    const handleClickOpen = () => {
+    const handleClickOpen = () => {     
         setOpenf(true);
     };
 
     const handleClose = () => {
         setOpenf(false);
-    };
-
-    async function handleClickOpenEdit() {
-        setOpenEdit(true);
-        console.log("ola");
-    };
-
-    const handleCloseEdit = () => {
-        setOpenEdit(false);
     };
 
     useEffect(() => {
@@ -55,7 +44,7 @@ function ExperimentListPage() {
                             component="img"
                             alt="green iguana"
                             height="140"
-                            image={val.image} />
+                            image={'./placeholder.png'} />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
                                 {val.name}
@@ -66,39 +55,6 @@ function ExperimentListPage() {
                         </CardContent>
                         <CardActions>
                             <Button size="small" onClick={() => router.push('/experiment/' + val.id)}>View Plants</Button>
-                            <Button size="small" onClick={handleClickOpenEdit}>Edit Experiment</Button>
-
-                            <Dialog
-                                open={openEdit}
-                                onClose={handleCloseEdit}
-                                fullWidth
-                                maxWidth = 'lg'
-                                className='popup-form'
-                                >
-                                <form action={"/api/create/experiment/"} method="POST" className="flex flex-col">
-                                    <fieldset>
-                                        <legend>Edit Experiment</legend>
-                                    
-                                    <InputLabel htmlFor="name">Name</InputLabel>
-                                    <Input id="exp-name" aria-describedby="my-helper-name" defaultValue={val.name} />
-
-                                    <InputLabel htmlFor="info">More info</InputLabel>
-                                    <textarea id="my-exp-info" aria-describedby="my-helper-info" defaultValue={val.info}></textarea>
-                                    
-                                    <InputLabel htmlFor="image">Image</InputLabel>
-                                    <Input type="file" id="my-input" aria-describedby="my-helper-text" />
-                                    
-                                    <div>
-                                    <Input
-                                        type="submit"
-                                        className="px-4 py-4 font-bold text-white hover:bg-green-700"
-                                    >
-                                        Submit
-                                    </Input>
-                                    </div>
-                                    </fieldset>
-                                </form>
-                            </Dialog>
 
                         </CardActions>
                     </Card>
@@ -108,6 +64,8 @@ function ExperimentListPage() {
 
         fetchData();
     }, [])
+
+
 
     return (<>
         <Header></Header>
@@ -132,13 +90,13 @@ function ExperimentListPage() {
                             <legend>New Experiment</legend>
                         
                         <InputLabel htmlFor="name">Name</InputLabel>
-                        <Input id="exp-name" aria-describedby="my-helper-name" />
+                        <Input id="name" name="experimentName" aria-describedby="my-helper-name" />
 
                         <InputLabel htmlFor="info">More info</InputLabel>
-                        <textarea id="my-exp-info" aria-describedby="my-helper-info" ></textarea>
+                        <textarea id="info" name="experimentInfo" aria-describedby="my-helper-info" ></textarea>
                         
                         <InputLabel htmlFor="image">Image</InputLabel>
-                        <Input type="file" id="my-input" aria-describedby="my-helper-text" />
+                        <Input type="file" id="image" name="experimentImage" aria-describedby="my-helper-text" />
                         
                         <div>
                         <Input

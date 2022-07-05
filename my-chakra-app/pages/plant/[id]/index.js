@@ -156,8 +156,9 @@ export default function PlantCard() {
         <PHeader></PHeader>
         <Stack
                 direction="row"
-                justifyContent="flex-end"
+                justifyContent="center"
                 alignItems="center"
+                marginTop={'2%'}
                 spacing={2}
             >
             <Button variant="outlined" onClick={handleClickOpen} style={{marginRight: "80px", marginTop: "10px"}}>Take Notes</Button>
@@ -168,15 +169,24 @@ export default function PlantCard() {
                 maxWidth = 'lg'
                 className='popup-form'
                 >
-                <form action={"/api/create/experiment/"} method="POST" className="flex flex-col">
+                <form action={"/api/plant/"+ id + "/edit"} method="PUT" className="flex flex-col">
                     <fieldset>
                         <legend>Take Notes</legend>
                     
                     <InputLabel htmlFor="name">Name</InputLabel>
-                    <Input id="exp-name" aria-describedby="my-helper-name" /*defaultValue={plant.name}*//>
+                    <Input id="exp-name" aria-describedby="my-helper-name" defaultValue={plant == null ? null : plant.plantName}/>
             
                     <InputLabel htmlFor="info">More info</InputLabel>
-                    <textarea id="my-exp-info" aria-describedby="my-helper-info" /*defaultValue={plant.info}*/></textarea>
+                    <textarea id="my-exp-info" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.info}></textarea>
+
+                    <InputLabel htmlFor="RaspberrypiPort">RaspberryPi port</InputLabel>
+                    <Input id="my-exp-raspport" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.reqPort}></Input>
+
+                    <InputLabel htmlFor="RaspberrypiName">RaspberryPi name</InputLabel>
+                    <textarea id="my-exp-raspname" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.reqName}></textarea>
+
+                    <InputLabel htmlFor="ExperimentID">Experiment ID</InputLabel>
+                    <Input id="my-exp-experid" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.reqExperiment}></Input>
                 
                     
                     <div>

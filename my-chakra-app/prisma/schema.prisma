@@ -31,7 +31,7 @@ model PLANT {
   plantdata    PLANTDATA[]
   pi           RASPBERRYPI? @relation(fields: [piHostname], references: [hostname])
   piHostname   String
-  piPort       Int
+  piPort       String
   @@unique([piHostname, piPort])
   experiment   EXPERIMENT? @relation(fields: [experimentID], references: [id])
   experimentID Int

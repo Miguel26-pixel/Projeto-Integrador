@@ -21,7 +21,7 @@ CREATE TABLE "PLANT" (
     "id" SERIAL NOT NULL,
     "plantName" TEXT NOT NULL,
     "piHostname" TEXT NOT NULL,
-    "piPort" INTEGER NOT NULL,
+    "piPort" TEXT NOT NULL,
     "experimentID" INTEGER NOT NULL,
 
     CONSTRAINT "PLANT_pkey" PRIMARY KEY ("id")
@@ -77,28 +77,28 @@ INSERT INTO "RASPBERRYPI"("id", "hostname")
 --Plants
 -- Experiment 1 Plants
 INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9989, 'Plant0', 'Raspberry-1', 0, 9996);
+    VALUES(9989, 'Plant0', 'Raspberry-1', 'dev/tty0', 9996);
 INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9992, 'Plant4', 'Raspberry-1', 4, 9996);
+    VALUES(9992, 'Plant4', 'Raspberry-1', 'dev/tty4', 9996);
 INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9993, 'Plant5', 'Raspberry-1', 5, 9996);
+    VALUES(9993, 'Plant5', 'Raspberry-1', 'dev/tty5', 9996);
 --Experiment 2 Plants
 INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9990, 'Plant2', 'Raspberry-1', 2, 9997);
+    VALUES(9990, 'Plant2', 'Raspberry-1', 'dev/tty2', 9997);
 --Experiment 3 Plants
 INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9991, 'Plant3', 'Raspberry-1', 3, 9998);
+    VALUES(9991, 'Plant3', 'Raspberry-1', 'dev/tty3', 9998);
 INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9994, 'Plant6', 'Raspberry-1', 6, 9998);
+    VALUES(9994, 'Plant6', 'Raspberry-1', 'dev/tty6', 9998);
 INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9995, 'Plant1', 'Raspberry-1', 1, 9998);
+    VALUES(9995, 'Plant1', 'Raspberry-1', 'dev/tty1', 9998);
 --Experiment 4 Plants
 INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9996, 'Plant8', 'Raspberry-2', 0, 9999);
+    VALUES(9996, 'Plant8', 'Raspberry-2', 'dev/tty0', 9999);
 INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9997, 'Plant9', 'Raspberry-2', 1, 9999);
+    VALUES(9997, 'Plant9', 'Raspberry-2', 'dev/tty1', 9999);
 INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9998, 'Plant10', 'Raspberry-2', 2, 9999);
+    VALUES(9998, 'Plant10', 'Raspberry-2', 'dev/tty2', 9999);
 
 --Plant Data
 -- plant1

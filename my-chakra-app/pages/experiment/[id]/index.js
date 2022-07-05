@@ -13,13 +13,15 @@ import CardMedia from '@mui/material/CardMedia';
 import { fetcher } from '../../api/fetcher';
 import Header from '../../../components/navbar';
 import gif from '../../../public/plant.gif';
-import {FormControl, InputLabel, Input, FormHelperText} from '@mui/material';
+import {FormControl, InputLabel, Input, FormHelperText, CardActions} from '@mui/material';
 
 export default function ExperimentList() {
     const router = useRouter();
     const [openf, setOpenf] = useState(false);
     const [plants, setPlants] = useState(<></>);
     const [experiment, setExperiment] = useState(<></>);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [saveData, setSaveData] = useState(null);
     const { id } = router.query;
 
     const handleClickOpen = () => {
@@ -30,29 +32,19 @@ export default function ExperimentList() {
         setOpenf(false);
     };
 
+    const handleClickOpenEdit = () => {
+        setOpenEdit(true);
+    };
+
+    const handleCloseEdit = () => {
+        setOpenEdit(false);
+    };
+
     useEffect(() => {
         async function fetchData() {
             if (id === undefined) return;
             let data = await fetcher(window.location.origin + "/api/experiment/" + id, null)
-
-            // TODO: IMAGE
-            setExperiment(
-                <Card sx={{ maxWidth: "100%", my: "10%" }}>
-                    <CardMedia
-                        component="img"
-                        alt="plant-image"
-                        height="140"
-                        image="/placeholder.png" />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            {data.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            {data.info}
-                        </Typography>
-                    </CardContent>
-                </Card>
-            )
+            setSaveData(data);
 
             let plantData = await fetcher(window.location.origin + "/api/experiment/" + id + "/plants", null)
 
@@ -96,13 +88,16 @@ export default function ExperimentList() {
                         <fieldset>
                             <legend>New Plant</legend>
                         <InputLabel htmlFor="name">Name</InputLabel>
-                        <Input id="exp-name" aria-describedby="my-helper-name" />
+                        <Input id="name" name="plantName" aria-describedby="my-helper-name" />
 
-                        <InputLabel htmlFor="RaspberrypiID">Raspberrypi ID</InputLabel>
-                        <Input id="my-exp-info" aria-describedby="my-helper-info" />
+                        <InputLabel htmlFor="RaspberrypiPort">RaspberryPi Port</InputLabel>
+                        <Input id="RaspberrypiPort" name="piPort" aria-describedby="my-helper-info" />
+
+                        <InputLabel htmlFor="RaspberrypiName">RaspberryPi Name</InputLabel>
+                        <Input id="RaspberrypiName" name="piHostname" aria-describedby="my-helper-info" />
 
                         <InputLabel htmlFor="ExperimentID">Experiment ID</InputLabel>
-                        <Input id="my-input" aria-describedby="my-helper-text" />
+                        <Input id="ExperimentID" name="experimentID" aria-describedby="my-helper-text" />
 
                         <div>
                         <Input
@@ -118,7 +113,56 @@ export default function ExperimentList() {
             </Stack>
             <Grid container spacing={3}>
                 <Grid item xs={4}>
-                    {experiment}
+                <Card sx={{ maxWidth: "100%", my: "10%" }}>
+                    <CardMedia
+                        component="img"
+                        alt="plant-image"
+                        height="140"
+                        image="/placeholder.png" />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {saveData == null ? null : saveData.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            {saveData == null ? null : saveData.info}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button size="small" onClick={handleClickOpenEdit}>Edit Experiment</Button>
+                        {console.log(openEdit)}
+                            <Dialog
+                                open={openEdit}
+                                onClose={handleCloseEdit}
+                                fullWidth
+                                maxWidth = 'lg'
+                                className='popup-form'
+                                >
+                                <form action={"/api/create/experiment/"} method="PUT" className="flex flex-col">
+                                    <fieldset>
+                                        <legend>Edit Experiment</legend>
+                                    
+                                    <InputLabel htmlFor="name">Name</InputLabel>
+                                    <Input id="exp-name" aria-describedby="my-helper-name" defaultValue={(saveData == null) ? null : saveData.name} />
+
+                                    <InputLabel htmlFor="info">More info</InputLabel>
+                                    <textarea id="my-exp-info" aria-describedby="my-helper-info" defaultValue={saveData == null ? null : saveData.info}></textarea>
+                                    
+                                    <InputLabel htmlFor="image">Image</InputLabel>
+                                    <Input type="file" id="my-input" aria-describedby="my-helper-text" />
+                                    
+                                    <div>
+                                    <Input
+                                        type="submit"
+                                        className="px-4 py-4 font-bold text-white hover:bg-green-700"
+                                    >
+                                        Submit
+                                    </Input>
+                                    </div>
+                                    </fieldset>
+                                </form>
+                            </Dialog>
+                    </CardActions>
+                </Card>
                 </Grid>
                 {/* Recent Orders */}
                 <Grid item sx={{}} xs={8}>
