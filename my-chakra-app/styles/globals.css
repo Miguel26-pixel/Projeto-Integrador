@@ -4,8 +4,8 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background: linear-gradient(127deg, rgba(0, 255, 17, 0.637), rgba(0, 255, 42, 0.315) 70.71%);
-  height: 100%;
+  background: linear-gradient(127deg, rgba(0, 255, 17, 0.473), rgba(0, 255, 42, 0.315) 70.71%);
+  overflow-x: hidden;
 }
 
 a {
@@ -15,4 +15,69 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+fieldset {
+  border: solid 1px green;
+  border-radius: 6px;
+  min-width: 200px;
+}
+
+legend {
+  font-size: 1.25em;
+  padding: 0.25em;
+  color: #999;
+}
+
+label {
+  display: block;
+  margin-top: 1em;
+}
+
+label:first-of-type {
+  margin-top: 0;
+}
+
+input {
+  padding: .5em;
+  border: solid 1px green;
+}
+
+input[type="text"] {
+  width: 15em;
+}
+
+textarea {
+  min-height: 3em;
+  min-width: 100%;
+  padding: .5em;
+  border: solid 1px green;
+
+}
+
+input[type="submit"] {
+  padding: .5em 1em;
+  border-radius: 6px;
+  background-color: green;
+  color: #fff;
+  font-size: .8em;
+}
+
+@media screen and (min-width: 430px) {
+  legend {
+    font-size: 1.75;
+  }
+  .check label {
+    display: inline-block;
+    padding-top: .5em;
+    margin-top: 0;
+    margin-right: .5em;
+  }
+}
+
+.popup-form { 
+  text-align: center;
+  max-width: fit-content;
+  position: absolute;
+  margin: 0 auto;
 }

@@ -16,8 +16,7 @@ export default async (req, res) => {
                 },
             }
         );
-        console.log(newExperiment);
-        res.redirect("/", 303).json(newPlant);
+        res.redirect("/experimentsList", 303).end();
     }
     catch (error) {
         const errorString = "An error occured: " + error;

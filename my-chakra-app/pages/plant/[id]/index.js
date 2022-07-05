@@ -18,6 +18,14 @@ import {
     Legend,
 } from 'chart.js';
 import { fetcher } from '../../api/fetcher';
+import PHeader from '../../../components/plantsNavBar';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import CardMedia from '@mui/material/CardMedia';
+import {FormControl, InputLabel, Input, FormHelperText} from '@mui/material';
+
+
 
 ChartJS.register(
     CategoryScale,
@@ -37,6 +45,18 @@ export default function PlantCard() {
     ])
     const [distance, setDistance] = useState([
     ])
+    const [openEdit, setOpenEdit] = useState(false)
+
+    const [plant, setPlant] = useState(null)
+
+    const handleClickOpen = () => {
+        setOpenEdit(true);
+    };
+
+    const handleClose = () => {
+        setOpenEdit(false);
+    };
+
     const { id } = router.query
     let setupData = false;
     let setupPusher = false;
@@ -47,9 +67,12 @@ export default function PlantCard() {
             setupData = true;
 
             let plantData = await fetcher(window.location.origin + "/api/plant/" + id + "/data");
+            let plt = await fetcher(window.location.origin + "/api/plant/" + id + "");
+            setPlant(plt);
             let temperatureCopy = []
             let humidityCopy = []
             let distanceCopy = []
+
 
             plantData.forEach((record) => {
                 let time = Date.parse(record.time)
@@ -129,6 +152,55 @@ export default function PlantCard() {
     }
 
     return (
+        <>
+        <PHeader></PHeader>
+        <Stack
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                marginTop={'2%'}
+                spacing={2}
+            >
+            <Button variant="outlined" onClick={handleClickOpen} style={{marginRight: "80px", marginTop: "10px"}}>Take Notes</Button>
+            <Dialog
+                open={openEdit}
+                onClose={handleClose}
+                fullWidth
+                maxWidth = 'lg'
+                className='popup-form'
+                >
+                <form action={"/api/plant/"+ id + "/edit"} method="PUT" className="flex flex-col">
+                    <fieldset>
+                        <legend>Take Notes</legend>
+                    
+                    <InputLabel htmlFor="name">Name</InputLabel>
+                    <Input id="exp-name" aria-describedby="my-helper-name" defaultValue={plant == null ? null : plant.plantName}/>
+            
+                    <InputLabel htmlFor="info">More info</InputLabel>
+                    <textarea id="my-exp-info" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.info}></textarea>
+
+                    <InputLabel htmlFor="RaspberrypiPort">RaspberryPi port</InputLabel>
+                    <Input id="my-exp-raspport" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.reqPort}></Input>
+
+                    <InputLabel htmlFor="RaspberrypiName">RaspberryPi name</InputLabel>
+                    <textarea id="my-exp-raspname" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.reqName}></textarea>
+
+                    <InputLabel htmlFor="ExperimentID">Experiment ID</InputLabel>
+                    <Input id="my-exp-experid" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.reqExperiment}></Input>
+                
+                    
+                    <div>
+                    <Input
+                        type="submit"
+                        className="px-4 py-4 font-bold text-white hover:bg-green-700"
+                    >
+                        Submit
+                    </Input>
+                    </div>
+                    </fieldset>
+                </form>
+                </Dialog>
+            </Stack>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Stack
                 direction="row"
@@ -143,18 +215,18 @@ export default function PlantCard() {
                 alignItems="center">
                 {/* Recent Orders */}
                 {/* <Grid item >
-            <Spritesheet
-                className={`my-element__class--style`}
-                image={`https://raw.githubusercontent.com/danilosetra/react-responsive-spritesheet/master/assets/images/examples/sprite-image-horizontal.png`}
-                widthFrame={70}
-                heightFrame={500}
-                width={70}
-                steps={14}
-                fps={10}
-                autoplay={true}
-                loop={true}
-              />
-                </Grid> */}
+<Spritesheet
+    className={`my-element__class--style`}
+    image={`https://raw.githubusercontent.com/danilosetra/react-responsive-spritesheet/master/assets/images/examples/sprite-image-horizontal.png`}
+    widthFrame={70}
+    heightFrame={500}
+    width={70}
+    steps={14}
+    fps={10}
+    autoplay={true}
+    loop={true}
+  />
+    </Grid> */}
                 <Grid item xs={12}>
                     <Card>
                         <CardContent>
@@ -207,7 +279,7 @@ export default function PlantCard() {
                     </Card>
                 </Grid>
             </Grid>
-        </Container>
+        </Container></>
     )
 }
 
