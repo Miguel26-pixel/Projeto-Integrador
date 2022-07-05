@@ -72,10 +72,6 @@ export default function PlantCard() {
             let humidityCopy = []
             let distanceCopy = []
 
-            console.log(plantData)
-            console.log(plt)
-
-
             plantData.forEach((record) => {
                 let time = Date.parse(record.time)
                 if (record.hasOwnProperty("temperature")) {
@@ -107,10 +103,8 @@ export default function PlantCard() {
             });
 
             const channel = pusher.subscribe('plant-channel-' + id);
-            console.log(channel)
 
             channel.bind("new-data", function (data) {
-                console.log("hello")
                 let temperatureCopy = []
                 let humidityCopy = []
                 let distanceCopy = []
@@ -139,9 +133,10 @@ export default function PlantCard() {
         }
 
         return () => {
-            console.log("heyo")
-            channel.unbind('new-data');
-            pusher.unsubscribe('plant-channel-'+id)
+            if(channel !== undefined && channel !== null) {
+                channel.unbind('new-data');
+                pusher.unsubscribe('plant-channel-'+id)
+            }
         }
     }, [router.query]);
 
