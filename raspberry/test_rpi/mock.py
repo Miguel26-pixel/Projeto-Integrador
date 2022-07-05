@@ -6,6 +6,7 @@ from rpi.sensors.arduino import ArduinoI
 
 class ArduinoMock(ArduinoI):
     def __init__(self) -> None:
+        self.port = "dev/tty0"
         self.last = 0
 
     def get_data(self) -> Dict:

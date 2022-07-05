@@ -26,7 +26,7 @@ export default async (req, res) => {
 
             for (let i = 0; i < plantsData.length; i++){
                 const plant = plantsData[i];
-                const piPort = parseInt(plant.plant);
+                const piPort = plant.plant;
                 plant.time = new Date(plant.time * 1000)
     
                 const plantExists = await prisma.PLANT.count({
@@ -76,6 +76,8 @@ export default async (req, res) => {
         res.status(200).end();
     }
     catch (error) {
+        console.log(error)
+
         res.status(400).json({ message: 'an oopsie occured' })
     }
 

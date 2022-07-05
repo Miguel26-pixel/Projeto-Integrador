@@ -23,6 +23,7 @@ class DataController(Thread):
         self.__unsaved = self.__get_unsaved()
         self.__hostname = Config.hostname
         self.__ordering = ordering
+        self.__connected = False
         self.queue: Queue[Dict] = Queue()
 
         super().__init__()
@@ -60,6 +61,9 @@ class DataController(Thread):
 
     def __post(self, url, path, body):
         return self.__general_request(lambda: requests.post(f"{url}/api/{path}", json=body))
+
+    def __patch(self, url, path, body):
+        return self.__general_request(lambda: requests.patch(f"{url}/api/{path}", json=body))
 
     def __get_unsaved(self):
         try:
@@ -114,7 +118,11 @@ class DataController(Thread):
             }
 
             try:
-                response = self.__post(url, "edit/plant", to_send)
+                if self.__connected:
+                    response = self.__patch(url, "edit/pi", to_send)
+                else:
+                    response = self.__post(url, "create/pi", to_send)
+
             except Exception:
                 logging.warning("Couldn't connect to %s.", url)
                 break
@@ -123,6 +131,7 @@ class DataController(Thread):
                     logging.warning("Couldn't connect to %s.", url)
                     break
 
+                self.__connected = True
                 logging.info("Successfully sent data to %s.", url)
                 for _ in range(self.__chunk_size):
                     self.__unsaved.popleft()

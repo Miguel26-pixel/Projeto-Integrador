@@ -59,7 +59,6 @@ export default function PlantCard() {
 
     const { id } = router.query
     let setupData = false;
-    let setupPusher = false;
 
     useEffect(() => {
         async function fetchData() {
@@ -72,7 +71,6 @@ export default function PlantCard() {
             let temperatureCopy = []
             let humidityCopy = []
             let distanceCopy = []
-
 
             plantData.forEach((record) => {
                 let time = Date.parse(record.time)
@@ -95,50 +93,52 @@ export default function PlantCard() {
         }
 
         fetchData();
-    }, [id])
+    }, [router.query])
 
     useEffect(() => {
-        if (id === undefined || setupPusher) return;
-        setupPusher = true;
+        if (id !== undefined) {
+            const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
+                cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
+                useTLS: false
+            });
 
-        const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
-            cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
-            useTLS: false
-        });
+            const channel = pusher.subscribe('plant-channel-' + id);
 
-        const channel = pusher.subscribe('plant-channel-' + id);
+            channel.bind("new-data", function (data) {
+                let temperatureCopy = []
+                let humidityCopy = []
+                let distanceCopy = []
 
-        channel.bind("new-data", function (data) {
-            let temperatureCopy = []
-            let humidityCopy = []
-            let distanceCopy = []
+                for (let i = 0; i < data.length; i++) {
+                    let record = data[i]
+                    let time = Date.parse(record.time)
 
-            for (let i = 0; i < data.length; i++) {
-                let record = data[i]
+                    if (record.hasOwnProperty("temperature")) {
+                        temperatureCopy.push({ x: time, y: record.temperature })
+                    }
 
-                if (record.hasOwnProperty("temperature")) {
-                    temperatureCopy.push({ x: record.time * 1000, y: record.temperature })
+                    if (record.hasOwnProperty("humidity")) {
+                        humidityCopy.push({ x: time, y: record.humidity })
+                    }
+
+                    if (record.hasOwnProperty("distance")) {
+                        distanceCopy.push({ x: time, y: record.distance })
+                    }
                 }
 
-                if (record.hasOwnProperty("humidity")) {
-                    humidityCopy.push({ x: record.time * 1000, y: record.humidity })
-                }
-
-                if (record.hasOwnProperty("distance")) {
-                    distanceCopy.push({ x: record.time * 1000, y: record.distance })
-                }
-            }
-
-            setTemperature(temp => [...temp, ...temperatureCopy])
-            setHumidity(hum => [...hum, ...humidityCopy])
-            setDistance(dist => [...dist, ...distanceCopy])
-        });
+                setTemperature(temp => [...temp, ...temperatureCopy])
+                setHumidity(hum => [...hum, ...humidityCopy])
+                setDistance(dist => [...dist, ...distanceCopy])
+            });
+        }
 
         return () => {
-            channel.unbind('new-data');
-            pusher.unsubscribe('plant-channel')
+            if(channel !== undefined && channel !== null) {
+                channel.unbind('new-data');
+                pusher.unsubscribe('plant-channel-'+id)
+            }
         }
-    }, [id]);
+    }, [router.query]);
 
     let maxVal = (Math.max(...temperature.map((val) => val.x)))
     let minVal = (Math.min(...temperature.map((val) => val.x)))
