@@ -169,7 +169,7 @@ export default function PlantCard() {
                 maxWidth = 'lg'
                 className='popup-form'
                 >
-                <form action={"/api/plant/"+ id + "/edit"} method="PUT" className="flex flex-col">
+                <form action={"/api/plant/"+ id + "/edit"} method="POST" className="flex flex-col">
                     <fieldset>
                         <legend>Take Notes</legend>
                     

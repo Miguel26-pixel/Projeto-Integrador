@@ -20,6 +20,7 @@ CREATE TABLE "RASPBERRYPI" (
 CREATE TABLE "PLANT" (
     "id" SERIAL NOT NULL,
     "plantName" TEXT NOT NULL,
+    "plantInfo" TEXT,
     "piHostname" TEXT NOT NULL,
     "piPort" TEXT NOT NULL,
     "experimentID" INTEGER NOT NULL,
@@ -54,6 +55,7 @@ ALTER TABLE "PLANT" ADD CONSTRAINT "PLANT_piHostname_fkey" FOREIGN KEY ("piHostn
 ALTER TABLE "PLANTDATA" ADD CONSTRAINT "PLANTDATA_plantID_fkey" FOREIGN KEY ("plantID") REFERENCES "PLANT"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 
+
 CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 SELECT create_hypertable('"PLANTDATA"', 'time');
 
@@ -64,7 +66,7 @@ INSERT INTO "EXPERIMENT"("id", "name", "image", "info")
 INSERT INTO "EXPERIMENT"("id", "name", "image", "info")
     VALUES(9997, 'Experiment2', './placeholder.png', 'This is a string containing more information about this experiment');
 INSERT INTO "EXPERIMENT"("id", "name", "image", "info")
-    VALUES(9998, 'Experiment3', './placeholder.png', 'This is a string containing more information about this experiment');
+    VALUES(9998, 'Experiment3', '.png', 'This is a string containing more information about this experiment');
 INSERT INTO "EXPERIMENT"("id", "name", "image", "info")
     VALUES(9999, 'Experiment4', './placeholder.png', 'This is a string containing more information about this experiment');
 

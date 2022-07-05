@@ -1,12 +1,13 @@
 import prisma from "../../../../db";
 
-export default async function getPiPlants (req, res) {
-    if(req.method !== 'GET'){
-        res.status(405).json({message: 'Not a GET request'});
+export default async (req, res) => {
+    if(req.method !== 'POST'){
+        res.status(405).json({message: 'Not a POST request'});
     }
     else{
         try{
             const plantID = parseInt(req.query.id);
+            res.status(405).json(req.body);
 
             let plantExists = await prisma.$exists.PLANT({
                 id : plantID
