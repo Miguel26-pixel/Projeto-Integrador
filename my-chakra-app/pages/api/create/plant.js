@@ -6,14 +6,14 @@ export default async (req, res) => {
     }
 
     try{
-        let { reqName, reqHostname, reqPort, reqExperiment } = req.body;
+        let { plantName, piPort, piHostname, experimentID } = req.body;
         const newPlant = await prisma.PLANT.create(
             { 
                 data: {
-                    plantName: reqName,
-                    piHostname : reqHostname,
-                    piPort : reqPort,
-                    experimentID: parseInt(reqExperiment),
+                    plantName: plantName,
+                    piPort : piPort,
+                    piHostname : piHostname,
+                    experimentID: parseInt(experimentID),
                 },
             }
         );

@@ -7,6 +7,7 @@ export default async function getPiPlants (req, res) {
     else{
         try{
             const plantID = parseInt(req.query.id);
+            res.status(400).json(req.body);
 
             let plantExists = await prisma.$exists.PLANT({
                 id : plantID
