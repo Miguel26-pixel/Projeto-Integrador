@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -63,8 +64,12 @@ function ExperimentListPage() {
         fetchData();
     }, [])
 
-    return (<><Header></Header>
-        <Toolbar />
+    return (<>
+        <Head>
+            <title>GREENSTONE</title>
+            <link rel="icon" type="image/x-icon" href="/plant.ico"></link>
+        </Head>
+        <Header></Header>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 
             <Stack
@@ -74,24 +79,35 @@ function ExperimentListPage() {
                 spacing={2}
             >
                     <Button variant="outlined" onClick={handleClickOpen}>New experiment</Button>                
-                    <Dialog open={openf} onClose={handleClose}>
+                    <Dialog
+                    open={openf}
+                    onClose={handleClose}
+                    fullWidth
+                    maxWidth = 'lg'
+                    className='popup-form'
+                    >
                     <form action={"/api/create/experiment/"} method="POST" className="flex flex-col">
+                        <fieldset>
+                            <legend>New Experiment</legend>
                         
                         <InputLabel htmlFor="name">Name</InputLabel>
                         <Input id="exp-name" aria-describedby="my-helper-name" />
 
                         <InputLabel htmlFor="info">More info</InputLabel>
-                        <Input id="my-exp-info" aria-describedby="my-helper-info" />
+                        <textarea id="my-exp-info" aria-describedby="my-helper-info" ></textarea>
                         
                         <InputLabel htmlFor="image">Image</InputLabel>
                         <Input type="file" id="my-input" aria-describedby="my-helper-text" />
                         
-                        <Button
+                        <div>
+                        <Input
                             type="submit"
-                            className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
+                            className="px-4 py-4 font-bold text-white hover:bg-green-700"
                         >
                             Submit
-                        </Button>
+                        </Input>
+                        </div>
+                        </fieldset>
                     </form>
                 </Dialog>
             </Stack>

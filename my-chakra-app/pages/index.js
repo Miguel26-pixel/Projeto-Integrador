@@ -72,7 +72,7 @@ function MainPageContent() {
     return (
         <><Head>
             <title>GREENSTONE</title>
-            <link rel="icon" type="image/x-icon" href="/favicon.ico"></link>
+            <link rel="icon" type="image/x-icon" href="/plant.ico"></link>
         </Head>
         <div>
             <main>

@@ -13,13 +13,31 @@ body {
 @layer components {
 /* header */
 .header {
-    @apply h-[10vh] flex items-center px-10 py-4 md:px-20 text-lg justify-between;
+    @apply h-[10vh] flex items-center px-10 py-4 md:px-20 text-lg;
+    background-color: rgba(255,255,255, 0.7);
+    width : 90%;
+    margin-left:5%;
+
 }
 .header-logo {
     @apply font-black md:text-2xl;
+    margin-left: -2%;
+    /* background-size: cover; */
+    /* background-repeat: no-repeat;
+    background-image: url("../public/tree-removebg-preview.png");
+    margin-top: 0;
+    height: */
 }
 .header > ul {
-    @apply justify-center flex-1 hidden space-x-5 md:flex;
+    margin-left: 5%;
+}
+.header > ul:hover {
+    margin-left: 5%;
+    background-color:lightgreen;
+    padding: 2%;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 24px;
 }
 
 main {

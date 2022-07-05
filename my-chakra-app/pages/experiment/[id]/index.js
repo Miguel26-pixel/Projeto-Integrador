@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
@@ -79,7 +80,12 @@ export default function ExperimentList() {
     }, [id])
 
     return (
-        <><Header></Header><Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <>
+        <Head>
+            <title>GREENSTONE</title>
+            <link rel="icon" type="image/x-icon" href="/plant.ico"></link>
+        </Head>
+        <Header></Header><Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Stack
                 direction="row"
                 justifyContent="flex-end"
@@ -87,8 +93,14 @@ export default function ExperimentList() {
                 spacing={2}
             >
                 <Button margin-right="0" variant="outlined" onClick={handleClickOpen}>New plant</Button>
-                <Dialog open={openf} onClose={handleClose}>
+                <Dialog open={openf}
+                onClose={handleClose}
+                fullWidth
+                maxWidth = 'lg'
+                className='popup-form'>
                     <form action={"/api/create/plant/"} method="POST" className="flex flex-col">
+                        <fieldset>
+                            <legend>New Plant</legend>
                         <InputLabel htmlFor="name">Name</InputLabel>
                         <Input id="exp-name" aria-describedby="my-helper-name" />
 
@@ -98,12 +110,15 @@ export default function ExperimentList() {
                         <InputLabel htmlFor="ExperimentID">Experiment ID</InputLabel>
                         <Input id="my-input" aria-describedby="my-helper-text" />
 
-                        <Button
+                        <div>
+                        <Input
                             type="submit"
-                            className="px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700"
+                            className="px-4 py-4 font-bold text-white hover:bg-green-700"
                         >
                             Submit
-                        </Button>
+                        </Input>
+                        </div>
+                        </fieldset>
                     </form>
                 </Dialog>
             </Stack>

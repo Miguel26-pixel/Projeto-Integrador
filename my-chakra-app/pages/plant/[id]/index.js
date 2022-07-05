@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import { useEffect } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -19,7 +20,7 @@ import {
     Legend,
 } from 'chart.js';
 import { fetcher } from '../../api/fetcher';
-import Header from '../../../components/navbar';
+import PHeader from '../../../components/plantsNavBar';
 
 
 
@@ -122,7 +123,12 @@ export default function PlantCard() {
     }, [id]);
 
     return (
-        <><Header></Header><Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <>
+        <Head>
+            <title>GREENSTONE</title>
+            <link rel="icon" type="image/x-icon" href="/plant.ico"></link>
+        </Head>
+        <PHeader></PHeader><Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Stack
                 direction="row"
                 justifyContent="flex-end"
