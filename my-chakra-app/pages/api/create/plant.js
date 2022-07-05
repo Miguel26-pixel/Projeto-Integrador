@@ -10,7 +10,8 @@ export default async (req, res) => {
             { 
                 data: {
                     plantName: req.body.plantName,
-                    piID: parseInt(req.body.piID),
+                    piHostname : req.body.piHostname,
+                    piPort : req.body.piPort,
                     experimentID: parseInt(req.body.experimentID),
                 },
             }

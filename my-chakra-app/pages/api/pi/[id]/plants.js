@@ -6,9 +6,15 @@ export default async function getPiPlants (req, res) {
     }
     else{
         try{
+            let thisPi = await prisma.RASPBERRYPI.findUnique({
+                where : {
+                    id : parseInt(req.query.id)
+                }
+            });
+
             let plants = await prisma.PLANT.findMany({
                 where: {
-                   piID : parseInt(req.query.id)
+                   piHostname : thisPi.hostname
                 }
             });
             res.status(200).json(plants);

@@ -44,7 +44,7 @@ function ExperimentListPage() {
                             component="img"
                             alt="green iguana"
                             height="140"
-                            image={val.image} />
+                            image={'./placeholder.png'} />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
                                 {val.name}
@@ -90,13 +90,13 @@ function ExperimentListPage() {
                             <legend>New Experiment</legend>
                         
                         <InputLabel htmlFor="name">Name</InputLabel>
-                        <Input id="exp-name" aria-describedby="my-helper-name" />
+                        <Input id="name" name="experimentName" aria-describedby="my-helper-name" />
 
                         <InputLabel htmlFor="info">More info</InputLabel>
-                        <textarea id="my-exp-info" aria-describedby="my-helper-info" ></textarea>
+                        <textarea id="info" name="experimentInfo" aria-describedby="my-helper-info" ></textarea>
                         
                         <InputLabel htmlFor="image">Image</InputLabel>
-                        <Input type="file" id="my-input" aria-describedby="my-helper-text" />
+                        <Input type="file" id="image" name="experimentImage" aria-describedby="my-helper-text" />
                         
                         <div>
                         <Input

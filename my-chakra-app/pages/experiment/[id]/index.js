@@ -88,16 +88,16 @@ export default function ExperimentList() {
                         <fieldset>
                             <legend>New Plant</legend>
                         <InputLabel htmlFor="name">Name</InputLabel>
-                        <Input id="exp-name" aria-describedby="my-helper-name" />
+                        <Input id="name" name="plantName" aria-describedby="my-helper-name" />
 
                         <InputLabel htmlFor="RaspberrypiPort">RaspberryPi Port</InputLabel>
-                        <Input id="my-exp-raspport" aria-describedby="my-helper-info" />
+                        <Input id="RaspberrypiPort" name="piPort" aria-describedby="my-helper-info" />
 
                         <InputLabel htmlFor="RaspberrypiName">RaspberryPi Name</InputLabel>
-                        <Input id="my-exp-raspName" aria-describedby="my-helper-info" />
+                        <Input id="RaspberrypiName" name="piHostname" aria-describedby="my-helper-info" />
 
                         <InputLabel htmlFor="ExperimentID">Experiment ID</InputLabel>
-                        <Input id="my-input" aria-describedby="my-helper-text" />
+                        <Input id="ExperimentID" name="experimentID" aria-describedby="my-helper-text" />
 
                         <div>
                         <Input

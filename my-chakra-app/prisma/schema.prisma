@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -19,20 +20,19 @@ model EXPERIMENT {
 }
 
 model RASPBERRYPI {
-  id     Int     @id @default(autoincrement())
-  piName String
-  ip     String
+  id     Int       @id @default(autoincrement())
+  hostname String  @unique
   plants PLANT[]
 }
 
 model PLANT {
-  id        Int         @id @default(autoincrement())
-  plantName String
-  plantdata PLANTDATA[]
-  pi        RASPBERRYPI? @relation(fields: [piID], references: [id])
-  piID      Int
-
-  @@unique([id])
+  id           Int         @id @default(autoincrement())
+  plantName    String
+  plantdata    PLANTDATA[]
+  pi           RASPBERRYPI? @relation(fields: [piHostname], references: [hostname])
+  piHostname   String
+  piPort       String
+  @@unique([piHostname, piPort])
   experiment   EXPERIMENT? @relation(fields: [experimentID], references: [id])
   experimentID Int
 }
