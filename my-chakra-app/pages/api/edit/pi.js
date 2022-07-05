@@ -1,7 +1,7 @@
 import prisma from "../../../db";
 
 export default async (req, res) => {
-    if (req.method !== 'POST'){
+    if (req.method !== 'PATCH'){
         return req.status(405).json({ message: 'Method not allowed'});
     }
 
@@ -9,11 +9,13 @@ export default async (req, res) => {
         const piData = req.body.piData;
         const piHostname = piData.hostname;
 
-        const newPi = await prisma.pi.create({
-            data : {
-                hostname : piHostname
-            }
+        const piExists = await prisma.$exists.RASPBERRYPI({
+            hostname : piHostname
         });
+
+        if(!piExists){
+            res.status(400).json( { message : "That raspberry pi does not exist" } );
+        }
         
         const plantsData = piData.data;
         for (let i = 0; i < plantsData.length(); i++){
@@ -52,7 +54,7 @@ export default async (req, res) => {
 
             const updatedPi = await prisma.RASPBERRYPI.update({
                 where : {
-                    id : newPi.id
+                    hostname : piHostname
                 },
                 data : {
                     plant

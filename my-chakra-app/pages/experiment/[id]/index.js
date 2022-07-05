@@ -93,10 +93,19 @@ export default function ExperimentList() {
                             />
                         </div>
                         <div>
-                            <label htmlFor="RaspberrypiID" className="mb-2 italic">Raspberrypi ID</label>
+                            <label htmlFor="piHostname" className="mb-2 italic">Raspberry PI Hostname</label>
                             <input
                                 className="mb-4 border-b-2"
-                                name="piID"
+                                name="piHostname"
+                                type="text"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="piPort" className="mb-2 italic">Raspberry PI Plant Port</label>
+                            <input
+                                className="mb-4 border-b-2"
+                                name="piPort"
                                 type="text"
                                 required
                             />
