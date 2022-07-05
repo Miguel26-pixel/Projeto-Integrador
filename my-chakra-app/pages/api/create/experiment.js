@@ -10,7 +10,8 @@ export default async (req, res) => {
             {
                 data: {
                     name: req.body.experimentName,
-                    image: req.body.experimentImage,
+                    // image: req.body.experimentImage,
+                    image: './placeholder.png',
                     info: req.body.experimentInfo
                 },
             }
