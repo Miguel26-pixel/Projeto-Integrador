@@ -1,5 +1,3 @@
-import * as React from 'react';
-import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -70,10 +68,7 @@ function MainPageContent() {
     }, [])
 
     return (
-        <><Head>
-            <title>GREENSTONE</title>
-            <link rel="icon" type="image/x-icon" href="/plant.ico"></link>
-        </Head>
+        <>
         <div>
             <main>
                 <TreeC />
