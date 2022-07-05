@@ -179,8 +179,8 @@ export default function PlantCard() {
                     <InputLabel htmlFor="info">More info</InputLabel>
                     <textarea id="my-exp-info" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.info}></textarea>
 
-                    <InputLabel htmlFor="RaspberrypiID">Raspberrypi ID</InputLabel>
-                    <textarea id="my-exp-raspid" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.piID}></textarea>
+                    <InputLabel htmlFor="RaspberrypiPort">RaspberryPi port</InputLabel>
+                    <textarea id="my-exp-raspport" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.port}></textarea>
 
                     <InputLabel htmlFor="ExperimentID">Experiment ID</InputLabel>
                     <textarea id="my-exp-experid" aria-describedby="my-helper-info" defaultValue={plant == null ? null : plant.experimentID}></textarea>

@@ -90,8 +90,8 @@ export default function ExperimentList() {
                         <InputLabel htmlFor="name">Name</InputLabel>
                         <Input id="exp-name" aria-describedby="my-helper-name" />
 
-                        <InputLabel htmlFor="RaspberrypiID">Raspberrypi ID</InputLabel>
-                        <Input id="my-exp-info" aria-describedby="my-helper-info" />
+                        <InputLabel htmlFor="RaspberrypiPort">RaspberryPi Port</InputLabel>
+                        <Input id="my-exp-raspport" aria-describedby="my-helper-info" />
 
                         <InputLabel htmlFor="ExperimentID">Experiment ID</InputLabel>
                         <Input id="my-input" aria-describedby="my-helper-text" />
