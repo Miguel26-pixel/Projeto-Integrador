@@ -13,22 +13,29 @@
     "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
-    "@prisma/client": "3.15.1",
+    "@prisma/client": "^4.0.0",
     "@types/node": "^17.0.42",
     "ant-design-pro-scaffold2": "^2.3.1-11",
     "chart.js": "^3.8.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
+    "framer-motion": "^6.3.15",
     "next": "12.1.6",
-    "prisma": "3.15.1",
     "pusher": "^5.1.0-beta",
     "pusher-js": "^7.1.0-beta",
     "react": "^18.1.0",
     "react-chartjs-2": "^4.2.0",
     "react-dom": "^18.1.0",
+    "react-hook-form": "^7.33.0",
+    "react-icon": "^1.0.0",
     "react-responsive-spritesheet": "^2.3.9"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.7",
     "eslint": "8.15.0",
-    "eslint-config-next": "12.1.6"
+    "eslint-config-next": "12.1.6",
+    "prisma": "^4.0.0",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.4"
   }
 }

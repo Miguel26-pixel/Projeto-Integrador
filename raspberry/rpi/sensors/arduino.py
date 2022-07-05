@@ -15,9 +15,9 @@ class ArduinoI:
 
 class Arduino(ArduinoI):
     def __init__(self) -> None:
-        self.__port: str = self.__find_arduino()
+        self.port: str = self.__find_arduino()
         self.__arduino: serial.Serial = serial.Serial(
-            port=self.__port, baudrate=9600, timeout=.1)
+            port=self.port, baudrate=9600, timeout=.1)
 
     def __find_arduino(self) -> str:
         ports = list(serial.tools.list_ports.comports())
@@ -29,7 +29,10 @@ class Arduino(ArduinoI):
         '''Get sensor data from the Arduino.'''
 
         if self.__arduino.in_waiting > 0:
-            data = self.__arduino.readline().decode('utf-8')
+            # Read only last entry
+            while self.__arduino.in_waiting > 0:
+                data = self.__arduino.readline().decode('utf-8')
+         
             data = data.strip()
             data = data.split(', ')
             result = {}

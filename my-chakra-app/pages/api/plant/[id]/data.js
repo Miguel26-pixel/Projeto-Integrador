@@ -1,6 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-
-import { PrismaClient } from '@prisma/client'
+import prisma from "../../../../db";
 
 export default async function getPiPlants (req, res) {
     if(req.method !== 'GET'){
@@ -8,8 +6,6 @@ export default async function getPiPlants (req, res) {
     }
     else{
         try{
-            const prisma = new PrismaClient()
-
             let plantData = await prisma.PLANTDATA.findMany({
                 where: {
                     plantID: parseInt(req.query.id)

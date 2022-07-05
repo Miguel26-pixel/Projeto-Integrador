@@ -2,25 +2,23 @@ import prisma from "../../../db";
 import pusher from "../../../pusher"
 
 export default async (req, res) => {
-    if (req.method !== 'POST'){
-        return req.status(405).json({ message: 'Method not allowed'});
+    if (req.method !== 'PATCH'){
+        return res.status(405).json({ message: 'Method not allowed'});
     }
 
     try{
         const piData = req.body;
         const piHostname = piData.hostname;
 
-        const newPi = await prisma.RASPBERRYPI.upsert({
-            where : {
-                hostname : piHostname
-            },
-            update : {
-
-            },
-            create : {
+        const piExists = await prisma.RASPBERRYPI.count({
+            where: {
                 hostname : piHostname
             }
         });
+
+        if(piExists < 1){
+            res.status(400).json( { message : "That raspberry pi does not exist" } );
+        }
 
         const plantToData = await prisma.$transaction(async(prisma) => {
             const plantsData = piData.data;
@@ -74,10 +72,12 @@ export default async (req, res) => {
         for (const [key, value] of Object.entries(plantToData)) {
             pusher.trigger("plant-channel-" + key, "new-data", value).catch((r) => console.log(r));
         }
+
         res.status(200).end();
     }
     catch (error) {
         console.log(error)
+
         res.status(400).json({ message: 'an oopsie occured' })
     }
 

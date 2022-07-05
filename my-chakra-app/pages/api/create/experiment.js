@@ -1,5 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client'
+import prisma from "../../../db";
 
 export default async (req, res) => {
     if (req.method !== 'POST'){
@@ -7,19 +6,17 @@ export default async (req, res) => {
     }
 
     try{
-        const prisma = new PrismaClient()
-
         const newExperiment = await prisma.EXPERIMENT.create(
             {
                 data: {
                     name: req.body.experimentName,
-                    image: req.body.experimentImage,
+                    // image: req.body.experimentImage,
+                    image: './placeholder.png',
                     info: req.body.experimentInfo
                 },
             }
         );
-        console.log(newExperiment);
-        res.redirect("/", 303).json(newPlant);
+        res.redirect("/experimentsList", 303).end();
     }
     catch (error) {
         const errorString = "An error occured: " + error;

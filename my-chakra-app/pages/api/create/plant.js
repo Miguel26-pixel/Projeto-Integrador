@@ -1,5 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client'
+import prisma from "../../../db";
 
 export default async (req, res) => {
     if (req.method !== 'POST'){
@@ -7,14 +6,14 @@ export default async (req, res) => {
     }
 
     try{
-        const prisma = new PrismaClient()
-
+        let { plantName, piPort, piHostname, experimentID } = req.body;
         const newPlant = await prisma.PLANT.create(
             { 
                 data: {
-                    plantName: req.body.plantName,
-                    piID: parseInt(req.body.piID),
-                    experimentID: parseInt(req.body.experimentID),
+                    plantName: plantName,
+                    piPort : piPort,
+                    piHostname : piHostname,
+                    experimentID: parseInt(experimentID),
                 },
             }
         );
