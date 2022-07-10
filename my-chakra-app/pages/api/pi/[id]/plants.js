@@ -12,11 +12,23 @@ export default async function getPiPlants (req, res) {
                 }
             });
 
-            let plants = await prisma.PLANT.findMany({
+            let ports = await prisma.RASPBERRYPIPORT.findMany({
                 where: {
-                   piHostname : thisPi.hostname
+                    raspberryID: thisPi.id
                 }
             });
+
+            let plants = [];
+            for (let i = 0; i < ports.length; i++){
+                let port = ports[i];
+                let plant = await prisma.PLANT.findUnique({
+                    where: {
+                        raspberryPiPortID: port.id
+                    }
+                });
+                plants.push(plant);
+            }
+            
             res.status(200).json(plants);
         }
         catch (error) {

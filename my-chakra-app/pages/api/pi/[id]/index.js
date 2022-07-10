@@ -10,7 +10,7 @@ export default async function getPi (req, res) {
                 where: {
                     id: parseInt(req.query.id)
                 }
-            })
+            });
             res.status(200).json(pi);
         }
         catch (error) {

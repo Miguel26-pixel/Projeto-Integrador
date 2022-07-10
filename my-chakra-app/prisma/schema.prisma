@@ -22,7 +22,18 @@ model EXPERIMENT {
 model RASPBERRYPI {
   id     Int       @id @default(autoincrement())
   hostname String  @unique
-  plants PLANT[]
+  ports  RASPBERRYPIPORT[]
+}
+
+model RASPBERRYPIPORT {
+  id          Int          @id @default(autoincrement())
+  raspberryPi RASPBERRYPI  @relation(fields: [raspberryID], references: [id])
+  raspberryID Int
+  port        String
+  plant       PLANT?
+  plantID     Int          @unique
+
+  @@unique([raspberryID, port])
 }
 
 model PLANT {
@@ -30,10 +41,8 @@ model PLANT {
   plantName    String
   plantInfo    String?
   plantdata    PLANTDATA[]
-  pi           RASPBERRYPI? @relation(fields: [piHostname], references: [hostname])
-  piHostname   String
-  piPort       String
-  @@unique([piHostname, piPort])
+  raspberryPort RASPBERRYPIPORT @relation(fields: [raspberryPiPortID], references: [id])
+  raspberryPiPortID Int    @unique
   experiment   EXPERIMENT? @relation(fields: [experimentID], references: [id])
   experimentID Int
 }

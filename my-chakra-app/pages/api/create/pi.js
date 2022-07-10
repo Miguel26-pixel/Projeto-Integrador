@@ -28,25 +28,34 @@ export default async (req, res) => {
 
             for (let i = 0; i < plantsData.length; i++){
                 const plant = plantsData[i];
-                const piPort = plant.plant;
+                const port = plant.plant;
                 plant.time = new Date(plant.time * 1000)
-    
+                
+                const raspberryPort = await prisma.RASPBERRYPIPORT.upsert({
+                    where : {
+                        port : port
+                    },
+                    update : {},
+                    create : {
+                        raspberryID : newPi.id,
+                        port : port
+                    }
+                });
+                
                 const plantExists = await prisma.PLANT.count({
                     where: {
-                        piHostname : piHostname,
-                        piPort : piPort
+                        raspberryPiPortID : raspberryPort.id
                     }
                 });
     
                 if (plantExists < 1){
-                    // TODO: we might want to create a new plant here
                     //res.status(400).json( { message : "That plant does not exist" } );
                     continue;
                 }
                 
                 const updatedPlant = await prisma.PLANT.update({
                     where: {
-                        piHostname_piPort: {piHostname, piPort}
+                        raspberryPiPortID: port
                     },
                     data : {
                         plantdata : {
@@ -59,6 +68,15 @@ export default async (req, res) => {
                                 }
                             ]
                         }
+                    }
+                });
+
+                await prisma.RASPBERRYPIPORT.update({
+                    where : {
+                        id: raspberryPort.id
+                    },
+                    update : {
+                        plantID: updatedPlant.id
                     }
                 });
 

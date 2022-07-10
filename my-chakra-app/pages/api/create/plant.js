@@ -7,12 +7,29 @@ export default async (req, res) => {
 
     try{
         let { plantName, piPort, piHostname, experimentID } = req.body;
+        
+                
+        const portExists = await prisma.RASPBERRYPIPORT.count({
+            where : {
+                port : piPort
+            }
+        });
+
+        if(!portExists){
+            res.status(400).json( { message : "That port does not exist." } );
+        }
+                
+        const raspberryPort = await prisma.RASPBERRYPIPORT.findUnique({
+            where : {
+                port : port
+            }
+        });
+
         const newPlant = await prisma.PLANT.create(
             { 
                 data: {
                     plantName: plantName,
-                    piPort : piPort,
-                    piHostname : piHostname,
+                    raspberryPiPortID : raspberryPort.id,
                     experimentID: parseInt(experimentID),
                 },
             }
