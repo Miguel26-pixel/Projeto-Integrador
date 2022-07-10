@@ -6,9 +6,9 @@ const Header = () => {
     const router = useRouter();
     return  (
         <motion.nav variants={fadeInDown} className="header" initial="initial" animate="animate">
-            <span className = "header-logo" onClick={() => router.push('/')}>GREENSTONE</span>
+            <span className = "header-logo cursor-pointer" onClick={() => router.push('/')}>GREENSTONE</span>
             <ul>
-                <li onClick={() => router.push('/experimentsList')}>Experiments</li>
+                <li className="cursor-pointer" onClick={() => router.push('/experimentsList')}>Experiments</li>
             </ul>
         </motion.nav>
     )
