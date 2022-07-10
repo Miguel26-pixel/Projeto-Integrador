@@ -1,9 +1,9 @@
 #include "DHT.h"
 #define DHTPIN 2
 #define DHTTYPE DHT11
-#define DHT_POLL_RATE 2000
+#define DHT_POLL_RATE 8000
 
-#define HC_SR04_POLL_RATE 2000
+#define HC_SR04_POLL_RATE 8000
 #define ECHO_PIN 4
 #define TRIGGER_PIN 5
 

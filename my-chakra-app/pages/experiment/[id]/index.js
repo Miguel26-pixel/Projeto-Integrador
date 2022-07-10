@@ -56,7 +56,7 @@ export default function ExperimentList() {
                         backgroundColor: 'white',
                     },
                 }} onClick={() => router.push('/plant/' + value.id)}>
-                    <CardContent backgroundColor="green">
+                    <CardContent>
                         <Image src={gif} alt="gif" height={100} width={100}/>
                         <Typography >
                             {value.plantName}
