@@ -9,6 +9,7 @@ export default async (req, res) => {
     try{
         const piData = req.body;
         const piHostname = piData.hostname;
+        console.log(piData);
 
         const piExists = await prisma.RASPBERRYPI.count({
             where: {
@@ -51,9 +52,9 @@ export default async (req, res) => {
                             create : [
                                 {
                                     time : plant.time,
-                                    temperature : plant.temperature,
-                                    humidity : plant.humidity,
-                                    distance : plant.distance,
+                                    temperature : parseFloat(plant.temperature),
+                                    humidity : parseFloat(plant.humidity),
+                                    distance : parseFloat(plant.distance),
                                 }
                             ]
                         }
