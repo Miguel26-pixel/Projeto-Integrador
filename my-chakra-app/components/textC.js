@@ -7,7 +7,7 @@ const TextC = () => {
     return (
         <motion.div className="textContainer" variants={staggerContainer} initial="initial" animate="animate">
             <div className="textContainer-top">
-                <motion.span variants={fadeInUp} className="text-green-600">see your plant data here</motion.span>            </div>
+                <motion.span variants={fadeInUp} className="text-green-600">See your plant data here</motion.span>            </div>
 
             <motion.div variants={fadeInUp} initial="initial" animate="animate"
             className="textContainer-middle">
