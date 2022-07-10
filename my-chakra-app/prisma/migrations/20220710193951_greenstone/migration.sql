@@ -17,12 +17,21 @@ CREATE TABLE "RASPBERRYPI" (
 );
 
 -- CreateTable
+CREATE TABLE "RASPBERRYPIPORT" (
+    "id" SERIAL NOT NULL,
+    "raspberryID" INTEGER NOT NULL,
+    "port" TEXT NOT NULL,
+    "plantID" INTEGER NOT NULL,
+
+    CONSTRAINT "RASPBERRYPIPORT_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "PLANT" (
     "id" SERIAL NOT NULL,
     "plantName" TEXT NOT NULL,
     "plantInfo" TEXT,
-    "piHostname" TEXT NOT NULL,
-    "piPort" TEXT NOT NULL,
+    "raspberryPiPortID" INTEGER NOT NULL,
     "experimentID" INTEGER NOT NULL,
 
     CONSTRAINT "PLANT_pkey" PRIMARY KEY ("id")
@@ -43,17 +52,25 @@ CREATE TABLE "PLANTDATA" (
 CREATE UNIQUE INDEX "RASPBERRYPI_hostname_key" ON "RASPBERRYPI"("hostname");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "PLANT_piHostname_piPort_key" ON "PLANT"("piHostname", "piPort");
+CREATE UNIQUE INDEX "RASPBERRYPIPORT_plantID_key" ON "RASPBERRYPIPORT"("plantID");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "RASPBERRYPIPORT_raspberryID_port_key" ON "RASPBERRYPIPORT"("raspberryID", "port");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "PLANT_raspberryPiPortID_key" ON "PLANT"("raspberryPiPortID");
+
+-- AddForeignKey
+ALTER TABLE "RASPBERRYPIPORT" ADD CONSTRAINT "RASPBERRYPIPORT_raspberryID_fkey" FOREIGN KEY ("raspberryID") REFERENCES "RASPBERRYPI"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PLANT" ADD CONSTRAINT "PLANT_experimentID_fkey" FOREIGN KEY ("experimentID") REFERENCES "EXPERIMENT"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PLANT" ADD CONSTRAINT "PLANT_piHostname_fkey" FOREIGN KEY ("piHostname") REFERENCES "RASPBERRYPI"("hostname") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PLANT" ADD CONSTRAINT "PLANT_raspberryPiPortID_fkey" FOREIGN KEY ("raspberryPiPortID") REFERENCES "RASPBERRYPIPORT"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PLANTDATA" ADD CONSTRAINT "PLANTDATA_plantID_fkey" FOREIGN KEY ("plantID") REFERENCES "PLANT"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
 
 
 CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
@@ -78,29 +95,29 @@ INSERT INTO "RASPBERRYPI"("id", "hostname")
 
 --Plants
 -- Experiment 1 Plants
-INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9989, 'Plant0', 'Raspberry-1', 'dev/tty0', 9996);
-INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9992, 'Plant4', 'Raspberry-1', 'dev/tty4', 9996);
-INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9993, 'Plant5', 'Raspberry-1', 'dev/tty5', 9996);
+INSERT INTO "RASPBERRYPIPORT"("id", "raspberryID", "port", "plantID")       VALUES(9989, 9998, 'dev/tty0', 9989);
+INSERT INTO "PLANT"("id", "plantName", "raspberryPiPortID", "experimentID")    VALUES(9989, 'Plant0', 9989, 9996);
+INSERT INTO "RASPBERRYPIPORT"("id", "raspberryID", "port", "plantID")       VALUES(9992, 9998, 'dev/tty3', 9992);
+INSERT INTO "PLANT"("id", "plantName", "raspberryPiPortID", "experimentID")    VALUES(9992, 'Plant4', 9992, 9996);
+INSERT INTO "RASPBERRYPIPORT"("id", "raspberryID", "port", "plantID")       VALUES(9993, 9998, 'dev/tty4', 9993);
+INSERT INTO "PLANT"("id", "plantName", "raspberryPiPortID", "experimentID")    VALUES(9993, 'Plant5', 9993, 9996);
 --Experiment 2 Plants
-INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9990, 'Plant2', 'Raspberry-1', 'dev/tty2', 9997);
+INSERT INTO "RASPBERRYPIPORT"("id", "raspberryID", "port", "plantID")       VALUES(9990, 9998, 'dev/tty1', 9990);
+INSERT INTO "PLANT"("id", "plantName", "raspberryPiPortID", "experimentID")    VALUES(9990, 'Plant2', 9990, 9997);
 --Experiment 3 Plants
-INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9991, 'Plant3', 'Raspberry-1', 'dev/tty3', 9998);
-INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9994, 'Plant6', 'Raspberry-1', 'dev/tty6', 9998);
-INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9995, 'Plant1', 'Raspberry-1', 'dev/tty1', 9998);
+INSERT INTO "RASPBERRYPIPORT"("id", "raspberryID", "port", "plantID")       VALUES(9991, 9998, 'dev/tty2', 9991);
+INSERT INTO "PLANT"("id", "plantName", "raspberryPiPortID", "experimentID")    VALUES(9991, 'Plant3', 9991, 9998);
+INSERT INTO "RASPBERRYPIPORT"("id", "raspberryID", "port", "plantID")       VALUES(9994, 9998, 'dev/tty5', 9994);
+INSERT INTO "PLANT"("id", "plantName", "raspberryPiPortID", "experimentID")    VALUES(9994, 'Plant6', 9994, 9998);
+INSERT INTO "RASPBERRYPIPORT"("id", "raspberryID", "port", "plantID")       VALUES(9995, 9998, 'dev/tty6', 9995);
+INSERT INTO "PLANT"("id", "plantName", "raspberryPiPortID", "experimentID")    VALUES(9995, 'Plant1', 9995, 9998);
 --Experiment 4 Plants
-INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9996, 'Plant8', 'Raspberry-2', 'dev/tty0', 9999);
-INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9997, 'Plant9', 'Raspberry-2', 'dev/tty1', 9999);
-INSERT INTO "PLANT"("id", "plantName", "piHostname", "piPort", "experimentID")
-    VALUES(9998, 'Plant10', 'Raspberry-2', 'dev/tty2', 9999);
+INSERT INTO "RASPBERRYPIPORT"("id", "raspberryID", "port", "plantID")       VALUES(9996, 9999, 'dev/tty0', 9996);
+INSERT INTO "PLANT"("id", "plantName", "raspberryPiPortID", "experimentID")    VALUES(9996, 'Plant8', 9996, 9999);
+INSERT INTO "RASPBERRYPIPORT"("id", "raspberryID", "port", "plantID")       VALUES(9997, 9999, 'dev/tty1', 9997);
+INSERT INTO "PLANT"("id", "plantName", "raspberryPiPortID", "experimentID")    VALUES(9997, 'Plant9', 9997, 9999);
+INSERT INTO "RASPBERRYPIPORT"("id", "raspberryID", "port", "plantID")       VALUES(9998, 9999, 'dev/tty2', 9998);
+INSERT INTO "PLANT"("id", "plantName", "raspberryPiPortID", "experimentID")    VALUES(9998, 'Plant10', 9998, 9999);
 
 --Plant Data
 -- plant1

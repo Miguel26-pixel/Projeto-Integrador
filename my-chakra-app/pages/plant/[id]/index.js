@@ -48,6 +48,8 @@ export default function PlantCard() {
     const [openEdit, setOpenEdit] = useState(false)
 
     const [plant, setPlant] = useState(null)
+    const [plantPort, setPlantPort] = useState(null)
+    const [plantPi, setPlantPi] = useState(null)
 
     const handleClickOpen = () => {
         setOpenEdit(true);
@@ -67,8 +69,12 @@ export default function PlantCard() {
             setupData = true;
 
             let plantData = await fetcher(window.location.origin + "/api/plant/" + id + "/data");
+            let plantPort = await fetcher(window.location.origin + "/api/plant/" + id + "/port");
+            let plantPi = await fetcher(window.location.origin + "/api/pi/" + plantPort.raspberryID);
             let plt = await fetcher(window.location.origin + "/api/plant/" + id + "");
             setPlant(plt);
+            setPlantPort(plantPort);
+            setPlantPi(plantPi);
             let temperatureCopy = []
             let humidityCopy = []
             let distanceCopy = []
@@ -180,10 +186,10 @@ export default function PlantCard() {
                     <textarea id="my-exp-info" name="plantInfo" aria-describedby="my-helper-info" defaultValue={plant === null ? null : plant.plantInfo}></textarea>
 
                     <InputLabel htmlFor="RaspberrypiPort">RaspberryPi port</InputLabel>
-                    <Input id="my-exp-raspport" name="raspberryPort" aria-describedby="my-helper-info" defaultValue={plant === null ? null : plant.piPort}></Input>
+                    <Input id="my-exp-raspport" name="raspberryPort" aria-describedby="my-helper-info" defaultValue={plantPort === null ? null : plantPort.port}></Input>
 
                     <InputLabel htmlFor="RaspberrypiName">RaspberryPi name</InputLabel>
-                    <textarea id="my-exp-raspname" name="raspberryName" aria-describedby="my-helper-info" defaultValue={plant === null ? null : plant.piHostname}></textarea>
+                    <textarea id="my-exp-raspname" name="raspberryName" aria-describedby="my-helper-info" defaultValue={plantPi === null ? null : plantPi.hostname}></textarea>
 
                     <InputLabel htmlFor="ExperimentID">Experiment ID</InputLabel>
                     <Input id="my-exp-experid" name="experimentID" aria-describedby="my-helper-info" defaultValue={plant === null ? null : plant.experimentID}></Input>

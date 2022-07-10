@@ -1,17 +1,17 @@
 import prisma from "../../../../db";
 
-export default async function getExperimentPlants (req, res) {
+export default async function getPiPlants (req, res) {
     if(req.method !== 'GET'){
         res.status(405).json({message: 'Not a GET request'});
     }
     else{
         try{
-            let plants = await prisma.PLANT.findMany({
+            let plantPort = await prisma.RASPBERRYPIPORT.findUnique({
                 where: {
-                    experimentID : parseInt(req.query.id)
+                    plantID: parseInt(req.query.id)
                 }
-            });
-            res.status(200).json(plants);
+            })
+            res.status(200).json(plantPort);
         }
         catch (error) {
             let errorString = "An error occured" + error;

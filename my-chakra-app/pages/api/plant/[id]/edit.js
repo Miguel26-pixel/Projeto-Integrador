@@ -1,4 +1,5 @@
 import prisma from "../../../../db";
+import {getPlantbyID, getPortbyID, getPIbyID, getPIbyHostname} from '../../utils.js';
 
 export default async (req, res) => {
     if(req.method !== 'POST'){
@@ -6,39 +7,58 @@ export default async (req, res) => {
     }
     else{
         try{
-            const plantID = parseInt(req.query.id);
-            // res.status(405).json(req.body);
+            const requestID = parseInt(req.query.id);
 
-            let plantExists = await prisma.PLANT.count({
-                where : {
-                    id : plantID
-                }
-            });
-            if(!plantExists){
-                // TODO: possibly upsert to create and update
-                res.status(400).json({ message : 'that plant does not exist' });
+            const oldPlant = await getPlantbyID(requestID);
+            if(oldPlant === null){
+                res.status(400).json({ message : 'This plant does not exist' });
             }
 
-            let oldPlant = await prisma.PLANT.findUnique({
-                where : {
-                    id : plantID
-                }
-            });
+            const oldPort = await getPortbyID(oldPlant.raspberryPiPortID);
+            if(oldPort === null){
+                res.status(400).json( { message : "This plant does not have a port." } );
+            }
 
-            let { plantName, plantInfo, raspberryPort, raspberryName, experimentID } = req.body;
-            let alterations = {
-                plantName    : (plantName === "")       ? oldPlant.plantName   : plantName,
-                plantInfo    : (plantInfo === "")       ? oldPlant.plantInfo   : plantInfo,
-                piHostname   : (raspberryName === "")   ? oldPlant.piHostname  : raspberryName,
-                piPort       : (raspberryPort === "")   ? oldPlant.piPort      : raspberryPort,
-                experimentID : (experimentID  === "")   ? oldPlant.plantName   : parseInt(experimentID)
+            const oldPi = await getPIbyID(oldPort.raspberryID);
+            if(oldPi === null){
+                res.status(400).json( { message : "Invalid old RaspberryPI." } );
             }
             
+            
+            let { plantName, plantInfo, raspberryPort, raspberryName, experimentID } = req.body;
+            let newHostname = (raspberryName === "") ? oldPi.hostname  : raspberryName;
+            let newPortName =     (raspberryPort === "") ? oldPort.port    : raspberryPort;
+            
+            let newPi = await getPIbyHostname(newHostname);
+            if(newPi === null){
+                res.status(400).json( { message : "No inputted RaspberryPI exists." } );
+            }
+
+            let portAlterations = {
+                raspberryID : newPi.id,
+                port : newPortName,
+                plantID : requestID
+            };
+            
+            const updatedPort = await prisma.RASPBERRYPIPORT.update({
+                where : {
+                    id : oldPort.id
+                },
+                data : portAlterations
+            });
+
+            let plantAlterations = {
+                plantName    : (plantName === "")       ? oldPlant.plantName   : plantName,
+                plantInfo    : (plantInfo === "")       ? oldPlant.plantInfo   : plantInfo,
+                raspberryPiPortID : updatedPort.id,
+                experimentID : (experimentID  === "")   ? oldPlant.plantName   : parseInt(experimentID)
+            };
+
             let updatedPlant = await prisma.PLANT.update({
                 where : {
-                    id : plantID
+                    id : requestID
                 },
-                data : alterations
+                data : plantAlterations
             })
 
             res.status(200).json(updatedPlant);

@@ -26,13 +26,28 @@ export default async (req, res) => {
 
             for (let i = 0; i < plantsData.length; i++){
                 const plant = plantsData[i];
-                const piPort = parseInt(plant.plant);
+                const port = plant.plant;
                 plant.time = new Date(plant.time * 1000)
+                
+                const portExists = await prisma.RASPBERRYPIPORT.count({
+                    where : {
+                        port : port
+                    }
+                });
+
+                if(!portExists){
+                    res.status(400).json( { message : "That port does not exist." } );
+                }
+                
+                const raspberryPort = await prisma.RASPBERRYPIPORT.findUnique({
+                    where : {
+                        port : port
+                    }
+                });
     
                 const plantExists = await prisma.PLANT.count({
                     where: {
-                        piHostname : piHostname,
-                        piPort : piPort
+                        raspberryPiPortID : raspberryPort.id
                     }
                 });
     
@@ -44,7 +59,7 @@ export default async (req, res) => {
                 
                 const updatedPlant = await prisma.PLANT.update({
                     where: {
-                        piHostname_piPort: {piHostname, piPort}
+                        raspberryPiPortID: port
                     },
                     data : {
                         plantdata : {
