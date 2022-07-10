@@ -7,10 +7,12 @@ export default async (req, res) => {
     else{
         try{
             const plantID = parseInt(req.query.id);
-            res.status(405).json(req.body);
+            // res.status(405).json(req.body);
 
-            let plantExists = await prisma.$exists.PLANT({
-                id : plantID
+            let plantExists = await prisma.PLANT.count({
+                where : {
+                    id : plantID
+                }
             });
             if(!plantExists){
                 // TODO: possibly upsert to create and update
@@ -23,12 +25,13 @@ export default async (req, res) => {
                 }
             });
 
-            let { reqName, reqHostname, reqPort, reqExperiment } = req.body;
+            let { plantName, plantInfo, raspberryPort, raspberryName, experimentID } = req.body;
             let alterations = {
-                plantname : (reqName === null)       ? oldPlant.plantName   : reqName,
-                plantname : (reqHostname === null)   ? oldPlant.piHostname  : reqHostname,
-                plantname : (reqPort === null)       ? oldPlant.piPort      : parseInt(reqPort),
-                plantname : (reqExperiment === null) ? oldPlant.plantName   : parseInt(reqExperiment)
+                plantName    : (plantName === "")       ? oldPlant.plantName   : plantName,
+                plantInfo    : (plantInfo === "")       ? oldPlant.plantInfo   : plantInfo,
+                piHostname   : (raspberryName === "")   ? oldPlant.piHostname  : raspberryName,
+                piPort       : (raspberryPort === "")   ? oldPlant.piPort      : raspberryPort,
+                experimentID : (experimentID  === "")   ? oldPlant.plantName   : parseInt(experimentID)
             }
             
             let updatedPlant = await prisma.PLANT.update({
