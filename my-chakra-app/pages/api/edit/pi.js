@@ -21,6 +21,12 @@ export default async (req, res) => {
             res.status(400).json( { message : "That raspberry pi does not exist" } );
         }
 
+        const raspberry = await prisma.RASPBERRYPI.findUnique({
+            where : {
+                hostname: piHostname
+            }
+        });
+
         const plantToData = await prisma.$transaction(async(prisma) => {
             const plantsData = piData.data;
             let plantToData = {}
@@ -42,9 +48,10 @@ export default async (req, res) => {
                 
                 const raspberryPort = await prisma.RASPBERRYPIPORT.findUnique({
                     where : {
-                        port : port
+                        raspberryID_port: {raspberryID: raspberry.id, port},
                     }
                 });
+                console.log(raspberryPort)
     
                 const plantExists = await prisma.PLANT.count({
                     where: {
@@ -57,6 +64,7 @@ export default async (req, res) => {
                     //res.status(400).json( { message : "That plant does not exist" } );
                     continue;
                 }
+                console.log("hello")
                 
                 const updatedPlant = await prisma.PLANT.update({
                     where: {

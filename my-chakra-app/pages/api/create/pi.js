@@ -9,6 +9,7 @@ export default async (req, res) => {
     try{
         const piData = req.body;
         const piHostname = piData.hostname;
+        console.log(piData)
 
         const newPi = await prisma.RASPBERRYPI.upsert({
             where : {
@@ -33,14 +34,16 @@ export default async (req, res) => {
                 
                 const raspberryPort = await prisma.RASPBERRYPIPORT.upsert({
                     where : {
-                        port : port
+                        raspberryID_port: {raspberryID: newPi.id, port},
                     },
                     update : {},
                     create : {
                         raspberryID : newPi.id,
+                        plantID : 0,
                         port : port
                     }
                 });
+                console.log(raspberryPort)
                 
                 const plantExists = await prisma.PLANT.count({
                     where: {
