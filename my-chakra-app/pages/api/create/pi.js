@@ -62,9 +62,9 @@ export default async (req, res) => {
                             create : [
                                 {
                                     time : plant.time,
-                                    temperature : plant.temperature,
-                                    humidity : plant.humidity,
-                                    distance : plant.distance,
+                                    temperature : parseFloat(plant.temperature),
+                                    humidity : parseFloat(plant.humidity),
+                                    distance : parseFloat(plant.distance),
                                 }
                             ]
                         }

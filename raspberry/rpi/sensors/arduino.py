@@ -43,7 +43,7 @@ class Arduino(ArduinoI):
                     continue
                 name, value = pair
 
-                result[name] = value
+                result[name] = float(value)
             
             return result
 
